@@ -28,7 +28,7 @@ const Navbar = () => {
           <img src={logo} alt="" />
         </a>
 
-        {/* carrito y cuenta botonnnn */}
+        {/* botonesss de carrito, favorito y cuenta */}
         <div className="text-lg text-Black sm:flex items-center gap-4 hidden">
           <a href="/" className="flex items-center gap-2 ">
             <FaUser /> Cuenta
