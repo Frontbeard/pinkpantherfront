@@ -1,29 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import Card from "../../components/Card";
+import Pagination from "../../components/Pagination";
 
 const Products = () => {
   const [jsonData, setJsonData] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all"); // Default: All
   const [sortOption, setSortOption] = useState("default"); // Default sorting option
+  const [currentPage, setCurrentPage] = useState(1); // Current page
+  const [totalPages, setTotalPages] = useState(1); // Total pages
 
   useEffect(() => {
-    // Fetch data desde el backend ????????????????????
     const fetchData = async () => {
       try {
         const response = await fetch("products.json");
         const data = await response.json();
         setJsonData(data);
-        setFilteredItems(data); 
+        setFilteredItems(data);
+        // Actualizar el número total de páginas
+        setTotalPages(Math.ceil(data.length / itemsPerPage));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []); 
+  }, []);
+
+  // Función para manejar el cambio de página
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Variables para paginación
+  const itemsPerPage = 10; // Número de ítems por página
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedItems = filteredItems.slice(startIndex, endIndex);
 
   const filterItems = (category) => {
     const filtered =
@@ -33,17 +48,24 @@ const Products = () => {
 
     setFilteredItems(filtered);
     setSelectedCategory(category);
+    // Resetear la página actual al filtrar
+    setCurrentPage(1);
+    // Recalcular el número total de páginas después del filtrado
+    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
   };
 
   const showAll = () => {
     setFilteredItems(jsonData);
     setSelectedCategory("all");
+    // Resetear la página actual al mostrar todos los productos
+    setCurrentPage(1);
+    // Recalcular el número total de páginas después de mostrar todos los productos
+    setTotalPages(Math.ceil(jsonData.length / itemsPerPage));
   };
 
   const handleSortChange = (option) => {
     setSortOption(option);
 
-    // Sorting segun la opcion seleccionada
     let sortedItems = [...filteredItems];
 
     switch (option) {
@@ -60,7 +82,7 @@ const Products = () => {
         sortedItems.sort((a, b) => b.price - a.price);
         break;
       default:
-        // aclaracionnnnnnn: no hacer nada para el caso de "defauuult"
+        // No hacer nada para el caso de "default"
         break;
     }
 
@@ -73,58 +95,61 @@ const Products = () => {
         Destacados
       </h2>
 
-      {/* cards para los productos REVISARRRRRRRRRRRRR*/}
       <div>
-
         <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-        <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4  flex-wrap">
-          <button
-            onClick={showAll}
-            className={selectedCategory === "all" ? "active" : ""}
-          >
-            Todos los productos
-          </button>
-          <button
-            onClick={() => filterItems("Calza")}
-            className={selectedCategory === "Calza" ? "active" : ""}
-          >
-            Calza
-          </button>
-          <button
-            onClick={() => filterItems("Pantalones")}
-            className={selectedCategory === "Pantalones" ? "active" : ""}
-          >
-            Pantalones
-          </button>
-          <button
-            onClick={() => filterItems("Tops")}
-            className={selectedCategory === "Tops" ? "active" : ""}
-          >
-            Tops
-          </button>
+          <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4  flex-wrap">
+            <button
+              onClick={showAll}
+              className={selectedCategory === "all" ? "active" : ""}
+            >
+              Todos los productos
+            </button>
+            <button
+              onClick={() => filterItems("Calza")}
+              className={selectedCategory === "Calza" ? "active" : ""}
+            >
+              Calza
+            </button>
+            <button
+              onClick={() => filterItems("Pantalones")}
+              className={selectedCategory === "Pantalones" ? "active" : ""}
+            >
+              Pantalones
+            </button>
+            <button
+              onClick={() => filterItems("Tops")}
+              className={selectedCategory === "Tops" ? "active" : ""}
+            >
+              Tops
+            </button>
+          </div>
+
+          <div className="flex justify-end mb-4 rounded-sm">
+            <div className="bg-black p-2">
+              <FaFilter className="text-white h-4 w-4" />
+            </div>
+            <select
+              id="sort"
+              onChange={(e) => handleSortChange(e.target.value)}
+              value={sortOption}
+              className="bg-black text-white px-2 py-1 rounded-sm"
+            >
+              <option value="default">Sin filtros aplicados</option>
+              <option value="A-Z">A-Z</option>
+              <option value="Z-A">Z-A</option>
+              <option value="low-to-high">Menor precio a mayor precio</option>
+              <option value="high-to-low">Mayor precio a mayor precio</option>
+            </select>
+          </div>
         </div>
 
-        <div className="flex justify-end mb-4 rounded-sm">
-        <div className="bg-black p-2 ">
-        <FaFilter className="text-white h-4 w-4"/>
-        </div>
-          <select
-            id="sort"
-            onChange={(e) => handleSortChange(e.target.value)}
-            value={sortOption}
-            className="bg-black text-white px-2 py-1 rounded-sm" 
-          >
-            <option value="default"> Sin filtros aplicados</option>
-            <option value="A-Z">A-Z</option>
-            <option value="Z-A">Z-A</option>
-            <option value="low-to-high">Menor precio a mayor precio</option>
-            <option value="high-to-low">Mayor precio a mayor precio</option>
-          </select>
-        </div>
-        </div>
-
-        {/* card para los productos */}
-        <Card filteredItems={filteredItems}/>
+        <Card filteredItems={paginatedItems} />
+        
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
