@@ -1,0 +1,34 @@
+[
+    {
+        "id":1,
+       "title":"TOP VERDE",
+       "category": "Tops",
+       "price": 63852,
+        "image":"/images/products/top1.jpg",
+        "status": "Destacado"
+    },
+    {
+        "id":2,
+       "title":"REMERA GRIS",
+       "category": "Remera",
+       "price": 27000,
+       "image":"/images/products/top2.jpg",
+       "status": "Destacado"
+    },
+    {
+        "id":4,
+       "title":"PANTALÓN GRIS CON CIERRE",
+       "category": "Pantalones",
+       "price": 12000,
+       "image":"/images/products/top3.jpg",
+       "status": "Destacado"
+    },
+    {
+        "id":5,
+       "title":"CALZA VIOLETA",
+       "category": "Calza",
+       "price": 15000,
+       "image":"/images/products/top4.jpg",
+       "status": "Destacado"
+    }
+]
