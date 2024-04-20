@@ -3,17 +3,18 @@ import { FaArrowAltCircleRight, FaStar } from "react-icons/fa"
 import { useParams } from "react-router-dom"
 
 const demoText = {
-    description:
-      'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-    highlights: [
-      "Hand cut and sewn locally",
-      "Dyed with our proprietary colors",
-      "Pre-washed & pre-shrunk",
-      "Ultra-soft 100% cotton",
-    ],
-    details:
-      'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-  };
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elited scelerisque turpis posuere. Mauris in felis id eros dapibus tristique. Sed vehicula vestibulum vehicula. Donec vestibulum purus non vestibulum fringilla.",
+  highlights: [
+    "Lorem ipsum dolor sit amet",
+    "Consectetur adipiscing elit",
+    "Sed do eiusmod tempor incididunt",
+    "Ut labore et dolore magna aliqua",
+  ],
+  details:
+    "Lorem ipsum dolor sitnec rutuismod, mauris sit amet rutrum tempor, odio lectus facilisis nisi, a scelerisque sem orci vel nunc. Fusce scelerisque eros a sem fermentum, ac convallis nisi dictum. Vivamus sit amet pretium eros.",
+};
+
   
   const SingleProduct = () => {
       const {id} = useParams()
@@ -42,10 +43,10 @@ const demoText = {
   
   
     return (
-      <div className="mt-28 max-w-screen-2xl container mx-auto xl:px-28 px-4">
+      <div className="  max-w-screen-2xl container mx-auto xl:px-28 px-4 bg-gray-100  ">
         
-        <div className="flex items-center gap-2 pt-8 text-Black/50">
-          <a href="/">Home</a> <a href="/shop" className="font-semibold text-black">/ Shop</a>
+        <div className=" gap-2 pt-8 text-Black/50 ">
+          <a href="/">Home / Shop</a> <a href="/shop" className="font-semibold text-black"></a>
         </div>
   
         <div className="p-3 max-w-7xl m-auto">
@@ -65,7 +66,7 @@ const demoText = {
                 <div className="flex flex-col justify-between">
                   <div>
                     {/* Product Title */}
-                    <h1 className="text-3xl text-red-500 font-semibold sm:text-4xl">
+                    <h1 className="text-3xl text-black-500 font-semibold sm:text-4xl">
                       {title}
                     </h1>
                     {/* Product Description */}
@@ -82,7 +83,7 @@ const demoText = {
                       ))}
                     </span>
                     {/* Product Price */}
-                    <span className="text-xl text-red-500 font-semibold sm:text-2xl">
+                    <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
                       ${price}
                     </span>
                   </div>
@@ -102,7 +103,7 @@ const demoText = {
                     {/* Order Button */}
                     <div className="w-full text-left my-4">
                       <button
-                        className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-red-500 text-white text-md font-bold border border-red-500 rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-red-500 lg:m-0 md:px-6"
+                        className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
                         title="Confirm Order"
                       >
                         <span>Confirmar Orden</span>
@@ -118,7 +119,7 @@ const demoText = {
         </div>
   
         {/* product details */}
-        <div className="mt-10">
+        <div className="mt-8">
           <h2 className="text-sm font-medium text-gray-900">Detalles</h2>
   
           <div className="mt-4 space-y-6">
@@ -128,8 +129,8 @@ const demoText = {
           </div>
         </div>
   
-        <div className="mt-10">
-          <h2 className="text-sm font-medium text-gray-900">Descricion</h2>
+        <div className="mt-4">
+          <h2 className="text-sm font-medium text-gray-900">Descripción</h2>
   
           <div className="mt-4 space-y-6">
             <p className="text-sm text-gray-600">
@@ -138,8 +139,8 @@ const demoText = {
           </div>
         </div>
   
-        <div className="mt-5">
-          <h2 className="text-sm font-medium text-gray-900">Destacados</h2>
+        <div className="mt-4">
+          <h2 className="text-sm font-medium text-gray-900">Características</h2>
           <div className="mt-4 space-y-4">
             <li className="text-sm text-gray-600">
               {demoText.highlights[0]}
