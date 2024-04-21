@@ -21,10 +21,10 @@ const Navbar = () => {
     { title: "About Us", path: "/" },
   ];
   return (
-    <header className="max-w-screen-2xl xl:px-28 px-4 absolute top-0 left-0 right-0 mx-auto">
+    <header className="max-w-screen-2xl bg-white xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto">
       <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
-        <FaSearch className="text-Black w-6 h-6 cursor-pointer hidden md:block" />
-        <a href="/" className="ml-24">
+        <div className="flex flex-row ">
+        <a href="/" >
           <img src={logo} alt="" />
         </a>
 
@@ -40,6 +40,8 @@ const Navbar = () => {
             <FaShoppingBag /> Mi carrito
           </a>
         </div>
+        </div>
+        <FaSearch className="text-Black w-6 h-6 cursor-pointer hidden md:block" />
 
         <div className="sm:hidden">
             <button onClick={toggleMenu}>

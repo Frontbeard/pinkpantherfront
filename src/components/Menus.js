@@ -1,21 +1,15 @@
 export const PRODUCTS = [
-    { name: "Drag And Drop", link: "#" },
-    { name: "Visual Studio X", link: "#" },
-    { name: "Easy Content", link: "#" },
+    { name: "Cuenta", link: "#" },
+    { name: "Favorito", link: "#" },
+    { name: "Mi carrito", link: "#" },
   ];
   export const RESOURCES = [
-    { name: "Industrias y herramientas", link: "#" },
-    { name: "Casos de uso", link: "#" },
-    { name: "Blog", link: "#" },
-    { name: "Eventos en línea", link: "#" },
+    { name: "Sobre nosotros", link: "#" },
+    { name: "INGRESAR", link: "#" },
     
   ];
   export const COMPANY = [
-    { name: "Diversidad e inclusión", link: "#" },
-    { name: "Sobre nosotros", link: "#" },
-    { name: "Prensa", link: "#" },
-    { name: "Historias de clientes", link: "#" },
-    { name: "Comunidades en línea", link: "#" },
+    { name: "Política de privacidad", link: "#" }
   ];
   
   export const SUPPORT = [
@@ -26,9 +20,6 @@ export const PRODUCTS = [
   ];
   
   export const Icons = [
-    { name: "logo-facebook", link: "#" },
-    { name: "logo-twitter", link: "#" },
-    { name: "logo-github", link: "#" },
-    { name: "logo-linkedin", link: "#" },
-    { name: "logo-instagram", link: "#" },
+    { name: "logo-email", link: "Pink27854@gmail.com" },
+    { name: "logo-instagram", link: "https://www.instagram.com/pink.pantherindumentaria/" },
   ];

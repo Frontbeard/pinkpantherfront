@@ -2,13 +2,17 @@ import React from 'react'
 import Banner from './Banner'
 import Category from './Category'
 import Products from './Products'
+import Newsletter from '../NewsLetter'
 
 const Home = () => {
   return (
-    <div>
+    <div className='bg-gray-100'>
+      
         <Banner/>
         <Category/>
         <Products/>
+        <Newsletter/>
+       
     </div>
   )
 }
