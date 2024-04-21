@@ -80,8 +80,11 @@ const demoText = {
                     <span className="my-3 text-xl text-yellow-600 flex items-center gap-1 sm:my-4">
                       {Array.from({ length: 3 }).map((_, index) => (
                         <FaStar key={index} />
+                        
                       ))}
                     </span>
+                  
+                    
                     {/* Product Price */}
                     <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
                       ${price}
