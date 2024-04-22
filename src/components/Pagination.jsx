@@ -63,13 +63,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         <FaAngleDoubleRight />
       </button>
 
-      {/* Botón para recargar la página actual */}
+      {/* Botón para recargar la página actual
       <button
         onClick={() => handlePageChange(currentPage)}
         className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
       >
         <FaSync />
-      </button>
+      </button> */}
 
       {/* Botones para navegación rápida */}
       {/* <button
