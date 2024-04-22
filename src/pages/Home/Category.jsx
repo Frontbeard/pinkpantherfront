@@ -6,8 +6,8 @@ const Category = () => {
     <div className="max-w-screen-2xl container xl:px-28 px-4 py-16">
 
       {/* category grid */}
-      <div className="flex flex-col md:flex-row items-center gap-4 mt-8">
-        <p className="font-semibold md:-rotate-90 uppercase text-center bg-black text-white md:p-1.5 p-2 rounded-sm inline-flex">
+      <div className="flex flex-col md:flex-row items-center gap-4 mt-8 ">
+        <p className="font-semibold md:-rotate-90 uppercase text-center bg-black text-white md:p-1.5 p-2 rounded-sm inline-flex text-xl">
           Explora lo nuevo y lo más popular
         </p>
         <div>
