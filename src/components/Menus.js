@@ -1,15 +1,15 @@
 export const PRODUCTS = [
-    { name: "Cuenta", link: "#" },
-    { name: "Favorito", link: "#" },
-    { name: "Mi carrito", link: "#" },
+    { name: "Cuenta", link: "/comingsoon/index.html" },
+    { name: "Favorito", link: "/comingsoon/index.html" },
+    { name: "Mi carrito", link: "/comingsoon/index.html" },
   ];
   export const RESOURCES = [
-    { name: "Sobre nosotros", link: "#" },
-    { name: "INGRESAR", link: "#" },
+    { name: "Sobre nosotros", link: "/about" },
+    { name: "INGRESAR", link: "/comingsoon/index.html" },
     
   ];
   export const COMPANY = [
-    { name: "Política de privacidad", link: "#" }
+    { name: "Política de privacidad", link: "/comingsoon/index.html" }
   ];
   
   export const SUPPORT = [

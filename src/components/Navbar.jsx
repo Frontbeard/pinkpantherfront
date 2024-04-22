@@ -1,33 +1,33 @@
 import React, { useState } from "react";
 import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-icons/fa";
-import logo from "/logo.jpeg";
-import { Link, NavLink } from "react-router-dom";
+import logo from "/logo2.png";
+import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Navbar = ({handleInputChange, query}) => {
+
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-      setIsMenuOpen(!isMenuOpen)
-  }
-  
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   const navItems = [
-      { title: "NEW IN", path: "/" },
-      { title: "Calzas", path: "/" },
-      { title: "Shorts", path: "/" },
-      { title: "Pantalones", path: "/" },
-      { title: "Tops", path: "/" },
-      { title: "Remeras", path: "/" },
-    //   { title: "Sobre nosotros", path: "/about" }, // Cambia el path a "/about"
-      { title: "SALE", path: "/" },
+    { title: "NEW IN", path: "/" },
+    { title: "Calzas", path: "/" },
+    { title: "Shorts", path: "/" },
+    { title: "Pantalones", path: "/" },
+    { title: "Tops", path: "/" },
+    { title: "Remeras", path: "/" },
+    { title: "SALE", path: "/" },
   ];
 
   return (
-      <header className="max-w-screen-2xl bg-gray xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto" onChange={handleInputChange}
-          value={query}>
+      <header className="max-w-screen-2xl bg-gray xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto" >
           <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3 ">
               <div className="flex flex-row gap-10">
                   <Link to="/">
-                      <img src={logo} alt="" />
+                      <img src={logo} alt="" className="w-40 h-auto" />
                   </Link>
                   <div className="text-lg text-black sm:flex items-center gap-8 hidden">
                       <Link to="/" className="flex items-center gap-2">

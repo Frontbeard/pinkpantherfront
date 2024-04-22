@@ -11,6 +11,7 @@ import SingleProduct from './pages/Home/SingleProduct';
 import AboutUs from './components/AboutUs.jsx';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
+import Navbar from './components/Navbar.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <AboutUs />,
+      },
+      {
+        path: '/public/comingsoon/index.html',
+        element: <Navbar />,
       },
     ],
   },
