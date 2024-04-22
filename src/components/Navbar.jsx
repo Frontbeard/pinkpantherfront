@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  FaBars,
-  FaSearch,
-  FaShoppingBag,
-  FaTimes,
-  FaUser,
-  FaStar,
-} from "react-icons/fa";
+import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-icons/fa";
 import logo from "/logo2.png";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ handleInputChange, query }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -25,42 +18,35 @@ const Navbar = () => {
     { title: "Tops", path: "/" },
     { title: "Remeras", path: "/" },
     { title: "SALE", path: "/" },
-    { title: "Sobre nosotros", path: "/about" }, // Cambia el path a "/about"
   ];
 
   return (
-    <header className="max-w-screen-2xl bg-gray xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto">
+    <header className="max-w-screen-2xl bg-gray xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto" onChange={handleInputChange} value={query}>
       <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3 ">
         <div className="flex flex-row gap-10">
-          <Link to="/">
+          <NavLink to="/">
             <img src={logo} alt="" className="w-40 h-auto" />
-          </Link>
+          </NavLink>
           <div className="text-lg text-black sm:flex items-center gap-8 hidden">
-            <Link to="/" className="flex items-center gap-2">
+            <NavLink to="/" className="flex items-center gap-2">
               <FaUser />
-            </Link>
-            <Link to="/" className="flex items-center gap-2">
+            </NavLink>
+            <NavLink to="/" className="flex items-center gap-2">
               <FaStar />
-            </Link>
-            <Link to="/" className="flex items-center gap-2 container">
+            </NavLink>
+            <NavLink to="/" className="flex items-center gap-2 container">
               <FaShoppingBag />
-            </Link>
-            <Link to="/about" className="flex flex-row gap-2">
+            </NavLink>
+            <NavLink to="/about" className="flex flex-row gap-2">
               <span>About</span>
-
               <span>PINKPANTHER</span>
-            </Link>{" "}
-            
+            </NavLink>
           </div>
         </div>
         <FaSearch className="text-black w-6 h-6 cursor-pointer hidden md:block" />
         <div className="sm:hidden">
           <button onClick={toggleMenu}>
-            {isMenuOpen ? (
-              <FaTimes className="w-6 h-6 text-black" />
-            ) : (
-              <FaBars className="w-6 h-6 text-black" />
-            )}
+            {isMenuOpen ? <FaTimes className="w-6 h-6 text-black" /> : <FaBars className="w-6 h-6 text-black" />}
           </button>
         </div>
       </nav>
@@ -69,10 +55,7 @@ const Navbar = () => {
         <ul className="lg:flex items-center justify-between text-black hidden">
           {navItems.map(({ title, path }) => (
             <li key={title} className="hover:text-pink-300">
-              <NavLink
-                to={path}
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
+              <NavLink to={path} activeClassName="active">
                 {title}
               </NavLink>
             </li>
@@ -80,16 +63,12 @@ const Navbar = () => {
         </ul>
       </div>
       <div>
-        <ul
-          className={`bg-black text-white px-4 py-2 rounded ${
-            isMenuOpen ? "" : "hidden"
-          }`}
-        >
+        <ul className={`bg-black text-white px-4 py-2 rounded ${isMenuOpen ? "" : "hidden"}`}>
           {navItems.map(({ title, path }) => (
             <li key={title} className="hover:text-pink-300 my-3 cursor-pointer">
-              <Link to={path} onClick={toggleMenu}>
+              <NavLink to={path} onClick={toggleMenu}>
                 {title}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>

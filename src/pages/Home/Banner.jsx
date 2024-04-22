@@ -1,8 +1,10 @@
 import React from "react";
 import { FaShoppingBag } from "react-icons/fa";
-import banner from "./../../../public/banner.jpg"
+import banner from "./../../../public/banner.jpg";
 
-
+const redirectToComingSoon = () => {
+  window.location.href = "/public/comingsoon/index.html";
+};
 
 const Banner = () => {
   return (
@@ -16,7 +18,7 @@ const Banner = () => {
             <p className="text-xl mb-7 text-pink-400">
               ¡Potencia tu estilo, libera tu fuerza! Descubrí nuestra colección de indumentaria deportiva para brillar en cada movimiento.
             </p>
-            <button className="bg-black hover:bg-pink-400 px-6 py-2 text-white font-semibold flex gap-2 items-center rounded-sm mx-auto">
+            <button onClick={redirectToComingSoon} className="bg-black hover:bg-pink-400 px-6 py-2 text-white font-semibold flex gap-2 items-center rounded-sm mx-auto">
               <FaShoppingBag className="inline-flex" /> Ver ahora
             </button>
           </div>
