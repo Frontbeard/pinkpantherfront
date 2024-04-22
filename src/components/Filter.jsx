@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
+import productsData from './data.json'; // Importa los datos del archivo JSON
 
-const Filter = ({ onFilter, allProducts }) => {
+const Filter = ({ onFilter }) => {
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -10,6 +11,12 @@ const Filter = ({ onFilter, allProducts }) => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    // Simulación de obtener datos de una API o archivo JSON
+    setAllProducts(productsData);
+  }, []);
 
   const handleFilter = () => {
     if (minPrice !== '' && maxPrice !== '' && parseFloat(maxPrice) < parseFloat(minPrice)) {
@@ -253,4 +260,3 @@ const Filter = ({ onFilter, allProducts }) => {
 };
 
 export default Filter;
-

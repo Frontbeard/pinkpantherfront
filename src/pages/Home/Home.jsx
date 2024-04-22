@@ -12,7 +12,6 @@ const Home = () => {
     <div className='bg-gray-100'>
       <Banner/>
       <Category/>
-      <Filter/>
       <Products/>
       <Newsletter/>
     </div>
