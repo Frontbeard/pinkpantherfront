@@ -21,22 +21,22 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   };
 
   return (
-    <div className="flex justify-center mt-4">
+    <div className="flex justify-center mt-6">
+      
       {/* Botón para ir a la página anterior, deshabilitado en la primera página */}
       {!isFirstPage && (
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
         >
-          <FaChevronLeft /> Anterior
+          <FaChevronLeft /> 
         </button>
       )}
 
-       {/* Mostrar el número de página actual y el total de páginas */}
-<span className="mx-6 text-xl font-bold">
-  Página {currentPage} de {totalPages}
-</span>
-
+      {/* Mostrar el número de página actual y el total de páginas */}
+      <span className="mx-6 text-xl font-bold">
+        Página {currentPage} de {totalPages}
+      </span>
 
       {/* Botón para ir a la página siguiente, deshabilitado en la última página */}
       {!isLastPage && (
@@ -44,7 +44,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           onClick={() => handlePageChange(currentPage + 1)}
           className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
         >
-          Siguiente <FaChevronRight />
+           <FaChevronRight />
         </button>
       )}
 
@@ -55,7 +55,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       >
         <FaAngleDoubleLeft />
       </button>
-
       {/* Botón para ir a la última página */}
       <button
         onClick={() => handlePageChange(totalPages)}
@@ -64,21 +63,16 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         <FaAngleDoubleRight />
       </button>
 
-      {/* Mostrar una elipsis */}
-      <span className="mx-2">
-        <FaEllipsisH />
-      </span>
-
-      {/* Botón para recargar la página actual */}
+      {/* Botón para recargar la página actual
       <button
         onClick={() => handlePageChange(currentPage)}
         className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
       >
         <FaSync />
-      </button>
+      </button> */}
 
       {/* Botones para navegación rápida */}
-      <button
+      {/* <button
         onClick={() => handlePageChange(currentPage - 5)} // Retroceder 5 páginas
         className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
       >
@@ -90,7 +84,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
       >
         <FaStepForward />
-      </button>
+      </button> */}
     </div>
   );
 };
