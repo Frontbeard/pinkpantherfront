@@ -17,12 +17,12 @@ const Navbar = () => {
       { title: "Pantalones", path: "/" },
       { title: "Tops", path: "/" },
       { title: "Remeras", path: "/" },
+    //   { title: "Sobre nosotros", path: "/about" }, // Cambia el path a "/about"
       { title: "SALE", path: "/" },
-      { title: "About Us", path: "/about" }, // Cambia el path a "/about"
   ];
 
   return (
-      <header className="max-w-screen-2xl bg-gray xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto">
+      <header className="max-w-screen-2xl bg-gray xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto" >
           <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3 ">
               <div className="flex flex-row gap-10">
                   <Link to="/">
@@ -30,13 +30,18 @@ const Navbar = () => {
                   </Link>
                   <div className="text-lg text-black sm:flex items-center gap-8 hidden">
                       <Link to="/" className="flex items-center gap-2">
-                          <FaUser /> Cuenta
+                          <FaUser /> 
                       </Link>
                       <Link to="/" className="flex items-center gap-2">
-                          <FaStar /> Favorito
+                          <FaStar /> 
                       </Link>
                       <Link to="/" className="flex items-center gap-2 container">
-                          <FaShoppingBag /> Mi carrito
+                          <FaShoppingBag /> 
+                      </Link>
+                      <Link to="/about" className="flex flex-row gap-2">
+                        <span>About</span>
+                        
+                        <span>PINKPANTHER</span>
                       </Link>
                   </div>
               </div>
