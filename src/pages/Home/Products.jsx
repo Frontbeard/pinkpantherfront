@@ -35,7 +35,7 @@ const Products = () => {
   };
 
   // Variables para paginación
-  const itemsPerPage = 4; // Número de ítems por página
+  const itemsPerPage = 8; // Número de ítems por página+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
