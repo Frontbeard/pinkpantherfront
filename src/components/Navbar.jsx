@@ -3,7 +3,7 @@ import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-
 import logo from "/logo.jpeg";
 import { Link, NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({handleInputChange, query}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -22,7 +22,8 @@ const Navbar = () => {
   ];
 
   return (
-      <header className="max-w-screen-2xl bg-gray xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto" >
+      <header className="max-w-screen-2xl bg-gray xl:px-28 px-4 flex flex-col w-full top-0 left-0 right-0 mx-auto" onChange={handleInputChange}
+          value={query}>
           <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3 ">
               <div className="flex flex-row gap-10">
                   <Link to="/">

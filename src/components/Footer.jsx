@@ -50,10 +50,11 @@ const Footer = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center pt-2 text-white text-sm pb-8 bg-pink-400">
-        <span className="block text-white text-sm mx-auto justify">
-          © 2024 PINKPANTHER. Todos los derechos reservados.
-        </span>
-      </div>
+  <span className="block mx-auto">
+    © 2024 <span className="font-bold">PINKPANTHER</span>. Todos los derechos reservados.
+  </span>
+</div>
+
     </footer>
   );
 };
