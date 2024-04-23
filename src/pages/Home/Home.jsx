@@ -8,7 +8,6 @@ import Filter from '../../components/Filter'
 const Home = () => {
   return (
     <div className='bg-gray-100'>
-      
         <Banner/>
          {/* <Filter/> */}
         <Category/>

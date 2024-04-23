@@ -4,7 +4,6 @@ import logo from "/logo2.png";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -30,7 +29,17 @@ const Navbar = () => {
                       <img src={logo} alt="" className="w-40 h-auto" />
                   </Link>
                   <div className="text-lg text-black sm:flex items-center gap-8 hidden">
-                      <Link to="/" className="flex items-center gap-2">
+                  {/* <Link to="/about" className="flex flex-row gap-2">
+                        <span>About</span>
+                        
+                        <span>PINKPANTHER</span>
+                      </Link> */}
+                     
+                      
+                  </div>
+              </div>
+              <div className="flex flex-row gap-5">
+              <Link to="/login" className="flex items-center gap-2">
                           <FaUser /> 
                       </Link>
                       <Link to="/" className="flex items-center gap-2">
@@ -39,14 +48,9 @@ const Navbar = () => {
                       <Link to="/" className="flex items-center gap-2 container">
                           <FaShoppingBag /> 
                       </Link>
-                      <Link to="/about" className="flex flex-row gap-2">
-                        <span>About</span>
-                        
-                        <span>PINKPANTHER</span>
-                      </Link>
-                  </div>
+                      <FaSearch className="text-black w-12 h-12 cursor-pointer hidden md:block" />
+
               </div>
-              <FaSearch className="text-black w-6 h-6 cursor-pointer hidden md:block" />
               <div className="sm:hidden">
                   <button onClick={toggleMenu}>
                       {
@@ -57,7 +61,7 @@ const Navbar = () => {
           </nav>
           <hr />
           <div className="pt-4">
-              <ul className="lg:flex items-center justify-between text-black hidden">
+              <ul className="lg:flex items-center justify-evenly text-black hidden">
                   {navItems.map(({ title, path }) => (
                       <li key={title} className="hover:text-pink-300">
                           <NavLink

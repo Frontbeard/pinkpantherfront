@@ -5,7 +5,8 @@
         "category": "Tops",
         "price": 63852,
         "image": "/images/products/top1.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["XL", "L", "M", "S"]
     },
     {
         "id": 2,
@@ -13,7 +14,8 @@
         "category": "Remera",
         "price": 27000,
         "image": "/images/products/top2.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["M", "L", "XL"]
     },
     {
         "id": 3,
@@ -21,7 +23,8 @@
         "category": "Pantalones",
         "price": 12000,
         "image": "/images/products/top3.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["L", "XL"]
     },
     {
         "id": 4,
@@ -29,7 +32,8 @@
         "category": "Calza",
         "price": 15000,
         "image": "/images/products/top4.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["S", "XL"]
     },
     {
         "id": 5,
@@ -37,7 +41,8 @@
         "category": "Calzado",
         "price": 45000,
         "image": "/images/products/conjunto1.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": [ "XL"]
     },
     {
         "id": 6,
@@ -45,7 +50,8 @@
         "category": "Shorts",
         "price": 18000,
         "image": "/images/products/top6.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["S", "M", "XL"]
     },
     {
         "id": 7,
@@ -53,7 +59,8 @@
         "category": "Sudaderas",
         "price": 32000,
         "image": "/images/products/top7.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": ["S","M","L" ,"XL"]
     },
     {
         "id": 8,
@@ -61,7 +68,8 @@
         "category": "Leggings",
         "price": 25000,
         "image": "/images/products/conjunto1.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["S", "XL"]
     },
     {
         "id": 9,
@@ -69,7 +77,8 @@
         "category": "Tops",
         "price": 20000,
         "image": "/images/products/top9.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": ["S", "M", "L"]
     },
     {
         "id": 10,
@@ -77,7 +86,8 @@
         "category": "Shorts",
         "price": 22000,
         "image": "/images/products/top10.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": ["S","L" ,"XL"]
     },
     {
         "id": 11,
@@ -85,7 +95,8 @@
         "category": "Pantalones",
         "price": 28000,
         "image": "/images/products/conjunto1.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["S", "M", "L"]
     },
     {
         "id": 12,
@@ -93,7 +104,8 @@
         "category": "Tops",
         "price": 21000,
         "image": "/images/products/conjunto2.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": ["M", "L"]
     },
     {
         "id": 13,
@@ -101,7 +113,8 @@
         "category": "Sudaderas",
         "price": 38000,
         "image": "/images/products/top1.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["L", "XL"]
     },
     {
         "id": 14,
@@ -109,7 +122,8 @@
         "category": "Leggings",
         "price": 27000,
         "image": "/images/products/top10.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": ["M", "L"]
     },
     {
         "id": 15,
@@ -117,7 +131,8 @@
         "category": "Remera",
         "price": 24000,
         "image": "/images/products/top6.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["M", "L"]
     },
     {
         "id": 16,
@@ -125,7 +140,8 @@
         "category": "Calzado",
         "price": 50000,
         "image": "/images/products/conjunto1.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": ["S", "XL"]
     },
     {
         "id": 17,
@@ -133,7 +149,8 @@
         "category": "Tops",
         "price": 19000,
         "image": "/images/products/top4.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["S", "M"]
     },
     {
         "id": 18,
@@ -141,7 +158,8 @@
         "category": "Pantalones",
         "price": 30000,
         "image": "/images/products/conjunto2.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": ["M","XL"]
     },
     {
         "id": 19,
@@ -149,7 +167,8 @@
         "category": "Calza",
         "price": 18000,
         "image": "/images/products/top1.jpg",
-        "status": "Destacado"
+        "status": "Destacado",
+        "size": ["L", "M"]
     },
     {
         "id": 20,
@@ -157,6 +176,7 @@
         "category": "Tops",
         "price": 22000,
         "image": "/images/products/top9.jpg",
-        "status": "Nuevo"
+        "status": "Nuevo",
+        "size": ["S", "XL"]
     }
 ]
