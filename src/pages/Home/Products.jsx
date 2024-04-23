@@ -35,7 +35,7 @@ const Products = () => {
   };
 
   // Variables para paginación
-  const itemsPerPage = 10; // Número de ítems por página
+  const itemsPerPage = 8; // Número de ítems por página+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
@@ -91,6 +91,7 @@ const Products = () => {
 
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
+      <hr />
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
         Destacados
       </h2>
