@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import Navbar from './components/Navbar.jsx';
 import Login from './components/Login.jsx';
+import CreateAccount from './components/CreateAccount.jsx';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,9 @@ const router = createBrowserRouter([
       },
       {path: '/login',
       element: <Login />
+    },
+    {path: '/create-account',
+      element: <CreateAccount />
     },
       
     ],
