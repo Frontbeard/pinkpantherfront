@@ -1,162 +1,34 @@
 [
     {
-        "id": 1,
-        "title": "TOP VERDE",
-        "category": "Tops",
-        "price": 63852,
-        "image": "/images/products/top1.jpg",
+        "id":1,
+       "title":"TOP VERDE",
+       "category": "Tops",
+       "price": 63852,
+        "image":"/images/products/top1.jpg",
         "status": "Destacado"
     },
     {
-        "id": 2,
-        "title": "REMERA GRIS",
-        "category": "Remera",
-        "price": 27000,
-        "image": "/images/products/top2.jpg",
-        "status": "Destacado"
+        "id":2,
+       "title":"REMERA GRIS",
+       "category": "Remera",
+       "price": 27000,
+       "image":"/images/products/top2.jpg",
+       "status": "Destacado"
     },
     {
-        "id": 3,
-        "title": "PANTALÓN GRIS CON CIERRE",
-        "category": "Pantalones",
-        "price": 12000,
-        "image": "/images/products/top3.jpg",
-        "status": "Destacado"
+        "id":4,
+       "title":"PANTALÓN GRIS CON CIERRE",
+       "category": "Pantalones",
+       "price": 12000,
+       "image":"/images/products/top3.jpg",
+       "status": "Destacado"
     },
     {
-        "id": 4,
-        "title": "CALZA VIOLETA",
-        "category": "Calza",
-        "price": 15000,
-        "image": "/images/products/top4.jpg",
-        "status": "Destacado"
-    },
-    {
-        "id": 5,
-        "title": "ZAPATILLAS ROSAS",
-        "category": "Calzado",
-        "price": 45000,
-        "image": "/images/products/conjunto1.jpg",
-        "status": "Nuevo"
-    },
-    {
-        "id": 6,
-        "title": "SHORTS AZULES",
-        "category": "Shorts",
-        "price": 18000,
-        "image": "/images/products/top6.jpg",
-        "status": "Destacado"
-    },
-    {
-        "id": 7,
-        "title": "SUDADERA GRIS",
-        "category": "Sudaderas",
-        "price": 32000,
-        "image": "/images/products/top7.jpg",
-        "status": "Nuevo"
-    },
-    {
-        "id": 8,
-        "title": "LEGGINGS NEGROS",
-        "category": "Leggings",
-        "price": 25000,
-        "image": "/images/products/conjunto1.jpg",
-        "status": "Destacado"
-    },
-    {
-        "id": 9,
-        "title": "CAMISETA ROJA",
-        "category": "Tops",
-        "price": 20000,
-        "image": "/images/products/top9.jpg",
-        "status": "Nuevo"
-    },
-    {
-        "id": 10,
-        "title": "SHORTS GRIS",
-        "category": "Shorts",
-        "price": 22000,
-        "image": "/images/products/top10.jpg",
-        "status": "Nuevo"
-    },
-    {
-        "id": 11,
-        "title": "PANTALÓN NEGRO",
-        "category": "Pantalones",
-        "price": 28000,
-        "image": "/images/products/conjunto1.jpg",
-        "status": "Destacado"
-    },
-    {
-        "id": 12,
-        "title": "TOP AZUL",
-        "category": "Tops",
-        "price": 21000,
-        "image": "/images/products/conjunto2.jpg",
-        "status": "Nuevo"
-    },
-    {
-        "id": 13,
-        "title": "SUDADERA ROSA",
-        "category": "Sudaderas",
-        "price": 38000,
-        "image": "/images/products/top1.jpg",
-        "status": "Destacado"
-    },
-    {
-        "id": 14,
-        "title": "LEGGINGS VERDES",
-        "category": "Leggings",
-        "price": 27000,
-        "image": "/images/products/top10.jpg",
-        "status": "Nuevo"
-    },
-    {
-        "id": 15,
-        "title": "REMERA BLANCA",
-        "category": "Remera",
-        "price": 24000,
-        "image": "/images/products/top6.jpg",
-        "status": "Destacado"
-    },
-    {
-        "id": 16,
-        "title": "ZAPATILLAS NEGRAS",
-        "category": "Calzado",
-        "price": 50000,
-        "image": "/images/products/conjunto1.jpg",
-        "status": "Nuevo"
-    },
-    {
-        "id": 17,
-        "title": "CAMISETA ROSA",
-        "category": "Tops",
-        "price": 19000,
-        "image": "/images/products/top4.jpg",
-        "status": "Destacado"
-    },
-    {
-        "id": 18,
-        "title": "PANTALÓN AZUL",
-        "category": "Pantalones",
-        "price": 30000,
-        "image": "/images/products/conjunto2.jpg",
-        "status": "Nuevo"
-    },
-    {
-        "id": 19,
-        "title": "CALZA ROSA",
-        "category": "Calza",
-        "price": 18000,
-        "image": "/images/products/top1.jpg",
-        "status": "Destacado"
-    },
-    {
-        "id": 20,
-        "title": "TOP AMARILLO",
-        "category": "Tops",
-        "price": 22000,
-        "image": "/images/products/top9.jpg",
-        "status": "Nuevo"
+        "id":5,
+       "title":"CALZA VIOLETA",
+       "category": "Calza",
+       "price": 15000,
+       "image":"/images/products/top4.jpg",
+       "status": "Destacado"
     }
 ]
