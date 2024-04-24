@@ -29,7 +29,7 @@ const Navbar = () => {
                       <img src={logo} alt="" />
                   </Link>
                   <div className="text-lg text-black sm:flex items-center gap-8 hidden">
-                      <Link to="/" className="flex items-center gap-2">
+                      <Link to="/login" className="flex items-center gap-2">
                           <FaUser /> Cuenta
                       </Link>
                       <Link to="/" className="flex items-center gap-2">
