@@ -11,6 +11,7 @@ import SingleProduct from './pages/Home/SingleProduct';
 import AboutUs from './components/AboutUs.jsx';
 import { Provider } from 'react-redux';
  import store  from './redux/store/store.js';
+
 import Navbar from './components/Navbar.jsx';
 import Login from './components/Login.jsx';
 import CreateAccount from './components/CreateAccount.jsx';
