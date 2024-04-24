@@ -26,7 +26,7 @@ const Login = () => {
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
             <Input
-              placeholder="  Ingresa tu nombre"
+              placeholder="  Ingresa tu usuario"
               size="lg"
               type="text"
               name="name"
