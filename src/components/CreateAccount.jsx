@@ -10,7 +10,6 @@ import { Button } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 
-
 const CreateAccount = () => {
     
     return (
@@ -27,36 +26,36 @@ const CreateAccount = () => {
             </CardHeader>
             <CardBody className="flex flex-col gap-4">
               <Input
-                placeholder="Ingresa tu nombre"
+                placeholder="  Ingresa tu nombre"
                 size="lg"
                 type="text"
                 name="name"
-                value={values.name}
-                onChange={onChange}
+                // value={values.name}
+                // onChange={onChange}
               />
               <Input
-                placeholder="Ingresa tu correo electrónico"
+                placeholder="  Ingresa tu correo electrónico"
                 size="lg"
                 type="email"
                 name="email"
-                value={values.email}
-                onChange={onChange}
+                // value={values.email}
+                // onChange={onChange}
               />
               <Input
-                placeholder="Ingresa tu contraseña"
+                placeholder="  Ingresa tu contraseña"
                 size="lg"
                 type="password"
                 name="password"
-                value={values.password}
-                onChange={onChange}
+                // value={values.password}
+                // onChange={onChange}
               />
               <Input
-                placeholder="Confirma tu contraseña"
+                placeholder="  Confirma tu contraseña"
                 size="lg"
                 type="password"
                 name="confirmPassword"
-                value={values.confirmPassword}
-                onChange={onChange}
+                // value={values.confirmPassword}
+                // onChange={onChange}
               />
             </CardBody>
             <CardFooter className="pt-0 mt-5">
@@ -69,11 +68,7 @@ const CreateAccount = () => {
                 Registrarse
               </Button>
             </CardFooter>
-            <div>
-              <Typography variant="h1" color="black" className="mb-4 grid h-15 place-items-center">
-                ¿Todavía no tienes cuenta? ¡Registrate acá!
-              </Typography>
-            </div>
+            
             <hr />
             <CardFooter className="pt-0 mt-5">
               <Button
@@ -82,7 +77,7 @@ const CreateAccount = () => {
                 fullWidth
                 // onClick={() => dispatch(registerWithGoogle())}
               >
-                <FaGoogle /> Continuar con Google
+                <FaGoogle /> Registrarse con Google
               </Button>
               <Button
                 className="text-black bg-white border mt-2"
@@ -90,7 +85,7 @@ const CreateAccount = () => {
                 fullWidth
                 // onClick={() => dispatch(registerWithFacebook())}
               >
-                <FaFacebook /> Continuar con Facebook
+                <FaFacebook /> Registrarse con Facebook
               </Button>
             </CardFooter>
           </Card>
