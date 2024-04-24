@@ -21,7 +21,7 @@ const Navbar = () => {
     { title: "About Us", path: "/about" },
   ];
   return (
-    <header className="max-w-screen-2xl xl:px-28 px-4 absolute top-0 left-0 right-0 mx-auto">
+    <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
       <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
         <FaSearch className="text-Black w-6 h-6 cursor-pointer hidden md:block" />
         <a href="/" className="ml-24">
