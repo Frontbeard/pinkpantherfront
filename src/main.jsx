@@ -9,8 +9,9 @@ import {
 import Home from './pages/Home/Home.jsx';
 import SingleProduct from './pages/Home/SingleProduct';
 import AboutUs from './components/AboutUs.jsx';
-// import { Provider } from 'react-redux';
-// import { store } from './app/store';
+import { Provider } from 'react-redux';
+ import store  from './redux/store/store.js';
+
 import Navbar from './components/Navbar.jsx';
 import Login from './components/Login.jsx';
 import CreateAccount from './components/CreateAccount.jsx';
@@ -47,5 +48,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
-)
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);
