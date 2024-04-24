@@ -8,8 +8,7 @@ import { FaInstagram, FaGoogle } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-50 text-black mt-10 relative shadow-inner">
- 
+    <footer className="bg-gray-50 text-black mt-10 relative shadow-inner"> 
 
       <div className=" text-gray-500 flex flex-row justify-evenly items-center py-4">
         <img
