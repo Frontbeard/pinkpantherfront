@@ -30,7 +30,7 @@ const Navbar = () => {
 
         {/* botonesss de carrito, favorito y cuenta */}
         <div className="text-lg text-Black sm:flex items-center gap-4 hidden">
-          <a href="/" className="flex items-center gap-2 ">
+          <a href="/login" className="flex items-center gap-2 ">
             <FaUser /> 
           </a>
           <a href="/" className="flex items-center gap-2 ">
