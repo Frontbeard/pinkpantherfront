@@ -13,6 +13,7 @@ const Login = () => {
               Inicia sesión
             </Typography>
           </CardHeader>
+      
           <CardBody className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <Typography variant="p" color="black" className="mb-1">
@@ -30,6 +31,7 @@ const Login = () => {
               </Typography>
               <input
                 className="input-box border-2 rounded-lg border-gray-400 px-4 py-2"
+
                 type="password"
                 placeholder="Ingresa tu contraseña"
               />
