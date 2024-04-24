@@ -1,41 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import Card from "../../components/Card";
 import Pagination from "../../components/Pagination";
+import { allproduct } from "../../redux/actions/actions";
 
 const Products = () => {
-  const [jsonData, setJsonData] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all"); // Default: All
   const [sortOption, setSortOption] = useState("default"); // Default sorting option
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
 
+  const dispatch = useDispatch();
+  const products = useSelector(state => state.allproducts);
+  console.log(products);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("products.json");
-        const data = await response.json();
-        setJsonData(data);
-        setFilteredItems(data);
-        // Actualizar el número total de páginas
-        setTotalPages(Math.ceil(data.length / itemsPerPage));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    dispatch(allproduct());
+  }, [dispatch]);
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    if (products.length > 0) {
+      // Set initial filtered items and total pages
+      setFilteredItems(products);
+      setTotalPages(Math.ceil(products.length / itemsPerPage));
+    }
+  }, [products]);
 
-  // Función para manejar el cambio de página
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  // Variables para paginación
-  const itemsPerPage = 10; // Número de ítems por página
+  const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
@@ -43,24 +40,20 @@ const Products = () => {
   const filterItems = (category) => {
     const filtered =
       category === "all"
-        ? jsonData
-        : jsonData.filter((item) => item.category === category);
+        ? products
+        : products.filter((item) => item.category === category);
 
     setFilteredItems(filtered);
     setSelectedCategory(category);
-    // Resetear la página actual al filtrar
     setCurrentPage(1);
-    // Recalcular el número total de páginas después del filtrado
     setTotalPages(Math.ceil(filtered.length / itemsPerPage));
   };
 
   const showAll = () => {
-    setFilteredItems(jsonData);
+    setFilteredItems(products);
     setSelectedCategory("all");
-    // Resetear la página actual al mostrar todos los productos
     setCurrentPage(1);
-    // Recalcular el número total de páginas después de mostrar todos los productos
-    setTotalPages(Math.ceil(jsonData.length / itemsPerPage));
+    setTotalPages(Math.ceil(products.length / itemsPerPage));
   };
 
   const handleSortChange = (option) => {
@@ -82,7 +75,6 @@ const Products = () => {
         sortedItems.sort((a, b) => b.price - a.price);
         break;
       default:
-        // No hacer nada para el caso de "default"
         break;
     }
 
@@ -138,7 +130,7 @@ const Products = () => {
               <option value="A-Z">A-Z</option>
               <option value="Z-A">Z-A</option>
               <option value="low-to-high">Menor precio a mayor precio</option>
-              <option value="high-to-low">Mayor precio a mayor precio</option>
+              <option value="high-to-low">Mayor precio a menor precio</option>
             </select>
           </div>
         </div>
