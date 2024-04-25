@@ -16,8 +16,13 @@ const Navbar = () => {
     };
 
     const handleCategoryClick = (title) => {
-        setSelectedCategory(title);
-        setSelectedSubcategory(null);
+        if (selectedCategory === title) {
+            // Si la categoría ya está seleccionada, cerrarla
+            setSelectedCategory(null);
+        } else {
+            setSelectedCategory(title);
+            setSelectedSubcategory(null);
+        }
     };
 
     const handleSubcategoryClick = (subcategory) => {
@@ -36,6 +41,10 @@ const Navbar = () => {
     // Esta función maneja el filtrado de productos y pasa los productos filtrados al FilterModal
     const handleFilter = (filteredProducts) => {
         setFilteredProducts(filteredProducts);
+    };
+
+    const handleMouseLeaveCategory = () => {
+        setSelectedCategory(null);
     };
 
     const navItems = [
@@ -79,7 +88,7 @@ const Navbar = () => {
             <div className="pt-4">
                 <ul className="lg:flex items-center justify-evenly text-black hidden">
                     {navItems.map(({ title, path, subcategories }) => (
-                        <li key={title} className="relative">
+                        <li key={title} className="relative" onMouseLeave={handleMouseLeaveCategory}>
                             <div onClick={() => handleCategoryClick(title)}>
                                 <NavLink to={path} className={selectedCategory === title ? "active" : ""}>
                                     {title}
@@ -115,6 +124,8 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
 
 
 
