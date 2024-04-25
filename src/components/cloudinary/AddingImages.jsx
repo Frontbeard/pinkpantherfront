@@ -19,6 +19,8 @@ const AddingImages = (props) => {
                 }
             );
             const file = await res.json();
+            console.log("uploadImage ejecutado"); // Agrega esta línea para verificar
+
             setImage(file.secure_url);
         } catch (error) {
             console.error("Error uploading image: ", error);
