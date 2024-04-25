@@ -17,6 +17,7 @@ import Navbar from './components/Navbar.jsx';
 import Login from './components/Login.jsx';
 import CreateAccount from './components/CreateAccount.jsx';
 import Dashboard from './components/Dashboard.jsx';
+import FormCreacion from './components/cloudinary/FormCreacion.jsx';
 // import dotenv from 'dotenv'
 // dotenv.config();
 
@@ -47,6 +48,9 @@ const router = createBrowserRouter([
     {path: '/dashboard',
       element: <Dashboard />
     },
+    {path: '/formCreacion',
+    element: <FormCreacion/>
+  },
     
       
     ],
