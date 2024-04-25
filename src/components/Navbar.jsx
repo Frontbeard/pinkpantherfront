@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-icons/fa";
 import logo from "/logo.jpeg";
 import { Link, NavLink } from "react-router-dom";
@@ -10,6 +10,14 @@ const Navbar = () => {
     const [selectedSubcategory, setSelectedSubcategory] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [filteredProducts, setFilteredProducts] = useState([]);
+
+    useEffect(() => {
+        if (!modalOpen) {
+            // Si el modal está cerrado, asegúrate de que la categoría seleccionada también lo esté
+            setSelectedCategory(null);
+        }
+    }, [modalOpen]);
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -43,8 +51,22 @@ const Navbar = () => {
         setFilteredProducts(filteredProducts);
     };
 
+
+    const handleMouseEnterCategory = (title) => {
+        setSelectedCategory(title);
+    };
+
     const handleMouseLeaveCategory = () => {
-        setSelectedCategory(null);
+        // No hacer nada al salir del área de la categoría
+    };
+
+    const handleMouseEnterSubcategory = (subcategory) => {
+        setSelectedSubcategory(subcategory);
+    };
+
+    const handleMouseLeaveSubcategory = () => {
+        // No hacer nada al salir del área de la subcategoría
+
     };
 
     const navItems = [
@@ -88,21 +110,37 @@ const Navbar = () => {
             <div className="pt-4">
                 <ul className="lg:flex items-center justify-evenly text-black hidden">
                     {navItems.map(({ title, path, subcategories }) => (
-                        <li key={title} className="relative" onMouseLeave={handleMouseLeaveCategory}>
+                        <li key={title} className="relative">
                             <div onClick={() => handleCategoryClick(title)}>
-                                <NavLink to={path} className={selectedCategory === title ? "active" : ""}>
+                                <NavLink
+                                    to={path}
+                                    className={selectedCategory === title ? "active" : ""}
+                                    style={{ color: selectedCategory === title ? "blue" : "black" }}
+                                    onMouseEnter={() => handleMouseEnterCategory(title)}
+                                    onMouseLeave={handleMouseLeaveCategory}
+                                >
                                     {title}
                                 </NavLink>
                             </div>
                             {selectedCategory === title && (
                                 <ul className="absolute left-0 top-full bg-white shadow-lg z-10">
-                                    {subcategories && subcategories.map((subcategory, index) => (
-                                        <li key={index}>
-                                            <button onClick={() => handleSubcategoryClick(subcategory)}>
-                                                {subcategory}
-                                            </button>
-                                        </li>
-                                    ))}
+
+                                    {subcategories &&
+                                        subcategories.map((subcategory, index) => (
+                                            <li key={index}>
+                                                <button
+                                                    onClick={() => handleSubcategoryClick(subcategory)}
+                                                    style={{
+                                                        color: selectedSubcategory === subcategory ? "blue" : "black",
+                                                    }}
+                                                    onMouseEnter={() => handleMouseEnterSubcategory(subcategory)}
+                                                    onMouseLeave={handleMouseLeaveSubcategory}
+                                                >
+                                                    {subcategory}
+                                                </button>
+                                            </li>
+                                        ))}
+
                                 </ul>
                             )}
                         </li>
@@ -124,7 +162,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
 
 
 
