@@ -1,58 +1,55 @@
 import {
   GET_ALL_PRODUCTS,
-  GET_PRODUCT_BY_NAME,
-  ADD_PRODUCT,
-  UPDATE_PRODUCT,
-  FILTER_PRODUCT,
-  GET_PRODUCT_BY_ID
-
+  GET_PRODUCT_BY_ID,
+  GET_ALL_CATEGORIES,
+  SET_SELECTED_CATEGORY,
 } from '../actions/actions-types';
 
-const initialstate = {
+const initialState = {
   product: [],
   allproducts: [],
-  details: []
-  
-  
-}
+  details: [],
+  categories: [],
+  selectedCategory: null,
+ 
+};
 
-
-
-const rootReducer = (state = initialstate, action) => {
+const rootReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-
     case GET_ALL_PRODUCTS:
-      if (state.product.length > 0) { // Comprueba si ya hay productos en el estado
-        return {
-          product: state.product, // Mantiene los productos existentes
-          allproducts: state.allproducts // Mantiene todos los productos
-        };
-      }
-      // Si no hay productos, actualiza tanto los productos como todos los productos con el payload de la acción
+      // Actualiza todos los productos al recibir la lista completa desde el backend
       return {
         ...state,
         allproducts: payload,
-        product: payload
+        product: payload, // También actualiza los productos mostrados en la vista
       };
-     
-      case GET_PRODUCT_BY_ID: 
+
+    case GET_PRODUCT_BY_ID:
       return {
-         ...state,
-         details: payload,
-     };
+        ...state,
+        details: payload,
+      };
 
+    case GET_ALL_CATEGORIES:
+      return {
+        ...state,
+        categories: payload, // Actualiza la categoría seleccionada
+      };
+      case SET_SELECTED_CATEGORY:
+        return {
+          ...state,
+          selectedCategory: action.categoryId,
+          product: state.allproducts.filter(product => product.idCategory === action.categoryId),
+        };
+      
 
+      
 
 
     default:
-      return state; 
+      return state;
   }
-
-
-  
 };
 
 export default rootReducer;
-
-  

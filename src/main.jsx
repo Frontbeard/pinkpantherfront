@@ -43,6 +43,10 @@ const router = createBrowserRouter([
     {path: '/create-account',
       element: <CreateAccount />
     },
+
+    {path: '/products/:id',
+    element: <Navbar/>
+  },
       
     ],
 

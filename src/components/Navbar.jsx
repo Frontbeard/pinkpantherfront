@@ -1,25 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-icons/fa";
 import logo from "/logo.jpeg";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { allcategories } from "../redux/actions/actions";
 
 const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dispatch = useDispatch();
+  const categories = useSelector(state => state.categories);
+  console.log(categories);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen)
-    }
-    
-  const navItems = [
-    { title: "NEW IN", path: "/" },
-    { title: "Calzas", path: "/" },
-    { title: "Shorts", path: "/" },
-    { title: "Pantalones", path: "/" },
-    { title: "Tops", path: "/" },
-    { title: "Remeras", path: "/" },
-    { title: "SALE", path: "/" },
-    { title: "About Us", path: "/about" },
-  ];
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(allcategories());
+  }, [dispatch]);
+
+
+
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
       <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
@@ -28,7 +31,7 @@ const Navbar = () => {
           <img src={logo} alt="" />
         </a>
 
-        {/* botonesss de carrito, favorito y cuenta */}
+        {/* Botones de carrito, favorito y cuenta */}
         <div className="text-lg text-Black sm:flex items-center gap-4 hidden">
           <a href="/login" className="flex items-center gap-2 ">
             <FaUser /> 
@@ -50,37 +53,21 @@ const Navbar = () => {
         </div>
       </nav>
       <hr />
-      {/* nav items */}
-      <div className="pt-4">
-        <ul className="lg:flex items-center justify-evenly text-black hidden">
-          {navItems.map(({ title, path}) => (
-            <li key={title} className=" hover:text-pink-300 ">
+      {/* Nav items */}
+      <div className={`pt-4 ${isMenuOpen ? "block" : "hidden"} sm:block`}>
+        <ul className="lg:flex items-center justify-evenly text-black">
+          {categories.map(({ id, name}) => (
+            <li key={id} className="hover:text-pink-300">
               <NavLink
-                to={path}
-                className={({ isActive}) => isActive ? "active" : ""}
+                to={`/products/${id}`}
+                activeClassName="active"
               >
-                {title}
+                {name}
               </NavLink>
             </li>
           ))}
         </ul>
       </div>
-
-      {/* items menu para el chelularrrrr*/}
-      <div>
-        <ul className={`bg-black text-white px-4 py-2 rounded ${isMenuOpen ? "" : "hidden"}`}>
-          {navItems.map(({ title, path }) => (
-            <li key={title} className=" hover:text-pink-300 my-3 cursor-pointer">
-              <Link
-                to={path}
-                onClick={toggleMenu}
-              >
-                {title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        </div>
       
     </header>
   );
