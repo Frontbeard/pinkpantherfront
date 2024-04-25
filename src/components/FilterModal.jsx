@@ -9,6 +9,7 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
   const [alertMessage, setAlertMessage] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isProductFound, setIsProductFound] = useState(true);
+  const [availableSubcategories, setAvailableSubcategories] = useState([]);
 
   const [allProducts] = useState([
     {
@@ -18,14 +19,14 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
       color: 'verde',
       category: 'Calzas',
       subcategory: 'Biker',
-      price: 25,
+      price: 35,
     },
     {
       id: 2,
       name: 'Producto 2',
       size: '2',
       color: 'gris',
-      category: 'Faldapantalon',
+      category: 'Faldapantalón',
       subcategory: 'Recta',
       price: 30,
     },
@@ -34,43 +35,71 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
       name: 'Producto 3',
       size: '5',
       color: 'violeta',
-      category: 'Faldapantalon',
+      category: 'Faldapantalón',
       subcategory: 'Campana',
       price: 40,
     },
     {
-        id: 4,
-        name: 'Producto 4',
-        size: '4',
-        color: 'negra',
-        category: 'Calzas',
-        subcategory: 'Biker',
-        price: 18,
-      },
-      {
-        id: 5,
-        name: 'Producto 5',
-        size: 'U',
-        color: 'violeta',
-        category: 'Calzas',
-        subcategory: 'Biker',
-        price: 25,
-      },
-      {
-        id: 6,
-        name: 'Producto 6',
-        size: 'U',
-        color: 'violeta',
-        category: 'Remeras',
-        subcategory: 'Sudadera',
-        price: 15,
-      },
+      id: 4,
+      name: 'Producto 4',
+      size: '4',
+      color: 'negra',
+      category: 'Calzas',
+      subcategory: 'Biker',
+      price: 18,
+    },
+    {
+      id: 5,
+      name: 'Producto 5',
+      size: 'U',
+      color: 'violeta',
+      category: 'Calzas',
+      subcategory: 'Biker',
+      price: 25,
+    },
+    {
+      id: 6,
+      name: 'Producto 6',
+      size: 'U',
+      color: 'violeta',
+      category: 'Remeras',
+      subcategory: 'Sudaderas',
+      price: 15,
+    },
+    {
+      id: 7,
+      name: 'Producto 7',
+      size: '4',
+      color: 'violeta',
+      category: 'Calzas',
+      subcategory: 'Capri',
+      price: 12,
+    },
+    {
+      id: 8,
+      name: 'Producto 8',
+      size: '3',
+      color: 'violeta',
+      category: 'Calzas',
+      subcategory: 'Larga',
+      price: 10,
+    },
   ]);
 
   useEffect(() => {
-    // Filtrar productos cuando se cambia la categoría o subcategoría
     handleFilter();
+    updateAvailableSubcategories();
   }, [category, subcategory]);
+
+  const updateAvailableSubcategories = () => {
+    const subcategories = allProducts
+      .filter(product => product.category === category)
+      .map(product => product.subcategory);
+
+    const uniqueSubcategories = [...new Set(subcategories)].sort();
+
+    setAvailableSubcategories(uniqueSubcategories);
+  };
 
   const handleFilter = () => {
     if (minPrice !== '' && maxPrice !== '' && parseFloat(maxPrice) < parseFloat(minPrice)) {
@@ -80,15 +109,11 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
     setAlertMessage('');
 
     const filteredProducts = allProducts.filter(product => {
-      // Filtrado por categoría y subcategoría
       const matchCategory = category === '' || product.category === category;
       const matchSubcategory = subcategory === '' || product.subcategory === subcategory;
-
-      // Filtrado por tamaño
       const matchSize = selectedSize === '' || product.size === selectedSize;
-
-      // Filtrado por precio
       let matchPrice = true;
+
       if (minPrice !== '' && maxPrice !== '') {
         const min = parseFloat(minPrice);
         const max = parseFloat(maxPrice);
@@ -100,7 +125,6 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
       return matchCategory && matchSubcategory && matchSize && matchPrice;
     });
 
-    // Ordenamiento
     let sortedProducts = filteredProducts;
     if (selectedSort === 'az') {
       sortedProducts = filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
@@ -124,16 +148,16 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
     setSelectedSize('');
     setAlertMessage('');
     setFilteredProducts([]);
-    setIsProductFound(true); // Restaurar a true para mostrar el mensaje por defecto
-    onFilter(allProducts); // Restaurar todos los productos
+    setIsProductFound(true);
+    onFilter(allProducts);
   };
 
   const handleSearch = () => {
-    handleFilter(); // Realizar filtrado al hacer clic en buscar
+    handleFilter();
   };
 
   const handleGoBack = () => {
-    onGoBack(); // Llamar a la función proporcionada por el padre para volver a la categoría anterior
+    onGoBack('');
   };
 
   return (
@@ -144,12 +168,26 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
           <FaTimes className="w-6 h-6 text-gray-500" />
         </button>
       </div>
-      {/* Categoría y subcategoría activas */}
       <div className="mb-4">
         <p className="font-semibold mb-1">Categoría: {category}</p>
         <p className="font-semibold">Subcategoría: {subcategory}</p>
       </div>
-      {/* Filtrado por precio */}
+      <div className="mb-4">
+        <label htmlFor="subcategory" className="block mb-1">Subcategoría:</label>
+        <select
+          id="subcategory"
+          value={subcategory}
+          onChange={(e) => onGoBack(e.target.value)}
+          className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="">Todas las subcategorías</option>
+          {availableSubcategories.map((subcat, index) => (
+            <option key={index} value={subcat}>
+              {subcat}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="mb-4">
         <label htmlFor="price" className="block mb-1">Precio:</label>
         <div className="flex">
@@ -170,7 +208,6 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
         </div>
         {alertMessage && <p className="text-red-500 text-sm mt-1">{alertMessage}</p>}
       </div>
-      {/* Filtrado por tamaño */}
       <div className="mb-4">
         <label htmlFor="size" className="block mb-1">Talle:</label>
         <select
@@ -188,7 +225,6 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
           <option value="U">Talle Único</option>
         </select>
       </div>
-      {/* Filtrado por orden */}
       <div className="mb-4">
         <label htmlFor="sort" className="block mb-1">Ordenar por:</label>
         <select
@@ -204,7 +240,6 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
           <option value="lower">Menor precio a mayor precio</option>
         </select>
       </div>
-      {/* Botones para filtrar y limpiar */}
       <div className="flex justify-center mt-4">
         <button onClick={handleSearch} className="bg-pink-500 text-white px-6 py-1 rounded-sm mr-4">
           <FaSearch className="mr-2" />
@@ -215,13 +250,11 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
           Limpiar
         </button>
       </div>
-      {/* Botón para volver a la categoría anterior */}
       <div className="mb-4">
         <button onClick={handleGoBack} className="text-blue-500 underline">
-          Volver a la categoría anterior
+          Seleccionar nueva subcategoría
         </button>
       </div>
-      {/* Renderizado de los productos filtrados */}
       {isProductFound && (
         <div className="mt-4">
           {filteredProducts.map(product => (
@@ -245,5 +278,4 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
 };
 
 export default FilterModal;
-
 
