@@ -8,6 +8,7 @@ import { FaInstagram, FaGoogle } from 'react-icons/fa';
 
 const Footer = () => {
   return (
+
     <footer className="bg-gray-50 text-black mt-10 relative shadow-inner">
  
 
@@ -28,7 +29,7 @@ const Footer = () => {
             <FaInstagram size={24} />
           </a>
           {/* Enlace al correo de Gmail */}
-          <a href="mailto:Pink27854@gmail.com" className="text-gray-500 hover:text-gray-700">
+          <a href="Pink27854@gmail.com" className="text-gray-500 hover:text-gray-700">
             <FaGoogle size={24} />
           </a>
         </div>
@@ -44,4 +45,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
 
