@@ -16,6 +16,7 @@ import { app, auth } from './Firebase/firebase.jsx';
 import Navbar from './components/Navbar.jsx';
 import Login from './components/Login.jsx';
 import CreateAccount from './components/CreateAccount.jsx';
+import AuthenticationHandler from "./Firebase/checkAuth.jsx";
 // import dotenv from 'dotenv'
 // dotenv.config();
 

@@ -36,15 +36,24 @@ function CreateAccount({ onDataChange }) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    const fieldName = event.target.name
+    let fieldValue = event.target.value
     setUserData({
       ...userData,
       [name]: value
     });
+    const fieldErrors = validation({ ...userData, [fieldName]: fieldValue })
+      
+    // Update the error state for the current field only
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [fieldName]: fieldErrors[fieldName] || '', // Clear the error if validation passes
+    }))
   };
 
   useEffect(() => {
     const errorsArray = Object.values(errors)
-    setIsFormValid(userData.name && userData.email && userData.password > 0 && errorsArray.every(error => !error))
+    setIsFormValid(userData.name && userData.email && userData.password && userData.confirmPassword > 0 && errorsArray.every(error => !error))
   }, [userData, errors])
 
   const handleSubmit = async (evento) => {
@@ -59,6 +68,9 @@ function CreateAccount({ onDataChange }) {
       const firebaseUid = userCredential.user.uid.toString();
       console.log(firebaseUid)
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
+
+      localStorage.setItem('firebaseUid', firebaseUid);
+
       const response = await axios.post(URL_LINK, {
         id: firebaseUid,
         enable: userData.enable,
@@ -112,7 +124,7 @@ function CreateAccount({ onDataChange }) {
                 Nombre
               </Typography>
               <input
-                className="input-box border-2 rounded-lg border-gray-400 px-4 py-2"
+                className={errors.name ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
                 type="text"
                 name="name"
                 value={userData.name}
@@ -125,7 +137,7 @@ function CreateAccount({ onDataChange }) {
                 Correo electrónico
               </Typography>
               <input
-                className="input-box border-2 rounded-lg border-gray-400 px-4 py-2"
+                className={errors.email ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
                 type="email"
                 name="email"
                 value={userData.email}
@@ -138,7 +150,7 @@ function CreateAccount({ onDataChange }) {
                 Contraseña
               </Typography>
               <input
-                className="input-box border-2 rounded-lg border-gray-400 px-4 py-2"
+                className={errors.password ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
                 type="password"
                 name="password"
                 value={userData.password}
@@ -152,7 +164,7 @@ function CreateAccount({ onDataChange }) {
                 Confirmar contraseña
               </Typography>
               <input
-                className="input-box border-2 rounded-lg border-gray-400 px-4 py-2"
+                className={errors.confirmPassword ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
                 type="password"
                 name="confirmPassword"
                 value={userData.confirmPassword}
@@ -162,7 +174,7 @@ function CreateAccount({ onDataChange }) {
             </div>
           </CardBody>
           <CardFooter className="pt-0 mt-5">
-            <Button onClick={handleSubmit} className="text-white bg-pink-500" variant="gradient" fullWidth>
+            <Button onClick={handleSubmit} disabled={!isFormValid} className="text-white bg-pink-500" variant="gradient" fullWidth>
               Registrarse
             </Button>
           </CardFooter>
