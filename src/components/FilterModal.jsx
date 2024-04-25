@@ -173,22 +173,6 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
         <p className="font-semibold">Subcategoría: {subcategory}</p>
       </div>
       <div className="mb-4">
-        <label htmlFor="subcategory" className="block mb-1">Subcategoría:</label>
-        <select
-          id="subcategory"
-          value={subcategory}
-          onChange={(e) => onGoBack(e.target.value)}
-          className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="">Todas las subcategorías</option>
-          {availableSubcategories.map((subcat, index) => (
-            <option key={index} value={subcat}>
-              {subcat}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="mb-4">
         <label htmlFor="price" className="block mb-1">Precio:</label>
         <div className="flex">
           <input
@@ -278,3 +262,4 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
 };
 
 export default FilterModal;
+
