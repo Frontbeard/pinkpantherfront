@@ -278,4 +278,3 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
 };
 
 export default FilterModal;
-
