@@ -61,7 +61,6 @@ function CreateAccount({ onDataChange }) {
     }
   }
   
- 
     return (
       <div className="grid grid-cols-1 items-center justify-items-center h-screen mt-8">
         <Card className="w-full max-w-md">
@@ -81,9 +80,7 @@ function CreateAccount({ onDataChange }) {
                 name="name"
                 value={userData.name}
                 onChange={handleChange}
-
                 placeholder="Ingresa tu nombre"
-
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -120,7 +117,6 @@ function CreateAccount({ onDataChange }) {
               <input
                 className="input-box border-2 rounded-lg border-gray-400 px-4 py-2"
                 type="password"
-
                 name="confirmPassword"
                 value={userData.confirmPassword}
                 onChange={handleChange}
