@@ -1,18 +1,35 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+//import { v5 as uuidv5 } from 'uuid';
 import validation from "./validation.js";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
+const URL_LINK = 'http://localhost:3001/customer'
+//const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/'
 
 function CreateAccount({ onDataChange }) {
   const [userData, setUserData] = useState({
+    //id:'',
+    enable:true,
     name:'',
     email:'',
     password:'',
-    confirmPassword:''
+    confirmPassword:'',
+    role:'CUSTOMER',
+    DNI:'232',
+    birthdate:'1998-03-23',
+    firstName:'HOLA',
+    lastName:'PRUEBA',
+    telephone:'2324',
+    country:'Argentina',
+    city:'Buenos Aires',
+    street:'calle',
+    streetNumber:'2344',
+    apartmentNumber:'43',
+    postalCode:'324'
   })
   const[errors, setErrors] = useState({})
   const [isFormValid, setIsFormValid] = useState(false)
@@ -34,13 +51,34 @@ function CreateAccount({ onDataChange }) {
     evento.preventDefault()
     try {
       const auth = getAuth();
-        createUserWithEmailAndPassword(auth, userData.email, userData.password)
-        const user = userCredential.user;
-      const response = await axios.post('http://localhost:3001/customer', {
-        ...userData,
-      })
-          
-      console.log(response.data)
+      const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      if (!userCredential) {
+        throw new Error('Firebase user creation failed');
+      }
+      const user = userCredential.user;
+      const firebaseUid = userCredential.user.uid.toString();
+      console.log(firebaseUid)
+      //const id = uuidv5(firebaseUid, uuidv5.DNS);
+      const response = await axios.post(URL_LINK, {
+        id: firebaseUid,
+        enable: userData.enable,
+        userName: userData.name, 
+        role: userData.role, 
+        DNI: userData.DNI, 
+        birthdate: userData.birthdate, 
+        firstName: userData.firstName, 
+        lastName: userData.lastName, 
+        email: userData.email, 
+        telephone: userData.telephone, 
+        country: userData.country, 
+        city: userData.city, 
+        street: userData.street, 
+        streetNumber: userData.streetNumber, 
+        apartmentNumber: userData.apartmentNumber, 
+        postalCode: userData.postalCode
+      });
+      
+      console.log(response)
       //setSuccessMessage
       if (response.data.created === true) {
         alert('Account created successfully!')
@@ -52,15 +90,14 @@ function CreateAccount({ onDataChange }) {
         })
         // Clear the errors state
         setErrors({})
-  
       } else if (response.data.created === false) {
         alert('Username already exists in the DataBase!')
       }
     } catch (error) {
       console.error('Error submitting the form:', error)
+      alert('Error submitting the form. Please try again later.', error.message)
     }
   }
-  
     return (
       <div className="grid grid-cols-1 items-center justify-items-center h-screen mt-8">
         <Card className="w-full max-w-md">
@@ -125,7 +162,7 @@ function CreateAccount({ onDataChange }) {
             </div>
           </CardBody>
           <CardFooter className="pt-0 mt-5">
-            <Button className="text-white bg-pink-500" variant="gradient" fullWidth>
+            <Button onClick={handleSubmit} className="text-white bg-pink-500" variant="gradient" fullWidth>
               Registrarse
             </Button>
           </CardFooter>
