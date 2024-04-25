@@ -18,6 +18,7 @@ const Navbar = () => {
         }
     }, [modalOpen]);
 
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -50,6 +51,7 @@ const Navbar = () => {
         setFilteredProducts(filteredProducts);
     };
 
+
     const handleMouseEnterCategory = (title) => {
         setSelectedCategory(title);
     };
@@ -64,6 +66,7 @@ const Navbar = () => {
 
     const handleMouseLeaveSubcategory = () => {
         // No hacer nada al salir del área de la subcategoría
+
     };
 
     const navItems = [
@@ -121,6 +124,7 @@ const Navbar = () => {
                             </div>
                             {selectedCategory === title && (
                                 <ul className="absolute left-0 top-full bg-white shadow-lg z-10">
+
                                     {subcategories &&
                                         subcategories.map((subcategory, index) => (
                                             <li key={index}>
@@ -136,6 +140,7 @@ const Navbar = () => {
                                                 </button>
                                             </li>
                                         ))}
+
                                 </ul>
                             )}
                         </li>

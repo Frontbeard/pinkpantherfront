@@ -11,6 +11,7 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
   const [isProductFound, setIsProductFound] = useState(true);
   const [availableSubcategories, setAvailableSubcategories] = useState([]);
 
+
   const [allProducts] = useState([
     {
       id: 1,
@@ -20,6 +21,7 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
       category: 'Calzas',
       subcategory: 'Biker',
       price: 35,
+
     },
     {
       id: 2,
@@ -101,6 +103,7 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
     setAvailableSubcategories(uniqueSubcategories);
   };
 
+
   const handleFilter = () => {
     if (minPrice !== '' && maxPrice !== '' && parseFloat(maxPrice) < parseFloat(minPrice)) {
       setAlertMessage('El precio máximo debe ser mayor o igual al precio mínimo.');
@@ -124,6 +127,8 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
 
       return matchCategory && matchSubcategory && matchSize && matchPrice;
     });
+
+
 
     let sortedProducts = filteredProducts;
     if (selectedSort === 'az') {
@@ -158,6 +163,7 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
 
   const handleGoBack = () => {
     onGoBack('');
+
   };
 
   return (
@@ -168,10 +174,12 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
           <FaTimes className="w-6 h-6 text-gray-500" />
         </button>
       </div>
+
       <div className="mb-4">
         <p className="font-semibold mb-1">Categoría: {category}</p>
         <p className="font-semibold">Subcategoría: {subcategory}</p>
       </div>
+
       <div className="mb-4">
         <label htmlFor="price" className="block mb-1">Precio:</label>
         <div className="flex">
@@ -192,6 +200,7 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
         </div>
         {alertMessage && <p className="text-red-500 text-sm mt-1">{alertMessage}</p>}
       </div>
+
       <div className="mb-4">
         <label htmlFor="size" className="block mb-1">Talle:</label>
         <select
@@ -208,7 +217,9 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
           <option value="5">Talle 5</option>
           <option value="U">Talle Único</option>
         </select>
-      </div>
+ 
+     </div>
+
       <div className="mb-4">
         <label htmlFor="sort" className="block mb-1">Ordenar por:</label>
         <select
@@ -224,6 +235,8 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
           <option value="lower">Menor precio a mayor precio</option>
         </select>
       </div>
+
+
       <div className="flex justify-center mt-4">
         <button onClick={handleSearch} className="bg-pink-500 text-white px-6 py-1 rounded-sm mr-4">
           <FaSearch className="mr-2" />
@@ -234,11 +247,13 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
           Limpiar
         </button>
       </div>
+
       <div className="mb-4">
         <button onClick={handleGoBack} className="text-blue-500 underline">
           Seleccionar nueva subcategoría
         </button>
       </div>
+
       {isProductFound && (
         <div className="mt-4">
           {filteredProducts.map(product => (
@@ -262,4 +277,5 @@ const FilterModal = ({ category, subcategory, onFilter, onClose, onGoBack }) => 
 };
 
 export default FilterModal;
+
 
