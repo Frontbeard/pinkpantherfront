@@ -4,11 +4,11 @@ const AddingImages = (props) => {
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const uploadImage = async (e) => {
-        const files = e.target.files;
+    const uploadImage = async (event) => {
+        const files = event.target.files;
         const data = new FormData();
         data.append("file", files[0]);
-        data.append("upload_preset", "imagenes-pinkpanther");
+        data.append("upload_preset", "images");
         setLoading(true);
         try {
             const res = await fetch(
@@ -19,11 +19,9 @@ const AddingImages = (props) => {
                 }
             );
             const file = await res.json();
-            console.log("uploadImage ejecutado"); // Agrega esta línea para verificar
-
             setImage(file.secure_url);
         } catch (error) {
-            console.error("Error uploading image: ", error);
+            console.error("Error uploading image: ", error); 
         } finally {
             setLoading(false);
         }
@@ -32,19 +30,17 @@ const AddingImages = (props) => {
     return (
         <div>
             <div style={{ textAlign: "left" }}>
-                <h1>Subiendo Imágenes</h1>
+                <h1>Subir imagen de producto</h1>
+                <form>
                 <input
                     type="file"
-                    name="file"
+                    name="imagen"
                     accept="image/*"
                     onChange={uploadImage}
                     style={{ marginBottom: "10px" }}
                 />
-                {loading ? (
-                    <h3>Cargando imágenes...</h3>
-                ) : (
-                    image && <img src={image} alt="uploaded" style={{ width: "300px" }} />
-                )}
+                </form>
+                <img src={image} width="200px"/>
             </div>
         </div>
     );

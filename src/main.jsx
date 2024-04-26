@@ -53,11 +53,9 @@ const router = createBrowserRouter([
     {path: '/formCreacion',
     element: <FormCreacion/>
   },
-    
-      
     ],
-
   },
+  
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
