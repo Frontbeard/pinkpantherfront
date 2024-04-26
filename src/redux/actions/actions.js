@@ -11,13 +11,13 @@ import {
 } from './actions-types';
 
 // const URL = 'https://pinkpanther-backend-ip0f.onrender.com/';
-const URL = 'http://localhost:3001';
+const URL = 'http://localhost:3001/product';
 
 
-export const allproduct = () => {
+export const getAllProducts = () => {
     return async function (dispatch) {
      try {
-        let response = await axios.get(`${URL}/product`);
+        let response = await axios.get(`${URL}`);
 
         return dispatch({
             type: GET_ALL_PRODUCTS,
@@ -35,7 +35,7 @@ export const productbyID = (id) => {
 
    return async function (dispatch) {
     try {
-        let response = await axios.get(`${URL}/product/${id}`)
+        let response = await axios.get(`${URL}/${id}`)
         return dispatch ({
             type: GET_PRODUCT_BY_ID,
             payload: response.data
@@ -50,15 +50,62 @@ export const productbyID = (id) => {
 }
 
 
-export const productbyname = () => {
+export const getProductByName = (name) => {
     return async function (dispatch){
         try {
             
-            let response = await axios.get(`${URL}/`)
+            let response = await axios.get(`${URL}?name=${name}`)
+            return dispatch({
+              type:GET_PRODUCT_BY_NAME,
+              payload: response.data
+            })
 
         } catch (error) {
             console.error('Error al obtener el producto por nombre', error);
             dispatch({ type: GET_PRODUCT_BY_NAME, payload: error });
         }
     }
+}
+
+export const filterproduct =()=>{
+  return async function (dispatch) {
+    try{
+
+    }catch(error){
+
+
+    }
+  }
+}
+
+export const addProduct =(product)=>{
+  return async function(dispatch){
+    try {
+      const response = await axios.post(`${URL}/product`, productData)
+
+      return dispatch({
+        type: ADD_PRODUCT,
+        payload: response.data.product
+      })
+    } catch (error) {
+      console.error('Error al agregar el producto',error)
+      dispatch({type: ADD_PRODUCT, payload:error})
+    }
+  }
+}
+
+export const filterProduct =(idCategory)=>{
+  return async function (dispatch) {
+    try {
+        const response = await axios.get(`${URL}?categoryId=${idCategory}`);
+
+        return dispatch({
+            type: FILTER_PRODUCT,
+            payload: response.data
+        });
+    } catch (error) {
+        console.error('Error al filtrar productos por categoría', error);
+        dispatch({ type: FILTER_PRODUCT, payload: error });
+    }
+}
 }
