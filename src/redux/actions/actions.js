@@ -71,7 +71,7 @@ export const getProductByName = (name) => {
 export const addProduct =(product)=>{
   return async function(dispatch){
     try {
-      const response = await axios.post(`${URL}/product`, product)
+
 
       return dispatch({
         type: ADD_PRODUCT,
