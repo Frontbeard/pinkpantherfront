@@ -16,8 +16,6 @@ const initialstate = {
   
 }
 
-
-
 const rootReducer = (state = initialstate, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -41,6 +39,13 @@ const rootReducer = (state = initialstate, action) => {
          ...state,
          details: payload,
      };
+
+     case ADD_PRODUCT:
+      return {
+        ...state,
+        product: [...state.product, payload],// Agrega el nuevo producto al estado
+        allproducts: [...state.allproducts, payload]// Agrega el nuevo producto a la lista completa de productos
+      }
 
 
 
