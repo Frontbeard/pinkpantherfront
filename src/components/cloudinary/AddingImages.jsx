@@ -5,12 +5,14 @@ const AddingImages = (props) => {
     const [loading, setLoading] = useState(false);
 
     const uploadImage = async (e) => {
+        console.log("este es el e")
+        console.log(e.target)
         const files = e.target.files;
         const data = new FormData();
         data.append("file", files[0]);
-        data.append("upload_preset", "imagenes-pinkpanther");
+        data.append("upload_preset", "images");
         setLoading(true);
-        try {
+       /*  try { */
             const res = await fetch(
                 "https://api.cloudinary.com/v1_1/dtjizedfr/image/upload",
                 {
@@ -19,32 +21,30 @@ const AddingImages = (props) => {
                 }
             );
             const file = await res.json();
-            console.log("uploadImage ejecutado"); // Agrega esta línea para verificar
+            console.log("uploadImage ejecutado"); 
 
             setImage(file.secure_url);
-        } catch (error) {
-            console.error("Error uploading image: ", error);
-        } finally {
+       /*  } catch (error) {
+            console.error("Error uploading image: ", error); */
+       /*  } finally {
             setLoading(false);
-        }
+        } */
     };
 
     return (
         <div>
             <div style={{ textAlign: "left" }}>
                 <h1>Subiendo Imágenes</h1>
+                <form>
                 <input
+                    id="image123"
                     type="file"
-                    name="file"
+                    name="imagen"
                     accept="image/*"
                     onChange={uploadImage}
                     style={{ marginBottom: "10px" }}
                 />
-                {loading ? (
-                    <h3>Cargando imágenes...</h3>
-                ) : (
-                    image && <img src={image} alt="uploaded" style={{ width: "300px" }} />
-                )}
+                </form>
             </div>
         </div>
     );
