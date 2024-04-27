@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 const FormCreacion =()=>{
     return(
         <div>
-      <Link to="/formCreacion"><AddingImages/></Link>
+          <AddingImages/>
+     {/*  <Link to="/formCreacion"></Link> */}
         </div>
     )
 }

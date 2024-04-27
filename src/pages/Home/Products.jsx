@@ -3,7 +3,7 @@ import { FaFilter } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import Card from "../../components/Card";
 import Pagination from "../../components/Pagination";
-import { allproduct } from "../../redux/actions/actions";
+import { getAllProducts } from "../../redux/actions/actions";
 
 const Products = () => {
   const [filteredItems, setFilteredItems] = useState([]);
@@ -17,7 +17,7 @@ const Products = () => {
   console.log(products);
 
   useEffect(() => {
-    dispatch(allproduct());
+    dispatch(getAllProducts());
   }, [dispatch]);
 
   useEffect(() => {
