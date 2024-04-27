@@ -1,17 +1,66 @@
 import {
+  //products
   GET_ALL_PRODUCTS,
   GET_PRODUCT_BY_NAME,
   ADD_PRODUCT,
   UPDATE_PRODUCT,
-  FILTER_PRODUCT,
-  GET_PRODUCT_BY_ID
+  GET_PRODUCT_BY_ID,
+  //favs
+  ADD_FAVS,
+  DELETE_FAV,
+  GET_FAVORITES_BY_ID,
+  //users
+  LOGIN_USER,
+  LOGOUT_USER,
+  USER_BY_ID,
+  AUTH_USER,
+  GET_ALL_USERS,
+  SAVE_EMAIL,
+  //cart
+  ADDING_PRODUCT,
+  CLEAN_CART,
+  GET_CART,
+  DECREMENT_QUANTITY,
+  INCREMENT_QUANTITY,
+  REMOVING_PRODUCT,
+  CLEAN_CART_REDUCER,
+  //category
+  GET_CATEGORIES,
+  POST_CATEGORIES,
+  FILT_BY_CATEGORY
+  
 
 } from '../actions/actions-types';
 
 const initialstate = {
+  //products
   product: [],
   allproducts: [],
-  details: []
+  details: [],
+  name:null,
+  saveProducts:[],
+
+  //favs
+  favorites:[],
+
+  //users
+  isLoggedIn: false,
+  userId: [],
+  user: [],
+  token: [],
+  email: "",
+
+  //category
+  saveFilters:{
+    category:[],
+  },
+
+  //cart
+  cart:[],
+  
+
+
+
   
   
 }
@@ -34,18 +83,64 @@ const rootReducer = (state = initialstate, action) => {
         product: payload
       };
      
+      //detail del producto por id
       case GET_PRODUCT_BY_ID: 
       return {
          ...state,
          details: payload,
      };
 
+     //agregar producto
      case ADD_PRODUCT:
       return {
         ...state,
         product: [...state.product, payload],// Agrega el nuevo producto al estado
         allproducts: [...state.allproducts, payload]// Agrega el nuevo producto a la lista completa de productos
       }
+
+      //edita products
+        case UPDATE_PRODUCT:
+          const updatedProduct = state.product.map(prod=>{
+            if(prod.id === payload.id){
+              return payload;
+            }else {
+              return prod;
+            }
+          })
+
+          return{
+            ...state,
+            product: updatedProduct,
+            allproducts: updatedProduct
+          }
+
+        //obtener product por nombre
+          case GET_PRODUCT_BY_NAME:
+            return {
+              ...state,
+              allproducts: state.allproducts.filter(product => product.name.toLowerCase().includes(action.payload.toLowerCase()))
+           };
+
+           case ADD_FAVS:
+            return{
+              ...state,
+              favorites: [...state.favorites, action.payload],
+            }
+
+           case DELETE_FAV:
+            return{
+              ...state,
+              favorites: state.favorites.filter(fav=>fav.id !== action.payload.id)
+            }
+ 
+           // se actualiza el estado favorites del store con los datos de favoritos del usuario
+           case GET_FAVORITES_BY_ID:
+            return{
+              ...state,
+              favorites: action.payload
+            }
+
+            
 
 
 
