@@ -27,7 +27,9 @@ import {
   //category
   GET_CATEGORIES,
   POST_CATEGORIES,
-  FILT_BY_CATEGORY
+  //filtro
+  FILT_BY_CATEGORY,
+  FILT_BY_SIZE,
   
 
 } from '../actions/actions-types';
@@ -54,6 +56,9 @@ const initialstate = {
   allCategories: null,
   saveFilters:{
     category:[],
+    selectSize:"",
+    selectCategory:"s"
+    
   },
 
   //cart
@@ -161,6 +166,33 @@ const rootReducer = (state = initialstate, action) => {
                 ...state,
                 cart:action.payload
               }  
+
+              case FILT_BY_CATEGORY:
+                return {
+                  ...state,
+                  allProducts:
+                    action.payload === "TA"
+                      ? state.saveProducts
+                      : state.saveProducts.filter(
+                          (product) => product.Category.name === action.payload
+                        ),
+          
+                  savePivot: state.saveProducts.filter(
+                    (product) => product.Category.name === action.payload
+                  ),
+                };
+
+                case FILT_BY_SIZE:
+                const size = payload;
+                const filteredProductsBySize = state.allproducts.filter(product => {
+                // Verifica si el talle está presente en la lista de tamaños del producto
+                return product.size.includes(size);
+               });
+
+                return {
+                ...state,
+                   allproducts: filteredProductsBySize,
+      };
 
             
 
