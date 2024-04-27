@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowAltCircleRight, FaStar } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { productbyID } from "../../redux/actions/actions";
+import { productbyID } from "../../redux/actions/Product/productById";
 
 const demoText = {
   description:
