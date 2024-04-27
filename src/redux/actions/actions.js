@@ -10,8 +10,8 @@ import {
 
 } from './actions-types';
 
-// const URL = 'https://pinkpanther-backend-ip0f.onrender.com/';
-const URL = 'http://localhost:3001/product';
+const URL = 'https://pinkpanther-backend-ip0f.onrender.com/';
+// const URL = 'http://localhost:3001/product';
 
 
 export const getAllProducts = () => {
