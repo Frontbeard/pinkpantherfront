@@ -17,7 +17,7 @@ import AuthenticationHandler from "./Firebase/checkAuth.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import FormCreacion from "./components/cloudinary/FormCreacion.jsx";
 import Carrito from "./pages/Carrito/Carrito.jsx";
-
+import ProductFilter from "./components/ProductFilter.jsx";
 // import dotenv from 'dotenv'
 // dotenv.config();
 
@@ -45,6 +45,11 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Carrito />,
+      },
+
+      {
+        path: "/product",
+        element: <ProductFilter/>,
       },
     ],
   },
