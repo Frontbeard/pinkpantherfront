@@ -140,6 +140,12 @@ const rootReducer = (state = initialstate, action) => {
               favorites: action.payload
             }
 
+            case GET_CART:
+            return {
+            ...state,
+            cart: payload // Actualiza el estado del carrito 
+            };
+
             
 
 
