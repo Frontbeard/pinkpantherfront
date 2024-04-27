@@ -51,6 +51,7 @@ const initialstate = {
   email: "",
 
   //category
+  allCategories: null,
   saveFilters:{
     category:[],
   },
@@ -79,15 +80,15 @@ const rootReducer = (state = initialstate, action) => {
       // Si no hay productos, actualiza tanto los productos como todos los productos con el payload de la acción
       return {
         ...state,
-        allproducts: payload,
-        product: payload
+        allproducts: action.payload,
+        product: action.payload
       };
      
       //detail del producto por id
       case GET_PRODUCT_BY_ID: 
       return {
          ...state,
-         details: payload,
+         details: action.payload,
      };
 
      //agregar producto
@@ -143,8 +144,23 @@ const rootReducer = (state = initialstate, action) => {
             case GET_CART:
             return {
             ...state,
-            cart: payload // Actualiza el estado del carrito 
+            cart: action.payload // Actualiza el estado del carrito 
             };
+
+            //este elimina todos los productos del carrito y lo deja vacio
+            case CLEAN_CART:
+              return{
+                ...state,
+                cart: [],
+              }
+
+            //esta accion es para reemplazar el contenido, en vez de eliminar todo lo que tenga el carrito, permite mas flexibilidad para saber
+            //que producto eliminar 
+            case CLEAN_CART_REDUCER:
+              return{
+                ...state,
+                cart:action.payload
+              }  
 
             
 
