@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductByName } from '../redux/actions/Product/getProductByName';
+import { getProductByName, getAllProducts } from '../redux/actions/Product/getProductByName'; // Asumiendo que existe una acción para obtener todos los productos
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,6 +33,7 @@ const SearchBar = () => {
     setShowResults(false);
     setNotFound(false);
     setInvalidInput(false);
+    dispatch(getAllProducts()); // Despacha una acción para obtener todos los productos nuevamente
   };
 
   const handleSearch = async (query) => {
@@ -82,4 +83,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar; 
+export default SearchBar;
