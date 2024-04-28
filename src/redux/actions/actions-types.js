@@ -31,6 +31,7 @@ export const EDIT_CATEGORY="EDIT_CATEGORY"
 //filter
 export const FILT_BY_CATEGORY="FILT_BY_CATEGORY"
 export const FILT_BY_SIZE="FILT_BY_SIZE"
+export const FILT_BY_PRICE="FILT_BY_PRICE"
 export const SAVE_FILTERS = "SAVE_FILTERS";
 export const ORDER = "ORDER"
 
