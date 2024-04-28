@@ -27,7 +27,14 @@ import {
   //category
   GET_CATEGORIES,
   POST_CATEGORIES,
-  FILT_BY_CATEGORY
+  EDIT_CATEGORY,
+  //filtro
+  FILT_BY_CATEGORY,
+  FILT_BY_SIZE,
+  SAVE_FILTERS,
+  ORDER,
+
+
   
 
 } from '../actions/actions-types';
@@ -39,23 +46,23 @@ const initialstate = {
   details: [],
   name:null,
   saveProducts:[],
-
+  allCategories: [],
   //favs
   favorites:[],
-
   //users
   isLoggedIn: false,
   userId: [],
   user: [],
   token: [],
   email: "",
-
   //category
-  allCategories: null,
   saveFilters:{
     category:[],
-  },
+    selectSize:"",
+    selectCategory:"",
+    selectOrdered: "",   
 
+  },
   //cart
   cart:[],
   
@@ -95,8 +102,8 @@ const rootReducer = (state = initialstate, action) => {
      case ADD_PRODUCT:
       return {
         ...state,
-        product: [...state.product, payload],// Agrega el nuevo producto al estado
-        allproducts: [...state.allproducts, payload]// Agrega el nuevo producto a la lista completa de productos
+        product: [...state.product, action.payload],// Agrega el nuevo producto al estado
+        allproducts: [...state.allproducts, action.payload]// Agrega el nuevo producto a la lista completa de productos
       }
 
       //edita products
@@ -162,8 +169,84 @@ const rootReducer = (state = initialstate, action) => {
                 cart:action.payload
               }  
 
-            
+              case FILT_BY_CATEGORY:
+                return {
+                  ...state,
+                  allProducts:
+                    action.payload === "TA"
+                      ? state.saveProducts
+                      : state.saveProducts.filter(
+                          (product) => product.Category.name === action.payload
+                        ),
+          
+                  savePivot: state.saveProducts.filter(
+                    (product) => product.Category.name === action.payload
+                  ),
+                };
 
+                case FILT_BY_SIZE:
+                const size = payload;
+                const filteredProductsBySize = state.allproducts.filter(product => {
+                // Verifica si el talle está presente en la lista de tamaños del producto
+                return product.size.includes(size);
+               });
+
+                return {
+                ...state,
+                   allproducts: filteredProductsBySize,
+                  };
+                
+                case SAVE_FILTERS:
+                 let newSaveFilters = {...state.saveFilters};
+
+                 if(
+                  state.saveFilters.category.length < action.payload.category.length ||
+                  state.saveFilters.size.length < action.payload.size.length
+                 ){
+                  newSaveFilters=action.payload;
+                 } else if (
+                  action.payload.selectCategory ||
+                  action.payload.selectSize ||
+                  action.payload.selectOrdered
+                 ){
+                  newSaveFilters = {
+                    ...newSaveFilters,
+                    selectCategory:action.payload.selectCategory,
+                    selectSize:action.payload.selectSize,
+                    selectOrdered:action.payload.selectOrdered,
+                  }
+                 }
+
+                 return {
+                  ...state,
+                  saveFilters: newSaveFilters
+                 };
+
+                 case GET_CATEGORIES:
+                  return {
+                    ...state,
+                    allCategories: action.payload,
+                  }
+
+                 case POST_CATEGORIES:
+                  return {
+                    ...state,
+                    allCategories: [...state.allCategories, action.payload]
+                  } 
+
+                  case EDIT_CATEGORY:
+                  //busca la categoria en el estado y la actualiza con los datos nuevos
+                  const updatedCategory = state.allCategories.map((category)=>{
+                    if(category.id === payload.id){
+                      return payload;// Utiliza los nuevos datos de la categoría
+                    }
+                    return category;// Mantiene las categorías que no están siendo editadas
+                  })
+
+                  return{
+                    ...state,
+                    allCategories:updatedCategory,
+                  }
 
 
 

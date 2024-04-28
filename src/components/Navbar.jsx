@@ -61,12 +61,12 @@ const Navbar = () => {
     };
 
     const navItems = [
-        { title: "NEW IN", path: "/", subcategories: ["Otoño-Invierno"] },
-        { title: "Calzas", path: "/", subcategories: ["Biker", "Capri", "Corta", "Larga"] },
-        { title: "Faldapantalón", path: "/", subcategories: ["Campana", "Recta"] },
-        { title: "Remeras", path: "/", subcategories: ["Musculosas", "Remeras", "Sudaderas"] },
-        { title: "Tops", path: "/", subcategories: ["Bretel ancho", "Con tazas", "Manga larga", "Nike"] },
-        { title: "Conjuntos", path: "/", subcategories: ["Cortos", "Largos"] },
+        { title: "NEW IN", path: "/", },
+        { title: "Calzas", path: "/product",  },
+        { title: "Faldapantalón", path: "/product", },
+        { title: "Remeras", path: "/product",},
+        { title: "Tops", path: "/product",},
+        { title: "Conjuntos", path: "/product", },
         { title: "SALE", path: "/" },
         { title: "About Us", path: "/about" },
     ];

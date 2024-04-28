@@ -6,7 +6,7 @@ const Card = ({ filteredItems }) => {
     
     <div className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 items-center justify-center gap-12 shadow-sm">
       {/* Mapeo de cada producto en la lista de productos filtrados */}
-      {filteredItems.map((item) => (
+      {filteredItems && filteredItems.map((item) => (
         <div key={item.id}> 
     
           <Link to={`/shop/${item.id}`}>
