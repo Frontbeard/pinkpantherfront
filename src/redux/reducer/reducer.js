@@ -173,6 +173,7 @@ const rootReducer = (state = initialState, action) => {
             productDontMatch.length &&
             productDontMatch.length === state.cart.length
           ) {
+            
             return {
               ...state,
               cart: [...state.cart, action.payload],
@@ -184,6 +185,41 @@ const rootReducer = (state = initialState, action) => {
                 prod.size === action.payload.size
             );
             productFound.quantity += action.payload.quantity;
+            product: updatedProduct,
+            allproducts: updatedProduct
+          }
+
+        //obtener product por nombre
+          case GET_PRODUCT_BY_NAME:
+            if (payload.length === 0) {
+              console.log("Producto no encontrado");
+              return state; // Mantener el estado actual si no se encontraron productos
+            } else {
+              return {
+                ...state,
+                allproducts: payload,
+              };
+            } 
+
+           case ADD_FAVS:
+            return{
+              ...state,
+              favorites: [...state.favorites, action.payload],
+            }
+
+           case DELETE_FAV:
+            return{
+              ...state,
+              favorites: state.favorites.filter(fav=>fav.id !== action.payload.id)
+            }
+ 
+           // se actualiza el estado favorites del store con los datos de favoritos del usuario
+           case GET_FAVORITES_BY_ID:
+            return{
+              ...state,
+              favorites: action.payload
+            }
+
 
             return {
               ...state,
