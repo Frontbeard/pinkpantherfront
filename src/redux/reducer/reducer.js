@@ -30,6 +30,9 @@ import {
   //filtro
   FILT_BY_CATEGORY,
   FILT_BY_SIZE,
+  SAVE_FILTERS,
+  // ORDER,
+
   
 
 } from '../actions/actions-types';
@@ -41,6 +44,7 @@ const initialstate = {
   details: [],
   name:null,
   saveProducts:[],
+  allCategories: [],
 
   //favs
   favorites:[],
@@ -53,11 +57,11 @@ const initialstate = {
   email: "",
 
   //category
-  allCategories: null,
   saveFilters:{
     category:[],
     selectSize:"",
-    selectCategory:"s"
+    selectCategory:"",
+    selectOrdered: "",
     
   },
 
@@ -192,7 +196,50 @@ const rootReducer = (state = initialstate, action) => {
                 return {
                 ...state,
                    allproducts: filteredProductsBySize,
-      };
+                  };
+                
+                case SAVE_FILTERS:
+                 let newSaveFilters = {...state.saveFilters};
+
+                 if(
+                  state.saveFilters.category.length < action.payload.category.length ||
+                  state.saveFilters.size.length < action.payload.size.length
+                 ){
+                  newSaveFilters=action.payload;
+                 } else if (
+                  action.payload.selectCategory ||
+                  action.payload.selectSize ||
+                  action.payload.selectOrdered
+                 ){
+                  newSaveFilters = {
+                    ...newSaveFilters,
+                    selectCategory:action.payload.selectCategory,
+                    selectSize:action.payload.selectSize,
+                    selectOrdered:action.payload.selectOrdered,
+                  }
+                 }
+
+                 return {
+                  ...state,
+                  saveFilters: newSaveFilters
+                 };
+
+                 case GET_CATEGORIES:
+                  return {
+                    ...state,
+                    allCategories: action.payload,
+                  }
+
+                 case POST_CATEGORIES:
+                  return {
+                    ...state,
+                    allCategories: [...state.allCategories, action.payload]
+                  } 
+
+
+
+
+
 
             
 
