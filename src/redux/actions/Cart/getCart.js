@@ -3,17 +3,16 @@ import { GET_CART } from "../actions-types";
 
 const URL = 'https://pinkpanther-backend-ip0f.onrender.com/'
 
-export const getCart =()=>{
+export const getCart =(id)=>{
     return async(dispatch)=>{
         try {
-            const response = await axios.get(`${URL}/cart`)
+            const response = await axios.get(`${URL}/cart/${id}`)
             dispatch({
                 type:GET_CART,
                 payload: response.data.allCart
             })
         } catch (error) {
             console.error('Error los productos del carrito', error);
-        dispatch({ type: GET_CART, payload: error });
         }
     }
 }
