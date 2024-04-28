@@ -27,12 +27,13 @@ import {
   //category
   GET_CATEGORIES,
   POST_CATEGORIES,
+  EDIT_CATEGORY,
   //filtro
   FILT_BY_CATEGORY,
   FILT_BY_SIZE,
-
   SAVE_FILTERS,
-  // ORDER,
+  ORDER,
+
 
   
 
@@ -46,28 +47,22 @@ const initialstate = {
   name:null,
   saveProducts:[],
   allCategories: [],
-
   //favs
   favorites:[],
-
   //users
   isLoggedIn: false,
   userId: [],
   user: [],
   token: [],
   email: "",
-
   //category
   saveFilters:{
     category:[],
     selectSize:"",
     selectCategory:"",
-    selectOrdered: "",
+    selectOrdered: "",   
 
-
-    
   },
-
   //cart
   cart:[],
   
@@ -107,8 +102,8 @@ const rootReducer = (state = initialstate, action) => {
      case ADD_PRODUCT:
       return {
         ...state,
-        product: [...state.product, payload],// Agrega el nuevo producto al estado
-        allproducts: [...state.allproducts, payload]// Agrega el nuevo producto a la lista completa de productos
+        product: [...state.product, action.payload],// Agrega el nuevo producto al estado
+        allproducts: [...state.allproducts, action.payload]// Agrega el nuevo producto a la lista completa de productos
       }
 
       //edita products
@@ -199,7 +194,6 @@ const rootReducer = (state = initialstate, action) => {
                 return {
                 ...state,
                    allproducts: filteredProductsBySize,
-
                   };
                 
                 case SAVE_FILTERS:
@@ -239,6 +233,21 @@ const rootReducer = (state = initialstate, action) => {
                     ...state,
                     allCategories: [...state.allCategories, action.payload]
                   } 
+
+                  case EDIT_CATEGORY:
+                  //busca la categoria en el estado y la actualiza con los datos nuevos
+                  const updatedCategory = state.allCategories.map((category)=>{
+                    if(category.id === payload.id){
+                      return payload;// Utiliza los nuevos datos de la categoría
+                    }
+                    return category;// Mantiene las categorías que no están siendo editadas
+                  })
+
+                  return{
+                    ...state,
+                    allCategories:updatedCategory,
+                  }
+
 
 
     default:
