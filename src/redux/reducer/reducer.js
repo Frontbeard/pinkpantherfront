@@ -1,5 +1,5 @@
-import {
-  //products
+import { 
+   //products
   GET_ALL_PRODUCTS,
   GET_PRODUCT_BY_NAME,
   ADD_PRODUCT,
@@ -9,14 +9,14 @@ import {
   ADD_FAVS,
   DELETE_FAV,
   GET_FAVORITES_BY_ID,
-  //users
+    //users
   LOGIN_USER,
   LOGOUT_USER,
   USER_BY_ID,
   AUTH_USER,
   GET_ALL_USERS,
   SAVE_EMAIL,
-  //cart
+    //cart
   ADDING_PRODUCT,
   CLEAN_CART,
   GET_CART,
@@ -24,82 +24,65 @@ import {
   INCREMENT_QUANTITY,
   REMOVING_PRODUCT,
   CLEAN_CART_REDUCER,
-  //category
+    //category
   GET_CATEGORIES,
   POST_CATEGORIES,
   EDIT_CATEGORY,
-  //filtro
+    //filtro
   FILT_BY_CATEGORY,
   FILT_BY_SIZE,
   SAVE_FILTERS,
   ORDER,
-
-
-  
-
 } from '../actions/actions-types';
 
-const initialstate = {
-  //products
+const initialState = {
+    //products
   product: [],
   allproducts: [],
   details: [],
-  name:null,
-  saveProducts:[],
+  name: null,
+  saveProducts: [],
   allCategories: [],
-  //favs
-  favorites:[],
-  //users
+    //favs
+  favorites: [],
+    //users
   isLoggedIn: false,
   userId: [],
   user: [],
   token: [],
   email: "",
-  //category
-  saveFilters:{
-    category:[],
-    selectSize:"",
-    selectCategory:"",
-    selectOrdered: "",   
-
+    //category
+  saveFilters: {
+    category: [],
+    selectSize: "",
+    selectCategory: "",
+    selectOrdered: "",
   },
   //cart
-  cart:[],
-  
+  cart: [],
+};
 
-
-
-  
-  
-}
-
-const rootReducer = (state = initialstate, action) => {
+const rootReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-
     case GET_ALL_PRODUCTS:
-      if (state.product.length > 0) { // Comprueba si ya hay productos en el estado
+      if (state.product.length > 0) {
         return {
-          product: state.product, // Mantiene los productos existentes
-          allproducts: state.allproducts // Mantiene todos los productos
+          product: state.product,
+          allproducts: state.allproducts,
         };
       }
-      // Si no hay productos, actualiza tanto los productos como todos los productos con el payload de la acción
       return {
         ...state,
         allproducts: action.payload,
-        product: action.payload
+        product: action.payload,
       };
-     
-      //detail del producto por id
-      case GET_PRODUCT_BY_ID: 
+    case GET_PRODUCT_BY_ID:
       return {
-         ...state,
-         details: action.payload,
-     };
-
-     //agregar producto
-     case ADD_PRODUCT:
+        ...state,
+        details: action.payload,
+      };
+    case ADD_PRODUCT:
       return {
         ...state,
         product: [...state.product, action.payload],// Agrega el nuevo producto al estado
@@ -168,7 +151,6 @@ const rootReducer = (state = initialstate, action) => {
                 ...state,
                 cart:action.payload
               }  
-
               case ADDING_PRODUCT:
                 if (!state.cart.length) {
                   // console.log("no hay nada, guardo por primera vez");
@@ -344,15 +326,9 @@ const rootReducer = (state = initialstate, action) => {
                   }
 
 
-
     default:
-      return state; 
+      return state;
   }
-
-
-  
 };
 
 export default rootReducer;
-
-  
