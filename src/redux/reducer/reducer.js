@@ -116,12 +116,12 @@ const rootReducer = (state = initialstate, action) => {
           }
 
         //obtener product por nombre
-          case GET_PRODUCT_BY_NAME:
-            return {
-              ...state,
-              allproducts: state.allproducts.filter(product => product.name.toLowerCase().includes(action.payload.toLowerCase()))
-           };
-
+        case GET_PRODUCT_BY_NAME:
+          return {
+            ...state,
+            allproducts: action.payload // Actualiza los productos en el estado con los resultados de la búsqueda
+          };
+        
            case ADD_FAVS:
             return{
               ...state,

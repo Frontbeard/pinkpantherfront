@@ -1,68 +1,99 @@
-import React, { useState } from "react";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import { FaSearch, FaTimes } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductByName } from '../redux/actions/Product/getProductByName';
+import { productbyID } from '../redux/actions/Product/productById';
 
-const SearchBar = ({ onSearch }) => {
-    const [query, setQuery] = useState(""); // Estado para almacenar el valor del input de búsqueda
-    const [errorMessage, setErrorMessage] = useState(""); // Estado para almacenar el mensaje de error
+const SearchBar = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const dispatch = useDispatch();
+  const searchedProducts = useSelector(state => state.allproducts); // Obtener los productos filtrados del estado global
+  const [showResults, setShowResults] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-    // Función que maneja el cambio en el input de búsqueda
-    const handleChange = (e) => {
-        const inputValue = e.target.value;
-        // Convertir la entrada a minúsculas y quitar acentos para comparación sin distinción de mayúsculas/minúsculas ni acentos
-        const normalizedInput = inputValue.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        // Expresión regular para permitir solo letras y espacios en blanco
-        if (/^[a-z\s]*$/.test(normalizedInput)) {
-            setQuery(inputValue);
-            setErrorMessage(""); // Borra el mensaje de error si es válido
-            // Activar la búsqueda si se ingresan al menos tres caracteres
-            if (inputValue.length >= 3) {
-                onSearch(inputValue.trim());
-            }
-        } else {
-            setErrorMessage("Solo se permiten letras y espacios."); // Mensaje de error si hay caracteres no válidos
-        }
+  useEffect(() => {
+    // Realizar búsqueda cuando searchTerm cambia
+    const search = async () => {
+      if (searchTerm.length >= 3) {
+        setIsLoading(true);
+        await dispatch(getProductByName(searchTerm));
+        setIsLoading(false);
+      } else {
+        // Limpiar los resultados si no hay suficientes letras para la búsqueda
+        setIsLoading(false);
+        setShowResults(false);
+      }
     };
 
-    // Función que maneja el envío del formulario
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Verifica que la consulta no esté vacía antes de llamar a la función onSearch
-        if (query.trim() !== "") {
-            onSearch(query.trim());
-        }
-    };
+    search();
+  }, [searchTerm, dispatch]);
 
-    // Función que maneja el evento de limpiar la búsqueda
-    const handleClearSearch = () => {
-        setQuery(""); // Limpiar la consulta de búsqueda
-        setErrorMessage(""); // Limpiar el mensaje de error
-        onSearch(""); // Limpiar la búsqueda enviando una cadena vacía
-    };
+  useEffect(() => {
+    // Mostrar resultados solo si se realiza una búsqueda y hay resultados
+    setShowResults(searchTerm.length >= 3 && searchedProducts && searchedProducts.length > 0);
+  }, [searchTerm, searchedProducts]);
 
-    return (
-        <form onSubmit={handleSubmit} className="flex items-center border border-gray-300 rounded-lg px-3 py-1">
-            <input
-                type="text"
-                value={query}
-                onChange={handleChange}
-                placeholder="Buscar..."
-                className="outline-none border-none flex-grow px-2"
-            />
-            <button type="submit" className="text-gray-500 hover:text-gray-700">
-                <FaSearch />
-            </button>
-            {/* Botón para limpiar la búsqueda */}
-            {query && (
-                <button type="button" onClick={handleClearSearch} className="text-gray-500 hover:text-gray-700">
-                    <FaTimes />
-                </button>
-            )}
-            {/* Muestra el mensaje de error si existe */}
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-        </form>
-    );
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+    setSelectedProduct(null); // Limpiar el producto seleccionado al cambiar el término de búsqueda
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    setSelectedProduct(null);
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault(); // Evitar que el formulario se envíe y la página se recargue
+  };
+
+  const handleProductSelect = async (product) => {
+    setSelectedProduct(product);
+    // Obtener detalles del producto seleccionado
+    await dispatch(productbyID(product.id));
+  };
+
+  return (
+    <div className="search-bar-container">
+      <form className="flex items-center border border-gray-300 rounded-md px-3 py-1" onSubmit={handleFormSubmit}>
+        <input
+          type="text"
+          placeholder="Buscar productos..."
+          value={searchTerm}
+          onChange={handleInputChange}
+          className="outline-none border-none flex-grow px-2"
+        />
+        <button type="button" onClick={handleClearSearch} className="text-gray-500 hover:text-gray-700">
+          <FaTimes />
+        </button>
+        <button type="submit" className="text-gray-500 hover:text-gray-700">
+          <FaSearch />
+        </button>
+      </form>
+
+      {isLoading && <p>Cargando...</p>}
+
+      {showResults && (
+        <div className="product-list">
+          {searchedProducts.map(product => (
+            <div key={product.id} onClick={() => handleProductSelect(product)} className="product-item">
+              <h3>{product.name}</h3>
+              {/* Renderizar más detalles del producto si es necesario */}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Mostrar detalles del producto seleccionado */}
+      {selectedProduct && (
+        <div className="selected-product-details">
+          <h3>{selectedProduct.name}</h3>
+          {/* Renderizar más detalles del producto seleccionado si es necesario */}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default SearchBar;
-
-
