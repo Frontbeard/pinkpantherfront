@@ -34,9 +34,14 @@ import {
   SAVE_FILTERS,
   ORDER,
   FILT_BY_PRICE,
+  CHANGE_PAGE,
 } from '../actions/actions-types';
 
 const initialState = {
+  // Paginación
+  currentPage: 1,
+  totalPages: 1, // Se debe actualizar cuando obtengas el total de páginas desde tu fuente de datos
+
   //products
   product: [],
   allproducts: [],
@@ -83,7 +88,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         product: [...state.product, action.payload],
         allproducts: [...state.allproducts, action.payload]
-      }
+      };
     case UPDATE_PRODUCT:
       const updatedProduct = state.product.map(prod => {
         if (prod.id === payload.id) {
@@ -91,12 +96,12 @@ const rootReducer = (state = initialState, action) => {
         } else {
           return prod;
         }
-      })
+      });
       return {
         ...state,
         product: updatedProduct,
         allproducts: updatedProduct
-      }
+      };
     case GET_PRODUCT_BY_NAME:
       if (payload.length === 0) {
         console.log("Producto no encontrado");
@@ -106,23 +111,23 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           allproducts: payload,
         };
-      } 
+      }
     //favs
     case ADD_FAVS:
       return {
         ...state,
         favorites: [...state.favorites, action.payload],
-      }
+      };
     case DELETE_FAV:
       return {
         ...state,
         favorites: state.favorites.filter(fav => fav.id !== action.payload.id)
-      }
+      };
     case GET_FAVORITES_BY_ID:
       return {
         ...state,
         favorites: action.payload
-      }
+      };
     //cart
     case GET_CART:
       return {
@@ -133,12 +138,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: [],
-      }
+      };
     case CLEAN_CART_REDUCER:
       return {
         ...state,
         cart: action.payload
-      }
+      };
     case ADDING_PRODUCT:
       if (!state.cart.length) {
         return {
@@ -173,6 +178,7 @@ const rootReducer = (state = initialState, action) => {
             productDontMatch.length &&
             productDontMatch.length === state.cart.length
           ) {
+            
             return {
               ...state,
               cart: [...state.cart, action.payload],
@@ -184,11 +190,8 @@ const rootReducer = (state = initialState, action) => {
                 prod.size === action.payload.size
             );
             productFound.quantity += action.payload.quantity;
-
-            return {
-              ...state,
-              cart: [...state.cart],
-            };
+            product: updatedProduct;
+            allproducts: updatedProduct;
           }
         }
       }
@@ -197,44 +200,50 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: state.cart.filter((prod) => prod !== productRemoved)
-      }
+      };
     case INCREMENT_QUANTITY:
-      let product = state.cart[action.payload]
+      let product = state.cart[action.payload];
       if(product.quantity > 1){
         product.quantity = product.quantity -1;
         return {
           ...state,
           cart: [...state.cart]
-        }
+        };
       } else {
-        let product = state.cart[action.payload]
+        let product = state.cart[action.payload];
         return{
           ...state,
           cart: state.cart.filter((prod) => prod !== product)
-        }
+        };
       }
     //category
     case GET_CATEGORIES:
       return {
         ...state,
         allCategories: action.payload,
-      }
+      };
     case POST_CATEGORIES:
       return {
         ...state,
         allCategories: [...state.allCategories, action.payload]
-      } 
+      }; 
     case EDIT_CATEGORY:
       const updatedCategory = state.allCategories.map((category) => {
         if (category.id === payload.id) {
           return payload;
         }
         return category;
-      })
+      });
       return {
         ...state,
         allCategories: updatedCategory,
-      }
+      };
+    // Paginación
+    case CHANGE_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
+      };
     default:
       return state;
   }
