@@ -33,6 +33,7 @@ import {
   FILT_BY_SIZE,
   SAVE_FILTERS,
   ORDER,
+  FILT_BY_PRICE,
 } from '../actions/actions-types';
 
 const initialState = {
@@ -55,9 +56,11 @@ const initialState = {
   saveFilters: {
     category: [],
     selectSize: "",
+    selectPrice:"",
     selectCategory: "",
     selectOrdered: "",
   },
+    
   //cart
   cart: [],
 };
@@ -272,6 +275,17 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                    allproducts: filteredProductsBySize,
                   };
+
+                case FILT_BY_PRICE:  
+                const price= payload;
+                const filteredProductsByPrice = state.allproducts.filter(prod=>{
+                  return prod.price.includes(price)
+                })
+
+                return {
+                  ...state,
+                  allProducts:filteredProductsByPrice
+                }
                 
                 case SAVE_FILTERS:
                  let newSaveFilters = {...state.saveFilters};
