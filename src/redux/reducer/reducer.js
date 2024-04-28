@@ -34,6 +34,7 @@ import {
   SAVE_FILTERS,
   ORDER,
 
+
   
 
 } from '../actions/actions-types';
@@ -60,6 +61,7 @@ const initialstate = {
     selectSize:"",
     selectCategory:"",
     selectOrdered: "",   
+
   },
   //cart
   cart:[],
@@ -245,8 +247,6 @@ const rootReducer = (state = initialstate, action) => {
                     ...state,
                     allCategories:updatedCategory,
                   }
-
-
 
 
 
