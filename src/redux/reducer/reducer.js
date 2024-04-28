@@ -30,6 +30,7 @@ import {
   //filtro
   FILT_BY_CATEGORY,
   FILT_BY_SIZE,
+
   SAVE_FILTERS,
   // ORDER,
 
@@ -62,6 +63,8 @@ const initialstate = {
     selectSize:"",
     selectCategory:"",
     selectOrdered: "",
+
+
     
   },
 
@@ -196,6 +199,7 @@ const rootReducer = (state = initialstate, action) => {
                 return {
                 ...state,
                    allproducts: filteredProductsBySize,
+
                   };
                 
                 case SAVE_FILTERS:
@@ -235,15 +239,6 @@ const rootReducer = (state = initialstate, action) => {
                     ...state,
                     allCategories: [...state.allCategories, action.payload]
                   } 
-
-
-
-
-
-
-            
-
-
 
 
     default:
