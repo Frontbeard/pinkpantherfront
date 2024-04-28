@@ -13,7 +13,6 @@ const getAllCategories =()=>{
             })
         } catch (error) {
             console.error('Error al obtener todas las categorias', error)
-            dispatch({ type: GET_CATEGORIES, payload: error });
         }
     }
 }

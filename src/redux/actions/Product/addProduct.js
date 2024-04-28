@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ADD_PRODUCT } from "../actions-types";
 
 export const addProduct =(product)=>{

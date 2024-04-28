@@ -169,6 +169,101 @@ const rootReducer = (state = initialstate, action) => {
                 cart:action.payload
               }  
 
+              case ADDING_PRODUCT:
+                if (!state.cart.length) {
+                  // console.log("no hay nada, guardo por primera vez");
+                  return {
+                    ...state,
+                    cart: [action.payload],
+                  };
+                } else {
+                  let productDontMatch = [];
+          
+                  productDontMatch = state.cart.filter(
+                    (prod) =>
+                      prod.name !== action.payload.name ||
+                      prod.size !== action.payload.size
+                  );
+          
+                  if (
+                    productDontMatch.length &&
+                    productDontMatch.length === state.cart.length
+                  ) {
+                    productDontMatch = [];
+          
+                    // console.log("es diferente, agrego como otro producto");
+                    return {
+                      ...state,
+                      cart: [...state.cart, action.payload],
+                    };
+                  } else {
+                    let productDontMatch = [];
+          
+                    productDontMatch = state.cart.filter(
+                      (prod) =>
+                        prod.name !== action.payload.name ||
+                        prod.size !== action.payload.size
+                    );
+          
+                    if (
+                      productDontMatch.length &&
+                      productDontMatch.length === state.cart.length
+                    ) {
+                      productDontMatch = [];
+          
+                      // console.log("es diferente, agrego como otro producto");
+                      return {
+                        ...state,
+                        cart: [...state.cart, action.payload],
+                      };
+                    } else {
+                      // console.log(
+                      //   "ya existe el producto, lo encuentro y le sumo la cantidad"
+                      // );
+                      let productFound = state.cart.find(
+                        (prod) =>
+                          prod.name === action.payload.name &&
+                          prod.size === action.payload.size
+                      );
+                      productFound.quantity += action.payload.quantity;
+          
+                      return {
+                        ...state,
+                        cart: [...state.cart],
+                      };
+                    }
+                  }
+                }
+          
+
+            case REMOVING_PRODUCT:
+              let productRemoved=state.cart[action.payload]
+              return {
+                ...state,
+                cart: state.cart.filter((prod)=> prod !==productRemoved)
+              }
+              
+            case INCREMENT_QUANTITY:
+
+            case DECREMENT_QUANTITY:
+              let product = state.cart[action.payload]
+
+              if(product.quantity > 1){
+                product.quantity = product.quantity -1;
+                return {
+                  ...state,
+                  cart: [...state.cart]
+                }
+              }else {
+                let product = state.cart[action.payload]
+
+                return{
+                  ...state,
+                  cart: state.cart.filter((prod)=> prod !==product)
+                }
+              }
+
+
               case FILT_BY_CATEGORY:
                 return {
                   ...state,
