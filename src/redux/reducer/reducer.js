@@ -110,10 +110,15 @@ const rootReducer = (state = initialState, action) => {
 
         //obtener product por nombre
           case GET_PRODUCT_BY_NAME:
-            return {
-              ...state,
-              allproducts: state.allproducts.filter(product => product.name.toLowerCase().includes(action.payload.toLowerCase()))
-           };
+            if (payload.length === 0) {
+              console.log("Producto no encontrado");
+              return state; // Mantener el estado actual si no se encontraron productos
+            } else {
+              return {
+                ...state,
+                allproducts: payload,
+              };
+            } 
 
            case ADD_FAVS:
             return{
