@@ -34,13 +34,13 @@ import {
   SAVE_FILTERS,
   ORDER,
   FILT_BY_PRICE,
-  CHANGE_PAGE,
+ // CHANGE_PAGE,
 } from '../actions/actions-types';
 
 const initialState = {
   // Paginación
-  currentPage: 1,
-  totalPages: 1, // Se debe actualizar cuando obtengas el total de páginas desde tu fuente de datos
+  //currentPage: 1,
+ // totalPages: 1, // Se debe actualizar cuando obtengas el total de páginas desde tu fuente de datos
 
   //products
   product: [],
@@ -239,15 +239,16 @@ const rootReducer = (state = initialState, action) => {
         allCategories: updatedCategory,
       };
     // Paginación
-    case CHANGE_PAGE:
-      return {
-        ...state,
-        currentPage: action.payload,
-      };
+   // case CHANGE_PAGE:
+   //   return {
+    //    ...state,
+    //    currentPage: action.payload,
+   //   };
     default:
       return state;
   }
 };
 
 export default rootReducer;
+
 
