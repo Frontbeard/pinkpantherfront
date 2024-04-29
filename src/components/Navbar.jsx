@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import ProductList from "./ProductList";
+import { useSelector, useDispatch } from "react-redux";
+import getAllCategories from "../redux/actions/Category/getAllCategories";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +15,15 @@ const Navbar = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
+
+    const allCategories = useSelector(state => state.allCategories);
+    console.log(allCategories);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllCategories()); // Dispatch para obtener las categorías al montar el componente
+    }, [dispatch]);
 
     useEffect(() => {
         if (!modalOpen) {
@@ -60,16 +71,20 @@ const Navbar = () => {
         setSelectedCategory(title);
     };
 
-    const navItems = [
-        { title: "NEW IN", path: "/", },
-        { title: "Calzas", path: "/product",  },
-        { title: "Faldapantalón", path: "/product", },
-        { title: "Remeras", path: "/product",},
-        { title: "Tops", path: "/product",},
-        { title: "Conjuntos", path: "/product", },
-        { title: "SALE", path: "/" },
-        { title: "About Us", path: "/about" },
-    ];
+    // Utiliza un conjunto para eliminar duplicados de categorías
+    const uniqueCategories = new Set(allCategories.map(category => category.name));
+
+    const navItems = [...uniqueCategories].map(title => ({
+        title,
+        path: title === "about us" ? "/about" : "/product", 
+        subcategories: allCategories.find(category => category.name === title).subcategories,
+    }));
+
+
+
+
+
+
 
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
