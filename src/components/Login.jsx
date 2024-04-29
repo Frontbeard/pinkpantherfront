@@ -4,7 +4,7 @@ import validation from "./validation.js";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
-import { FaFacebook, FaGoogle } from 'react-icons/fa';
+import { FaFacebook, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
 const URL_LINK = 'http://localhost:3001/customer'
 //const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/'
 
@@ -13,33 +13,34 @@ function Login() {
     email:'',
     password:'',
   })
-  const[errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({})
   const [isFormValid, setIsFormValid] = useState(false)
+  const [viewPassword, setViewPassword] = useState(false)
+  
+  useEffect(() => {
+    const errorsArray = Object.values(errors) // objeto con mensajes de error
+    setIsFormValid(userData.email && userData.password > 0 && errorsArray.every(error => !error)) // verifica que los campos tengan valor, verifica que no haya errores
+  }, [userData, errors])
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    const fieldName = event.target.name
-    let fieldValue = event.target.value
-    setUserData({
-      ...userData,
+    setUserData((prevUserData) => ({
+      ...prevUserData,
       [name]: value
-    });
-    const fieldErrors = validation({ ...userData, [fieldName]: fieldValue })
-      
+    }));
     // Update the error state for the current field only
+    const fieldErrors = validation({ ...userData, [name]: value })
+    console.log(fieldErrors);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [fieldName]: fieldErrors[fieldName] || '', // Clear the error if validation passes
+      [name]: fieldErrors[name] || '', // Clear the error if validation passes
     }))
+    console.log(errors);
   };
 
-  useEffect(() => {
-    const errorsArray = Object.values(errors)
-    setIsFormValid(userData.email && userData.password > 0 && errorsArray.every(error => !error))
-  }, [userData, errors])
-
-  const handleSubmit = async (evento) => {
-    evento.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    console.log("1");
     try {
       const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(auth, userData.email, userData.password)
@@ -52,12 +53,16 @@ function Login() {
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
       
       localStorage.setItem('firebaseUid', firebaseUid);
-
+      console.log("2");
     } catch (error) {
       console.error('Error submitting the form:', error)
       alert('Error submitting the form. Please try again later.', error.message)
     }
   }
+
+  const togglePasswordVisibility = () => {
+    setViewPassword(!viewPassword);
+  };
 
     return (
       <div className="grid grid-cols-1 items-center justify-items-center h-screen mt-8">
@@ -67,12 +72,12 @@ function Login() {
               Inicia sesión
             </Typography>
           </CardHeader>
-      
           <CardBody className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <Typography variant="p" color="black" className="mb-1">
-                email
+                Email
               </Typography>
+              <div className="flex flex-col">
               <input
                 className={errors.email ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
                 type="text"
@@ -81,19 +86,44 @@ function Login() {
                 onChange={handleChange}
                 placeholder="Ingresa tu email"
               />
+              <p className="text-red-500">
+                {errors.email}
+              </p>
+              </div>
             </div>
+
             <div className="flex flex-col gap-1">
               <Typography variant="p" color="black" className="mb-1">
                 Contraseña
               </Typography>
-              <input
-                className={errors.password ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
-                type="password"
+              <div className="flex flex-col">
+                <div className='flex flex-row items-center relative'>
+                <input 
+                className={errors.password ? "input-box border-2 rounded-lg border-red-400 px-4 py-2 block w-full" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2 block w-full" }
+                type={viewPassword ? 'text' : 'password'}
                 name="password"
                 value={userData.password}
                 onChange={handleChange}
                 placeholder="Ingresa tu contraseña"
               />
+              {viewPassword ? (
+                <FaEye
+                  onClick={togglePasswordVisibility}
+                  color='white'
+                  className='cursor-pointer absolute right-3 top-3.5'
+                />
+              ) : (
+                <FaEyeSlash
+                  onClick={togglePasswordVisibility}
+                  color='white'
+                  className='cursor-pointer absolute right-3 top-3.5'
+                />
+              )}
+                </div>
+              <p className="text-red-500"> 
+                {errors.password}
+              </p>
+              </div>
               <Typography variant="h1" color="black" className="mb-4 grid h-15 items-start mt-2 text-sm">
                 ¿Olvidaste tu contraseña?
               </Typography>
