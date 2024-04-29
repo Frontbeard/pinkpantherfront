@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Agregar importación de useState desde React
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductByName, getAllProducts } from '../redux/actions/Product/getProductByName'; // Asumiendo que existe una acción para obtener todos los productos
@@ -47,9 +47,14 @@ const SearchBar = () => {
     }
   };
 
+  const handleFormSubmit = event => {
+    event.preventDefault(); // Evitar el envío predeterminado del formulario
+    handleSearch(searchTerm); // Realizar la búsqueda al presionar Enter
+  };
+
   return (
     <div className="search-bar-container">
-      <form className="flex items-center border border-gray-300 rounded-md px-3 py-1">
+      <form onSubmit={handleFormSubmit} className="flex items-center border border-gray-300 rounded-md px-3 py-1">
         <input
           type="text"
           placeholder="Buscar productos..."
@@ -60,7 +65,7 @@ const SearchBar = () => {
         <button type="button" onClick={handleClearSearch} className="text-gray-500 hover:text-gray-700">
           <FaTimes />
         </button>
-        <button type="button" onClick={handleSearch} className="text-gray-500 hover:text-gray-700">
+        <button type="submit" className="text-gray-500 hover:text-gray-700">
           <FaSearch />
         </button>
       </form>
