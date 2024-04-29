@@ -1,11 +1,11 @@
 export const PRODUCTS = [
-    { name: "Cuenta", link: "#" },
+    { name: "Cuenta", link: "/login" },
     { name: "Favorito", link: "#" },
     { name: "Mi carrito", link: "#" },
   ];
   export const RESOURCES = [
-    { name: "Sobre nosotros", link: "#" },
-    { name: "INGRESAR", link: "#" },
+    { name: "Sobre nosotros", link: "/about" },
+    { name: "INGRESAR", link: "/create-account" },
     
   ];
   export const COMPANY = [

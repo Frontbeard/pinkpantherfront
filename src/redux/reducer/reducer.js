@@ -34,6 +34,7 @@ import {
   SAVE_FILTERS,
   ORDER,
   FILT_BY_PRICE,
+  GET_CATEGORIES_BY_ID,
  // CHANGE_PAGE,
 } from '../actions/actions-types';
 
@@ -238,6 +239,13 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allCategories: updatedCategory,
       };
+
+
+      case GET_CATEGORIES_BY_ID:
+        return {
+          ...state,
+          allCategories: payload,
+        };
     // Paginación
    // case CHANGE_PAGE:
    //   return {
