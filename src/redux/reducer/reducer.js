@@ -244,6 +244,7 @@ const rootReducer = (state = initialState, action) => {
     //    ...state,
     //    currentPage: action.payload,
    //   };
+
    // Filtrar por categoría
    case FILT_BY_CATEGORY:
     const filteredByCategory = state.allproducts.filter(product => product.category === payload);
@@ -267,6 +268,7 @@ const rootReducer = (state = initialState, action) => {
       ...state,
       allproducts: filteredBySize,
     };
+
 
     default:
       return state;
