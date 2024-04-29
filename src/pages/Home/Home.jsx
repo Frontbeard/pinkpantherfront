@@ -9,8 +9,8 @@ const Home = () => {
     <div className='bg-gray-100'>
       
         <Banner/>
-        <Category/>
         <Products/>
+        <Category/>
         <Newsletter/>
        
     </div>
