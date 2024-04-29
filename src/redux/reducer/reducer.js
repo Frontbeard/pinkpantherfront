@@ -244,6 +244,30 @@ const rootReducer = (state = initialState, action) => {
     //    ...state,
     //    currentPage: action.payload,
    //   };
+   // Filtrar por categoría
+   case FILT_BY_CATEGORY:
+    const filteredByCategory = state.allproducts.filter(product => product.category === payload);
+    return {
+      ...state,
+      allproducts: filteredByCategory,
+    };
+
+  // Filtrar por precio
+  case FILT_BY_PRICE:
+    const filteredByPrice = state.allproducts.filter(product => product.price <= payload);
+    return {
+      ...state,
+      allproducts: filteredByPrice,
+    };
+
+  // Filtrar por tamaño
+  case FILT_BY_SIZE:
+    const filteredBySize = state.allproducts.filter(product => product.size === payload);
+    return {
+      ...state,
+      allproducts: filteredBySize,
+    };
+
     default:
       return state;
   }
