@@ -14,7 +14,7 @@ import Navbar from "./components/Navbar.jsx";
 import Login from "./components/Login.jsx";
 import CreateAccount from "./components/CreateAccount.jsx";
 import AuthenticationHandler from "./Firebase/checkAuth.jsx";
-import Dashboard from "./components/Dashboard.jsx";
+// import Dashboard from "./components/Dashboard.jsx";
 import FormCreacion from "./components/cloudinary/FormCreacion.jsx";
 import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       { path: "/login", element: <Login /> },
       { path: "/create-account", element: <CreateAccount /> },
-      { path: "/dashboard", element: <Dashboard /> },
+      // { path: "/dashboard", element: <Dashboard /> },
       { path: "/formCreacion", element: <FormCreacion /> },
       {
         path: "/cart",
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/product",
+        path: "/categories/:categoryId",
         element: <ProductFilter/>,
       },
     ],

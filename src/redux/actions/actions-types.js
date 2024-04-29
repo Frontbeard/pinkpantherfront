@@ -28,14 +28,16 @@ export const  CLEAN_CART_REDUCER="CLEAN_CART_REDUCER"
 export const  GET_CATEGORIES="GET_CATEGORIES"
 export const  POST_CATEGORIES="POST_CATEGORIES"
 export const EDIT_CATEGORY="EDIT_CATEGORY"
+export const GET_CATEGORIES_BY_ID= "GET_CATEGORIES_BY_ID"
 //filter
 export const FILT_BY_CATEGORY="FILT_BY_CATEGORY"
 export const FILT_BY_SIZE="FILT_BY_SIZE"
 export const FILT_BY_PRICE="FILT_BY_PRICE"
 export const SAVE_FILTERS = "SAVE_FILTERS";
 export const ORDER = "ORDER"
-//Pagination
-//export const CHANGE_PAGE = 'CHANGE_PAGE';
+//orders
+export const GET_ORDERS="GET_ORDERS"
+export const GET_ORDERID="GET_ORDERID"
 
 
 
