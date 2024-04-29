@@ -9,8 +9,8 @@ const Banner = () => {
     <div className="bg-gray-100 py-12 xl:px-28 px-4 flex justify-center items-center border shadow-sm border-t border-b mt-5 ">
       <div className="max-w-4xl w-full">
         <div className="py-28 flex flex-col md:flex-row-reverse justify-between items-center gap-14">
-          <div className="md:w-1/2 w-full">
-            <img src={banner} alt="" className="mx-auto h-full w-full object-cover" />
+          <div className="md:w-1/2 w-screen">
+            <img src={banner} alt="" className="mx-auto h-auto w-full object-cover opacity-50" />
           </div>
   
           <div className="md:w-1/2 w-full">
