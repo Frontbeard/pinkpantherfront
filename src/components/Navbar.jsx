@@ -23,7 +23,7 @@ const Navbar = () => {
 
     useEffect(() => {
         dispatch(getAllCategories()); // Dispatch para obtener las categorías al montar el componente
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
         if (!modalOpen) {
@@ -36,14 +36,12 @@ const Navbar = () => {
     };
 
     const handleCategoryClick = (title) => {
-        if (selectedCategory === title) {
-            setSelectedCategory(null);
-        } else {
-            setSelectedCategory(title);
-            setSelectedSubcategory(null);
-        }
+        setSelectedCategory(title);
+        setSelectedSubcategory(null);
+        setModalOpen(true); 
     };
-
+    
+    
     const handleSubcategoryClick = (subcategory) => {
         setSelectedSubcategory(subcategory);
         setModalOpen(true);
@@ -71,14 +69,22 @@ const Navbar = () => {
         setSelectedCategory(title);
     };
 
+    
     // Utiliza un conjunto para eliminar duplicados de categorías
-    const uniqueCategories = new Set(allCategories.map(category => category.name));
-
-    const navItems = [...uniqueCategories].map(title => ({
-        title,
-        path: title === "about us" ? "/about" : "/product", 
-        subcategories: allCategories.find(category => category.name === title).subcategories,
-    }));
+    const uniqueCategories = Array.isArray(allCategories)
+    ? new Set(allCategories.map(category => category.name))
+    : new Set();
+  
+  const navItems = [...uniqueCategories].map(title => ({
+    title,
+    path: title === "about us" ? "/about" : `/categories/${title.toLowerCase()}`,
+    subcategories: Array.isArray(allCategories)
+      ? allCategories.find(category => category.name === title).subcategories
+      : [],
+  }));
+  
+    
+    
 
 
 
@@ -116,6 +122,7 @@ const Navbar = () => {
                     <ul className="lg:flex items-center justify-evenly text-black hidden">
                         {navItems.map(({ title, path, subcategories }) => (
                             <li key={title} className="relative">
+                                
                                 <div onClick={() => handleCategoryClick(title)}>
                                     <NavLink
                                         to={path}
@@ -143,14 +150,14 @@ const Navbar = () => {
                     </ul>
                 </div>
             )}
-            {modalOpen && (
-                <FilterModal
-                    category={selectedCategory}
-                    subcategory={selectedSubcategory}
-                    onFilter={handleFilter}
-                    onClose={handleCloseModal}
-                    onGoBack={handleGoBackToCategory}
-                />
+           {modalOpen && (
+    <FilterModal
+        category={selectedCategory}
+        subcategory={selectedSubcategory}
+        onFilter={handleFilter}
+        onClose={handleCloseModal}
+        onGoBack={handleGoBackToCategory}
+    />
             )}
         </header>
     );
