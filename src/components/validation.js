@@ -1,4 +1,4 @@
-const regexName = /^[a-z]{1,25}$/;
+const regexName = /^[a-zA-Z]{1,25}$/;
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const regexPassword = /^.{6,}$/;
 //const regexCharacteristic = /^(?!0)\d{1,3}$/
