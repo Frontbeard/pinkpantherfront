@@ -86,13 +86,11 @@ const Products = () => {
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
         Nuestros productos
       </h2>
-
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
         <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4  flex-wrap">
           <Card filteredItems={paginatedItems} />
         </div>
       </div>
-
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
@@ -100,6 +98,6 @@ const Products = () => {
       />
     </div>
   );
-};
+}
 
-export default Products;
+export default Products
