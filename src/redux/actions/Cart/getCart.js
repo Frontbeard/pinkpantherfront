@@ -1,12 +1,13 @@
 import axios from "axios";
 import { GET_CART } from "../actions-types";
-
-const URL = 'https://pinkpanther-backend-ip0f.onrender.com/'
+import { URL_LINK } from '../../../URL.js'
+//const URL = 'https://pinkpanther-backend-ip0f.onrender.com/'
 
 export const getCart =(id)=>{
     return async(dispatch)=>{
         try {
-            const response = await axios.get(`${URL}/cart/${id}`)
+            const response = await axios.get(`${URL_LINK}/cart/${id}`)
+            //const response = await axios.get(`${URL}/cart/${id}`)
             dispatch({
                 type:GET_CART,
                 payload: response.data.allCart

@@ -1,12 +1,13 @@
 import axios from "axios";
 import { GET_CATEGORIES } from "../actions-types";
-
-const URL = 'https://pinkpanther-backend-ip0f.onrender.com/categories'
+import { URL_LINK } from '../../../URL.js'
+//const URL = 'https://pinkpanther-backend-ip0f.onrender.com/categories'
 
 const getAllCategories =()=>{
     return async (dispatch)=>{
         try {
-            let response = await axios.get(`${URL}`)
+            let response = await axios.get(`${URL_LINK}/categories`)
+            //let response = await axios.get(`${URL}/categories`)
             return dispatch({
                 type: GET_CATEGORIES,
                 payload:response.data,
