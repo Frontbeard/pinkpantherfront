@@ -11,7 +11,6 @@ import getAllCategories from "../redux/actions/Category/getAllCategories";
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedSubcategory, setSelectedSubcategory] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -35,15 +34,8 @@ const Navbar = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleCategoryClick = (title) => {
-        setSelectedCategory(title);
-        setSelectedSubcategory(null);
-        setModalOpen(true); 
-    };
-    
-    
-    const handleSubcategoryClick = (subcategory) => {
-        setSelectedSubcategory(subcategory);
+    const handleCategoryClick = (categoryId) => {
+        setSelectedCategory(categoryId);
         setModalOpen(true);
     };
 
@@ -51,14 +43,9 @@ const Navbar = () => {
         setModalOpen(false);
     };
 
-    const handleGoBackToCategory = () => {
-        setSelectedSubcategory(null);
-    };
-
     const handleSearch = (query) => {
         setSearchQuery(query);
         setSelectedCategory(null);
-        setSelectedSubcategory(null);
     };
 
     const handleFilter = (filteredProducts) => {
@@ -69,28 +56,15 @@ const Navbar = () => {
         setSelectedCategory(title);
     };
 
-    
-    // Utiliza un conjunto para eliminar duplicados de categorías
     const uniqueCategories = Array.isArray(allCategories)
-    ? new Set(allCategories.map(category => category.name))
-    : new Set();
-  
-  const navItems = [...uniqueCategories].map(title => ({
-    title,
-    path: title === "about us" ? "/about" : `/categories/${title.toLowerCase()}`,
-    subcategories: Array.isArray(allCategories)
-      ? allCategories.find(category => category.name === title).subcategories
-      : [],
-  }));
-  
-    
-    
+        ? new Set(allCategories.map(category => ({ id: category.id, name: category.name })))
+        : new Set();
 
-
-
-
-
-
+    const navItems = [...uniqueCategories].map(({ id, name }) => ({
+        id,
+        name,
+        path: name === "about us" ? "/about" : `/categories/${id}`,
+    }));
 
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
@@ -120,44 +94,38 @@ const Navbar = () => {
             {searchQuery ? <ProductList searchQuery={searchQuery} /> : (
                 <div className="pt-4">
                     <ul className="lg:flex items-center justify-evenly text-black hidden">
-                        {navItems.map(({ title, path, subcategories }) => (
-                            <li key={title} className="relative">
-                                
-                                <div onClick={() => handleCategoryClick(title)}>
+                        {navItems.map(({ id, name, path }) => (
+                            <li key={id} className="relative">
+                                <div onClick={() => handleCategoryClick(id)}>
                                     <NavLink
                                         to={path}
-                                        className={selectedCategory === title ? "active" : ""}
-                                        style={{ color: selectedCategory === title ? "blue" : "black" }}
-                                        onMouseEnter={() => handleMouseEnterCategory(title)}
+                                        className={selectedCategory === name ? "active" : ""}
+                                        style={{ color: selectedCategory === name ? "blue" : "black" }}
+                                        onMouseEnter={() => handleMouseEnterCategory(name)}
                                     >
-                                        {title}
+                                        {name}
                                     </NavLink>
                                 </div>
-                                {selectedCategory === title && (
-                                    <ul className="absolute left-0 top-full bg-white shadow-lg z-10">
-                                        {subcategories &&
-                                            subcategories.map((subcategory, index) => (
-                                                <li key={index}>
-                                                    <button onClick={() => handleSubcategoryClick(subcategory)}>
-                                                        {subcategory}
-                                                    </button>
-                                                </li>
-                                            ))}
-                                    </ul>
-                                )}
                             </li>
                         ))}
                     </ul>
                 </div>
             )}
-           {modalOpen && (
-    <FilterModal
-        category={selectedCategory}
-        subcategory={selectedSubcategory}
-        onFilter={handleFilter}
-        onClose={handleCloseModal}
-        onGoBack={handleGoBackToCategory}
-    />
+            {modalOpen && (
+                <FilterModal
+                    category={selectedCategory}
+                    onFilter={handleFilter}
+                    onClose={handleCloseModal}
+                />
+            )}
+            {filteredProducts.length > 0 && (
+                <div>
+                    <ul>
+                        {filteredProducts.map(product => (
+                            <li key={product.id}>{product.name}</li>
+                        ))}
+                    </ul>
+                </div>
             )}
         </header>
     );

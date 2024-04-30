@@ -83,7 +83,7 @@ const Products = () => {
 
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
-      <h2 className="text-3xl font-semibold capitalize text-center my-8">
+      <h2 className="text-3xl font-semibold capitalize text-center my-8" >
         Nuestros productos
       </h2>
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
