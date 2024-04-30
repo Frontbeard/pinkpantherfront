@@ -18,6 +18,9 @@ const SearchBar = () => {
       setShowResults(false);
       setNotFound(false);
       setInvalidInput(false);
+      if (value === '') {
+        dispatch(getAllProducts());
+      }
     } else {
       setInvalidInput(true);
     }
@@ -62,9 +65,12 @@ const SearchBar = () => {
           onChange={handleInputChange}
           className={`outline-none border-none flex-grow px-2 ${invalidInput ? 'invalid-input' : ''}`}
         />
-        <button type="button" onClick={handleClearSearch} className="text-gray-500 hover:text-gray-700">
-          <FaTimes />
-        </button>
+      {searchTerm && (
+  <button type="button" onClick={handleClearSearch} className="text-gray-500 hover:text-gray-700">
+    <FaTimes />
+  </button>
+)}
+
         <button type="submit" className="text-gray-500 hover:text-gray-700">
           <FaSearch />
         </button>
