@@ -35,10 +35,13 @@ import {
   ORDER,
   FILT_BY_PRICE,
   GET_CATEGORIES_BY_ID,
- // CHANGE_PAGE,
- //customer
- LOGIN_SUCCESS,
- LOGOUT_SUCCESS,
+ //users
+ LOGIN_USER,
+ LOGOUT_USER,
+ USER_BY_ID,
+ AUTH_USER,
+ GET_ALL_USERS,
+ SAVE_EMAIL,
 } from '../actions/actions-types';
 
 const initialState = {
@@ -49,6 +52,8 @@ const initialState = {
   //products
   product: [],
   allproducts: [],
+  allProductsAdmin: [],
+  allUsers: [],
   details: [],
   name: null,
   saveProducts: [],
@@ -73,6 +78,9 @@ const initialState = {
   cart: [],
   loggedIn: false,
   loggedUser: '',
+   //orders
+   allOrders: [],
+   ordersUser: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -258,19 +266,6 @@ const rootReducer = (state = initialState, action) => {
     //    currentPage: action.payload,
    //   };
 
-   case LOGIN_SUCCESS:
-    const { firebaseUid } = payload;
-    if (firebaseUid) {
-      const newState = {
-        ...state,
-        loggedIn: true,
-        loggedUser: firebaseUid,        
-      };
-      console.log("New state of loggedIn:", newState.loggedIn);
-      console.log("loggedUser:", newState.loggedUser);
-    return newState;
-    }
-
    // Filtrar por categoría
    case FILT_BY_CATEGORY:
     const filteredByCategory = state.allproducts.filter(product => product.category === payload);
@@ -295,6 +290,58 @@ const rootReducer = (state = initialState, action) => {
       allproducts: filteredBySize,
     };
 
+    case LOGIN_USER:
+      return {
+        ...state,
+        isLoggedIn: true,
+        userId: action.payload.id,
+        accessToken: action.payload.token,
+      };
+
+      // actualiza el estado con la información del usuario proporcionada en la acción
+      case USER_BY_ID:
+        return {
+          ...state,
+          user: action.payload,
+        };  
+
+      // el usuario esta autenticado
+    case AUTH_USER:
+      return {
+        ...state,
+        isLoggedIn: true,
+        accessToken: action.accessToken,
+        user: action.payload,
+      };
+
+      //actualiza el estado para indicar que el usuario cerro sesión
+      case LOGOUT_USER:
+        return {
+          ...state,
+          isLoggedIn: false,
+          userId: null, // o cualquier otro valor predeterminado que quieras establecer
+          accessToken: null, // También podría ser necesario eliminar el token de acceso
+          user: null, // Restablecer el usuario a null
+        };
+
+      case LOGIN_SUCCESS:
+        const { firebaseUid } = action.payload;
+        if (firebaseUid) {
+          return {
+            ...state,
+            isLoggedIn: true,
+            userId: firebaseUid,
+          };
+        } else {
+          // En caso de que no se proporcione un ID de usuario válido, simplemente devolvemos el estado actual
+          return state;
+        }
+
+    case SAVE_EMAIL:
+      return {
+        ...state,
+        email: action.payload,
+      };
 
     default:
       return state;
