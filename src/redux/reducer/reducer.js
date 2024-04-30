@@ -36,6 +36,9 @@ import {
   FILT_BY_PRICE,
   GET_CATEGORIES_BY_ID,
  // CHANGE_PAGE,
+ //customer
+ LOGIN_SUCCESS,
+ LOGOUT_SUCCESS,
 } from '../actions/actions-types';
 
 const initialState = {
@@ -64,6 +67,8 @@ const initialState = {
   },
   //cart
   cart: [],
+  loggedIn: false,
+  loggedUser: '',
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -235,53 +240,58 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allCategories: updatedCategory,
       };
-    case FILT_BY_CATEGORY:
-      const filteredByCategory = state.allproducts.filter(product => product.category === payload);
-      return {
+
+
+      case GET_CATEGORIES_BY_ID:
+        return {
+          ...state,
+          allCategories: payload,
+        };
+    // Paginación
+   // case CHANGE_PAGE:
+   //   return {
+    //    ...state,
+    //    currentPage: action.payload,
+   //   };
+
+   case LOGIN_SUCCESS:
+    const { firebaseUid } = payload;
+    if (firebaseUid) {
+      const newState = {
         ...state,
-        allproducts: filteredByCategory,
+        loggedIn: true,
+        loggedUser: firebaseUid,        
       };
-    case FILT_BY_SIZE:
-      const filteredBySize = state.allproducts.filter(product => product.size === payload);
-      return {
-        ...state,
-        allproducts: filteredBySize,
-      };
-    case FILT_BY_PRICE:
-      const { minPrice, maxPrice } = payload;
-      const filteredByPrice = state.allproducts.filter(product => product.price >= minPrice && product.price <= maxPrice);
-      return {
-        ...state,
-        allproducts: filteredByPrice,
-      };
-    case SAVE_FILTERS:
-      return {
-        ...state,
-        saveFilters: payload,
-      };
-    case ORDER:
-      let orderedProducts;
-      switch (payload) {
-        case 'ascendente':
-          orderedProducts = state.allproducts.slice().sort((a, b) => a.price - b.price);
-          break;
-        case 'descendente':
-          orderedProducts = state.allproducts.slice().sort((a, b) => b.price - a.price);
-          break;
-        case 'a-z':
-          orderedProducts = state.allproducts.slice().sort((a, b) => a.name.localeCompare(b.name));
-          break;
-        case 'z-a':
-          orderedProducts = state.allproducts.slice().sort((a, b) => b.name.localeCompare(a.name));
-          break;
-        default:
-          // Si el criterio de orden no coincide con ninguno de los esperados, mantenemos el estado sin cambios
-          return state;
-      }
-      return {
-        ...state,
-        allproducts: orderedProducts,
-      };
+      console.log("New state of loggedIn:", newState.loggedIn);
+      console.log("loggedUser:", newState.loggedUser);
+    return newState;
+    }
+
+   // Filtrar por categoría
+   case FILT_BY_CATEGORY:
+    const filteredByCategory = state.allproducts.filter(product => product.category === payload);
+    return {
+      ...state,
+      allproducts: filteredByCategory,
+    };
+
+  // Filtrar por precio
+  case FILT_BY_PRICE:
+    const filteredByPrice = state.allproducts.filter(product => product.price <= payload);
+    return {
+      ...state,
+      allproducts: filteredByPrice,
+    };
+
+  // Filtrar por tamaño
+  case FILT_BY_SIZE:
+    const filteredBySize = state.allproducts.filter(product => product.size === payload);
+    return {
+      ...state,
+      allproducts: filteredBySize,
+    };
+
+
     default:
       return state;
   }

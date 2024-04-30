@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import login from '../redux/actions/Customer/login.js'
 import axios from 'axios';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 //import { v5 as uuidv5 } from 'uuid';
@@ -6,14 +8,15 @@ import validation from "./validation.js";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
+//const URL_LINK = 'http://localhost:3001/customer'
+const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/customer'
+
 import { FaFacebook, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const URL_LINK = 'http://localhost:3001/customer'
-//const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/'
 
 function CreateAccount({ onDataChange }) {
   const [userData, setUserData] = useState({
-    //id:'',
+    idfirebase:'',
     enable:true,
     name:'',
     email:'',
@@ -34,12 +37,16 @@ function CreateAccount({ onDataChange }) {
   })
   const[errors, setErrors] = useState({})
   const [isFormValid, setIsFormValid] = useState(false)
+
+  const dispatch = useDispatch()
+
   const [viewPassword, setViewPassword] = useState(false)
   
   useEffect(() => {
     const errorsArray = Object.values(errors)
     setIsFormValid(userData.name && userData.email && userData.password && userData.confirmPassword > 0 && errorsArray.every(error => !error))
   }, [userData, errors])
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -70,9 +77,10 @@ function CreateAccount({ onDataChange }) {
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
 
       localStorage.setItem('firebaseUid', firebaseUid);
+      dispatch(login(firebaseUid));
 
       const response = await axios.post(URL_LINK, {
-        id: firebaseUid,
+        idfirebase: firebaseUid,
         enable: userData.enable,
         userName: userData.name, 
         role: userData.role, 

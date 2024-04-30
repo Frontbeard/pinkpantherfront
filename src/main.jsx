@@ -18,6 +18,7 @@ import AuthenticationHandler from "./Firebase/checkAuth.jsx";
 import FormCreacion from "./components/cloudinary/FormCreacion.jsx";
 import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
+import NotFound from "./components/NotFound.jsx";
 // import dotenv from 'dotenv'
 // dotenv.config();
 
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/categories/:categoryId",
         element: <ProductFilter/>,
+      },
+      {
+        path: "*",
+        element: <NotFound />, // Ruta para la página 404
       },
     ],
   },

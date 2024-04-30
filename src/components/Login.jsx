@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import login from '../redux/actions/Customer/login.js'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import validation from "./validation.js";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { FaFacebook, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
-const URL_LINK = 'http://localhost:3001/customer'
-//const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/'
+//const URL_LINK = 'http://localhost:3001/customer'
+const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/cutomer'
+
+
 
 function Login() {
   const [userData, setUserData] = useState({
     email:'',
     password:'',
   })
+
+  const dispatch = useDispatch()
   const [errors, setErrors] = useState({})
+
   const [isFormValid, setIsFormValid] = useState(false)
   const [viewPassword, setViewPassword] = useState(false)
   
@@ -53,7 +60,8 @@ function Login() {
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
       
       localStorage.setItem('firebaseUid', firebaseUid);
-      console.log("2");
+      dispatch(login(firebaseUid))
+
     } catch (error) {
       console.error('Error submitting the form:', error)
       alert('Error submitting the form. Please try again later.', error.message)

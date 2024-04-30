@@ -11,7 +11,6 @@ import getAllCategories from "../redux/actions/Category/getAllCategories";
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedSubcategory, setSelectedSubcategory] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -33,14 +32,8 @@ const Navbar = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleCategoryClick = (title) => {
-        setSelectedCategory(title);
-        setSelectedSubcategory(null);
-        setModalOpen(true); 
-    };
-
-    const handleSubcategoryClick = (subcategory) => {
-        setSelectedSubcategory(subcategory);
+    const handleCategoryClick = (categoryId) => {
+        setSelectedCategory(categoryId);
         setModalOpen(true);
     };
 
@@ -48,15 +41,28 @@ const Navbar = () => {
         setModalOpen(false);
     };
 
-    const handleGoBackToCategory = () => {
-        setSelectedSubcategory(null);
-    };
-
     const handleSearch = (query) => {
         setSearchQuery(query);
         setSelectedCategory(null);
-        setSelectedSubcategory(null);
     };
+
+    const handleFilter = (filteredProducts) => {
+        setFilteredProducts(filteredProducts);
+    };
+
+    const handleMouseEnterCategory = (title) => {
+        setSelectedCategory(title);
+    };
+
+    const uniqueCategories = Array.isArray(allCategories)
+        ? new Set(allCategories.map(category => ({ id: category.id, name: category.name })))
+        : new Set();
+
+    const navItems = [...uniqueCategories].map(({ id, name }) => ({
+        id,
+        name,
+        path: name === "about us" ? "/about" : `/categories/${id}`,
+    }));
 
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
@@ -86,29 +92,18 @@ const Navbar = () => {
             {searchQuery ? <ProductList searchQuery={searchQuery} /> : (
                 <div className="pt-4">
                     <ul className="lg:flex items-center justify-evenly text-black hidden">
-                        {allCategories.map(({ name, subcategories }) => (
-                            <li key={name} className="relative">
-                                <div onClick={() => handleCategoryClick(name)}>
+                        {navItems.map(({ id, name, path }) => (
+                            <li key={id} className="relative">
+                                <div onClick={() => handleCategoryClick(id)}>
                                     <NavLink
-                                        to={`/categories/${name.toLowerCase()}`}
+                                        to={path}
                                         className={selectedCategory === name ? "active" : ""}
                                         style={{ color: selectedCategory === name ? "blue" : "black" }}
+                                        onMouseEnter={() => handleMouseEnterCategory(name)}
                                     >
                                         {name}
                                     </NavLink>
                                 </div>
-                                {selectedCategory === name && (
-                                    <ul className="absolute left-0 top-full bg-white shadow-lg z-10">
-                                        {subcategories &&
-                                            subcategories.map((subcategory, index) => (
-                                                <li key={index}>
-                                                    <button onClick={() => handleSubcategoryClick(subcategory)}>
-                                                        {subcategory}
-                                                    </button>
-                                                </li>
-                                            ))}
-                                    </ul>
-                                )}
                             </li>
                         ))}
                     </ul>
@@ -116,10 +111,19 @@ const Navbar = () => {
             )}
             {modalOpen && (
                 <FilterModal
-                    selectedCategory={selectedCategory}
+                    category={selectedCategory}
+                    onFilter={handleFilter}
                     onClose={handleCloseModal}
-                    onGoBack={handleGoBackToCategory}
                 />
+            )}
+            {filteredProducts.length > 0 && (
+                <div>
+                    <ul>
+                        {filteredProducts.map(product => (
+                            <li key={product.id}>{product.name}</li>
+                        ))}
+                    </ul>
+                </div>
             )}
         </header>
     );

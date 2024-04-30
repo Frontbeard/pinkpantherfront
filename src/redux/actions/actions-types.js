@@ -35,9 +35,15 @@ export const FILT_BY_SIZE="FILT_BY_SIZE"
 export const FILT_BY_PRICE="FILT_BY_PRICE"
 export const SAVE_FILTERS = "SAVE_FILTERS";
 export const ORDER = "ORDER"
+//Pagination
+//export const CHANGE_PAGE = 'CHANGE_PAGE';
+//customer
+export const LOGIN_SUCCESS="LOGIN_SUCCESS"
+export const LOGOUT_SUCCESS="LOGOUT_SUCCESS"
 //orders
 export const GET_ORDERS="GET_ORDERS"
 export const GET_ORDERID="GET_ORDERID"
+
 
 
 
