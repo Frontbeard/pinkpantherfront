@@ -35,13 +35,7 @@ import {
   ORDER,
   FILT_BY_PRICE,
   GET_CATEGORIES_BY_ID,
- //users
- LOGIN_USER,
- LOGOUT_USER,
- USER_BY_ID,
- AUTH_USER,
- GET_ALL_USERS,
- SAVE_EMAIL,
+
 } from '../actions/actions-types';
 
 const initialState = {
