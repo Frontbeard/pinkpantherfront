@@ -36,6 +36,9 @@ export const SAVE_FILTERS = "SAVE_FILTERS";
 export const ORDER = "ORDER"
 //Pagination
 //export const CHANGE_PAGE = 'CHANGE_PAGE';
+//customer
+export const LOGIN_SUCCESS="LOGIN_SUCCESS"
+export const LOGOUT_SUCCESS="LOGOUT_SUCCESS"
 
 
 

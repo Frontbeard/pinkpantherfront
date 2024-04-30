@@ -35,6 +35,9 @@ import {
   ORDER,
   FILT_BY_PRICE,
  // CHANGE_PAGE,
+ //customer
+ LOGIN_SUCCESS,
+ LOGOUT_SUCCESS,
 } from '../actions/actions-types';
 
 const initialState = {
@@ -67,6 +70,8 @@ const initialState = {
   },
   //cart
   cart: [],
+  loggedIn: false,
+  loggedUser: '',
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -244,6 +249,19 @@ const rootReducer = (state = initialState, action) => {
     //    ...state,
     //    currentPage: action.payload,
    //   };
+   case LOGIN_SUCCESS:
+    const { firebaseUid } = payload;
+    if (firebaseUid) {
+      const newState = {
+        ...state,
+        loggedIn: true,
+        loggedUser: firebaseUid,        
+      };
+      console.log("New state of loggedIn:", newState.loggedIn);
+      console.log("loggedUser:", newState.loggedUser);
+    return newState;
+    }
+    
     default:
       return state;
   }

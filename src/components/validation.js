@@ -10,7 +10,7 @@ function validation(data){
     //if(!expresionRegular.test(data.id)) errors.id = '1 to 35 characters length required'
     //if(!regexName.test(data.name)) errors.name = 'Name must contain at least one number and a length of 6 to 10 characters'
 
-    if(!regexName.test(data.name)) errors.name = 'Only letters accepted (Maximum 25)'
+    if(!regexName.test(data.name)) errors.name = 'Only letters accepted (Maximum 25)';
     if(!regexEmail.test(data.email)) errors.email = 'Enter a valid email';
     if(!regexPassword.test(data.password)) errors.password = 'Password must be at least 6 characters';
     if(data.password !== data.confirmPassword) errors.confirmPassword = 'Passwords do not match';
