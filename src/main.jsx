@@ -15,7 +15,7 @@ import Login from "./components/Login.jsx";
 import CreateAccount from "./components/CreateAccount.jsx";
 import AuthenticationHandler from "./Firebase/checkAuth.jsx";
 // import Dashboard from "./components/Dashboard.jsx";
-import FormCreacion from "./components/cloudinary/FormCreacion.jsx";
+import CreateProduct from "./components/formCreateProduct/CreateProduct.jsx";
 import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/create-account", element: <CreateAccount /> },
       // { path: "/dashboard", element: <Dashboard /> },
-      { path: "/formCreacion", element: <FormCreacion /> },
+      { path: "/create-product", element: <CreateProduct /> },
       {
         path: "/cart",
         element: <Carrito />,
