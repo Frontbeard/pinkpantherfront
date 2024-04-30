@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import ProductList from "./ProductList";
+import { useSelector, useDispatch } from "react-redux";
+import getAllCategories from "../redux/actions/Category/getAllCategories";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +15,15 @@ const Navbar = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
+
+    const allCategories = useSelector(state => state.allCategories);
+    console.log(allCategories);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAllCategories()); // Dispatch para obtener las categorías al montar el componente
+    }, []);
 
     useEffect(() => {
         if (!modalOpen) {
@@ -25,14 +36,12 @@ const Navbar = () => {
     };
 
     const handleCategoryClick = (title) => {
-        if (selectedCategory === title) {
-            setSelectedCategory(null);
-        } else {
-            setSelectedCategory(title);
-            setSelectedSubcategory(null);
-        }
+        setSelectedCategory(title);
+        setSelectedSubcategory(null);
+        setModalOpen(true); 
     };
-
+    
+    
     const handleSubcategoryClick = (subcategory) => {
         setSelectedSubcategory(subcategory);
         setModalOpen(true);
@@ -60,16 +69,28 @@ const Navbar = () => {
         setSelectedCategory(title);
     };
 
-    const navItems = [
-        { title: "NEW IN", path: "/", },
-        { title: "Calzas", path: "/product",  },
-        { title: "Faldapantalón", path: "/product", },
-        { title: "Remeras", path: "/product",},
-        { title: "Tops", path: "/product",},
-        { title: "Conjuntos", path: "/product", },
-        { title: "SALE", path: "/" },
-        { title: "About Us", path: "/about" },
-    ];
+    
+    // Utiliza un conjunto para eliminar duplicados de categorías
+    const uniqueCategories = Array.isArray(allCategories)
+    ? new Set(allCategories.map(category => category.name))
+    : new Set();
+  
+  const navItems = [...uniqueCategories].map(title => ({
+    title,
+    path: title === "about us" ? "/about" : `/categories/${title.toLowerCase()}`,
+    subcategories: Array.isArray(allCategories)
+      ? allCategories.find(category => category.name === title).subcategories
+      : [],
+  }));
+  
+    
+    
+
+
+
+
+
+
 
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
@@ -101,6 +122,7 @@ const Navbar = () => {
                     <ul className="lg:flex items-center justify-evenly text-black hidden">
                         {navItems.map(({ title, path, subcategories }) => (
                             <li key={title} className="relative">
+                                
                                 <div onClick={() => handleCategoryClick(title)}>
                                     <NavLink
                                         to={path}
@@ -128,14 +150,14 @@ const Navbar = () => {
                     </ul>
                 </div>
             )}
-            {modalOpen && (
-                <FilterModal
-                    category={selectedCategory}
-                    subcategory={selectedSubcategory}
-                    onFilter={handleFilter}
-                    onClose={handleCloseModal}
-                    onGoBack={handleGoBackToCategory}
-                />
+           {modalOpen && (
+    <FilterModal
+        category={selectedCategory}
+        subcategory={selectedSubcategory}
+        onFilter={handleFilter}
+        onClose={handleCloseModal}
+        onGoBack={handleGoBackToCategory}
+    />
             )}
         </header>
     );

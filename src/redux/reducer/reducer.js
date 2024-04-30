@@ -34,6 +34,7 @@ import {
   SAVE_FILTERS,
   ORDER,
   FILT_BY_PRICE,
+  GET_CATEGORIES_BY_ID,
  // CHANGE_PAGE,
  //customer
  LOGIN_SUCCESS,
@@ -243,12 +244,20 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allCategories: updatedCategory,
       };
+
+
+      case GET_CATEGORIES_BY_ID:
+        return {
+          ...state,
+          allCategories: payload,
+        };
     // Paginación
    // case CHANGE_PAGE:
    //   return {
     //    ...state,
     //    currentPage: action.payload,
    //   };
+
    case LOGIN_SUCCESS:
     const { firebaseUid } = payload;
     if (firebaseUid) {
@@ -261,7 +270,32 @@ const rootReducer = (state = initialState, action) => {
       console.log("loggedUser:", newState.loggedUser);
     return newState;
     }
-    
+
+   // Filtrar por categoría
+   case FILT_BY_CATEGORY:
+    const filteredByCategory = state.allproducts.filter(product => product.category === payload);
+    return {
+      ...state,
+      allproducts: filteredByCategory,
+    };
+
+  // Filtrar por precio
+  case FILT_BY_PRICE:
+    const filteredByPrice = state.allproducts.filter(product => product.price <= payload);
+    return {
+      ...state,
+      allproducts: filteredByPrice,
+    };
+
+  // Filtrar por tamaño
+  case FILT_BY_SIZE:
+    const filteredBySize = state.allproducts.filter(product => product.size === payload);
+    return {
+      ...state,
+      allproducts: filteredBySize,
+    };
+
+
     default:
       return state;
   }

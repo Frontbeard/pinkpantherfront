@@ -8,9 +8,11 @@ import validation from "./validation.js";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
-import { FaFacebook, FaGoogle } from 'react-icons/fa';
 //const URL_LINK = 'http://localhost:3001/customer'
 const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/customer'
+
+import { FaFacebook, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 function CreateAccount({ onDataChange }) {
   const [userData, setUserData] = useState({
@@ -35,32 +37,34 @@ function CreateAccount({ onDataChange }) {
   })
   const[errors, setErrors] = useState({})
   const [isFormValid, setIsFormValid] = useState(false)
+
   const dispatch = useDispatch()
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    const fieldName = event.target.name
-    let fieldValue = event.target.value
-    setUserData({
-      ...userData,
-      [name]: value
-    });
-    const fieldErrors = validation({ ...userData, [fieldName]: fieldValue })
-      
-    // Update the error state for the current field only
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [fieldName]: fieldErrors[fieldName] || '', // Clear the error if validation passes
-    }))
-  };
-
+  const [viewPassword, setViewPassword] = useState(false)
+  
   useEffect(() => {
     const errorsArray = Object.values(errors)
     setIsFormValid(userData.name && userData.email && userData.password && userData.confirmPassword > 0 && errorsArray.every(error => !error))
   }, [userData, errors])
 
-  const handleSubmit = async (evento) => {
-    evento.preventDefault()
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [name]: value
+    }));
+    // Update the error state for the current field only
+    const fieldErrors = validation({ ...userData, [name]: value })
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: fieldErrors[name] || '', // Clear the error if validation passes
+    }))
+  };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     try {
       const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
@@ -114,6 +118,11 @@ function CreateAccount({ onDataChange }) {
       alert('Error submitting the form. Please try again later.', error.message)
     }
   }
+
+  const togglePasswordVisibility = () => {
+    setViewPassword(!viewPassword);
+  };
+
     return (
       <div className="grid grid-cols-1 items-center justify-items-center h-screen mt-8">
         <Card className="w-full max-w-md">
@@ -127,6 +136,7 @@ function CreateAccount({ onDataChange }) {
               <Typography variant="p" color="black" className="mb-1">
                 Nombre
               </Typography>
+              <div className="flex flex-col">
               <input
                 className={errors.name ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
                 type="text"
@@ -135,11 +145,17 @@ function CreateAccount({ onDataChange }) {
                 onChange={handleChange}
                 placeholder="Ingresa tu nombre"
               />
+              <p className="text-red-500"> 
+                {errors.name}
+              </p>
+              </div>
+              
             </div>
             <div className="flex flex-col gap-1">
               <Typography variant="p" color="black" className="mb-1">
                 Correo electrónico
               </Typography>
+              <div className="flex flex-col">
               <input
                 className={errors.email ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
                 type="email"
@@ -148,33 +164,77 @@ function CreateAccount({ onDataChange }) {
                 onChange={handleChange}
                 placeholder="Ingresa tu correo electrónico"
               />
+              <p className="text-red-500"> 
+                {errors.name}
+              </p>
+              </div>
+              
             </div>
             <div className="flex flex-col gap-1">
               <Typography variant="p" color="black" className="mb-1">
                 Contraseña
               </Typography>
-              <input
-                className={errors.password ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
-                type="password"
+              <div className="flex flex-col">
+                <div className='flex flex-row items-center relative'>
+                <input
+                className={errors.password ? "input-box border-2 rounded-lg border-red-400 px-4 py-2 block w-full" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2 block w-full" }
+                type={viewPassword ? 'text' : 'password'}
                 name="password"
                 value={userData.password}
                 onChange={handleChange}
                 placeholder="Ingresa tu contraseña"
-
-              />
+                />
+                {viewPassword ? (
+                <FaEye
+                  onClick={togglePasswordVisibility}
+                  color='white'
+                  className='cursor-pointer absolute right-3 top-3.5'
+                />
+              ) : (
+                <FaEyeSlash
+                  onClick={togglePasswordVisibility}
+                  color='white'
+                  className='cursor-pointer absolute right-3 top-3.5'
+                />
+              )}
+                </div>
+              </div>
+              <p className="text-red-500"> 
+                {errors.password}
+              </p>
             </div>
             <div className="flex flex-col gap-1">
               <Typography variant="p" color="black" className="mb-1">
                 Confirmar contraseña
               </Typography>
-              <input
-                className={errors.confirmPassword ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
-                type="password"
+              <div classname="flex flex-col">
+                <div className='flex flex-row items-center relative'>
+                <input
+                className={errors.confirmPassword ? "input-box border-2 rounded-lg border-red-400 px-4 py-2 block w-full" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2 block w-full" }
+                type={viewPassword ? 'text' : 'password'}
                 name="confirmPassword"
                 value={userData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirma tu contraseña"
               />
+              {viewPassword ? (
+                <FaEye
+                  onClick={togglePasswordVisibility}
+                  color='white'
+                  className='cursor-pointer absolute right-3 top-3.5'
+                />
+              ) : (
+                <FaEyeSlash
+                  onClick={togglePasswordVisibility}
+                  color='white'
+                  className='cursor-pointer absolute right-3 top-3.5'
+                />
+              )}
+                </div>
+              </div>
+              <p className="text-red-500">
+                {errors.confirmPassword}
+              </p>
             </div>
           </CardBody>
           <CardFooter className="pt-0 mt-5">

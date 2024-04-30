@@ -28,6 +28,7 @@ export const  CLEAN_CART_REDUCER="CLEAN_CART_REDUCER"
 export const  GET_CATEGORIES="GET_CATEGORIES"
 export const  POST_CATEGORIES="POST_CATEGORIES"
 export const EDIT_CATEGORY="EDIT_CATEGORY"
+export const GET_CATEGORIES_BY_ID= "GET_CATEGORIES_BY_ID"
 //filter
 export const FILT_BY_CATEGORY="FILT_BY_CATEGORY"
 export const FILT_BY_SIZE="FILT_BY_SIZE"
@@ -39,6 +40,10 @@ export const ORDER = "ORDER"
 //customer
 export const LOGIN_SUCCESS="LOGIN_SUCCESS"
 export const LOGOUT_SUCCESS="LOGOUT_SUCCESS"
+//orders
+export const GET_ORDERS="GET_ORDERS"
+export const GET_ORDERID="GET_ORDERID"
+
 
 
 
