@@ -318,18 +318,6 @@ const rootReducer = (state = initialState, action) => {
           user: null, // Restablecer el usuario a null
         };
 
-      case LOGIN_SUCCESS:
-        const { firebaseUid } = action.payload;
-        if (firebaseUid) {
-          return {
-            ...state,
-            isLoggedIn: true,
-            userId: firebaseUid,
-          };
-        } else {
-          // En caso de que no se proporcione un ID de usuario válido, simplemente devolvemos el estado actual
-          return state;
-        }
 
     case SAVE_EMAIL:
       return {
