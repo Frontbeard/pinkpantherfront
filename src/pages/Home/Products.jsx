@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaFilter } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card";
 import Pagination from "../../components/Pagination";
@@ -22,7 +21,6 @@ const Products = () => {
 
   useEffect(() => {
     if (products.length > 0) {
-      // Set initial filtered items and total pages
       setFilteredItems(products);
       setTotalPages(Math.ceil(products.length / itemsPerPage));
     }
@@ -83,13 +81,14 @@ const Products = () => {
 
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
-      <h2 className="text-3xl font-semibold capitalize text-center my-8" >
+      <h2 className="text-3xl font-semibold capitalize text-center my-8">
         Nuestros productos
       </h2>
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-        <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4  flex-wrap">
-          <Card filteredItems={paginatedItems} />
-        </div>
+        {/* Aquí renderizamos los productos paginados */}
+        {paginatedItems.map((product) => (
+          <Card key={product.id} filteredItems={product} />
+        ))}
       </div>
       <Pagination
         currentPage={currentPage}
@@ -98,6 +97,6 @@ const Products = () => {
       />
     </div>
   );
-}
+};
 
-export default Products
+export default Products;

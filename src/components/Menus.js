@@ -6,6 +6,7 @@ export const PRODUCTS = [
   export const RESOURCES = [
     { name: "Sobre nosotros", link: "/about" },
     { name: "INGRESAR", link: "/create-account" },
+    { name: "Home", link: "/" },
     
   ];
   export const COMPANY = [

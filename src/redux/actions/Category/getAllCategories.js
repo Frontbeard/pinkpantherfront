@@ -7,6 +7,8 @@ const getAllCategories =()=>{
     return async (dispatch)=>{
         try {
             let response = await axios.get(`${URL}`)
+            console.log(response, 'actions de allcategories');
+
             return dispatch({
                 type: GET_CATEGORIES,
                 payload:response.data,
