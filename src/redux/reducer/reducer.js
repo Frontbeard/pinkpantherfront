@@ -39,10 +39,6 @@ import {
 } from '../actions/actions-types';
 
 const initialState = {
-  // Paginación
-  //currentPage: 1,
- // totalPages: 1, // Se debe actualizar cuando obtengas el total de páginas desde tu fuente de datos
-
   //products
   product: [],
   allproducts: [],
@@ -221,7 +217,7 @@ const rootReducer = (state = initialState, action) => {
     case GET_CATEGORIES:
       return {
         ...state,
-        allCategories: action.payload,
+        allCategories: payload,
       };
     case POST_CATEGORIES:
       return {
@@ -239,50 +235,56 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allCategories: updatedCategory,
       };
-
-
-      case GET_CATEGORIES_BY_ID:
-        return {
-          ...state,
-          allCategories: payload,
-        };
-    // Paginación
-   // case CHANGE_PAGE:
-   //   return {
-    //    ...state,
-    //    currentPage: action.payload,
-   //   };
-
-   // Filtrar por categoría
-   case FILT_BY_CATEGORY:
-    const filteredByCategory = state.allproducts.filter(product => product.category === payload);
-    return {
-      ...state,
-      allproducts: filteredByCategory,
-    };
-
-  // Filtrar por precio
-  case FILT_BY_PRICE:
-    const filteredByPrice = state.allproducts.filter(product => product.price <= payload);
-    return {
-      ...state,
-      allproducts: filteredByPrice,
-    };
-
-  // Filtrar por tamaño
-  case FILT_BY_SIZE:
-    const filteredBySize = state.allproducts.filter(product => product.size === payload);
-    return {
-      ...state,
-      allproducts: filteredBySize,
-    };
-
-
+    case FILT_BY_CATEGORY:
+      const filteredByCategory = state.allproducts.filter(product => product.category === payload);
+      return {
+        ...state,
+        allproducts: filteredByCategory,
+      };
+    case FILT_BY_SIZE:
+      const filteredBySize = state.allproducts.filter(product => product.size === payload);
+      return {
+        ...state,
+        allproducts: filteredBySize,
+      };
+    case FILT_BY_PRICE:
+      const { minPrice, maxPrice } = payload;
+      const filteredByPrice = state.allproducts.filter(product => product.price >= minPrice && product.price <= maxPrice);
+      return {
+        ...state,
+        allproducts: filteredByPrice,
+      };
+    case SAVE_FILTERS:
+      return {
+        ...state,
+        saveFilters: payload,
+      };
+    case ORDER:
+      let orderedProducts;
+      switch (payload) {
+        case 'ascendente':
+          orderedProducts = state.allproducts.slice().sort((a, b) => a.price - b.price);
+          break;
+        case 'descendente':
+          orderedProducts = state.allproducts.slice().sort((a, b) => b.price - a.price);
+          break;
+        case 'a-z':
+          orderedProducts = state.allproducts.slice().sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case 'z-a':
+          orderedProducts = state.allproducts.slice().sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        default:
+          // Si el criterio de orden no coincide con ninguno de los esperados, mantenemos el estado sin cambios
+          return state;
+      }
+      return {
+        ...state,
+        allproducts: orderedProducts,
+      };
     default:
       return state;
   }
 };
 
 export default rootReducer;
-
-

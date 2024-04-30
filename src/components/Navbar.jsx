@@ -17,12 +17,10 @@ const Navbar = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
 
     const allCategories = useSelector(state => state.allCategories);
-    console.log(allCategories);
-
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllCategories()); // Dispatch para obtener las categorías al montar el componente
+        dispatch(getAllCategories());
     }, []);
 
     useEffect(() => {
@@ -40,8 +38,7 @@ const Navbar = () => {
         setSelectedSubcategory(null);
         setModalOpen(true); 
     };
-    
-    
+
     const handleSubcategoryClick = (subcategory) => {
         setSelectedSubcategory(subcategory);
         setModalOpen(true);
@@ -60,37 +57,6 @@ const Navbar = () => {
         setSelectedCategory(null);
         setSelectedSubcategory(null);
     };
-
-    const handleFilter = (filteredProducts) => {
-        setFilteredProducts(filteredProducts);
-    };
-
-    const handleMouseEnterCategory = (title) => {
-        setSelectedCategory(title);
-    };
-
-    
-    // Utiliza un conjunto para eliminar duplicados de categorías
-    const uniqueCategories = Array.isArray(allCategories)
-    ? new Set(allCategories.map(category => category.name))
-    : new Set();
-  
-  const navItems = [...uniqueCategories].map(title => ({
-    title,
-    path: title === "about us" ? "/about" : `/categories/${title.toLowerCase()}`,
-    subcategories: Array.isArray(allCategories)
-      ? allCategories.find(category => category.name === title).subcategories
-      : [],
-  }));
-  
-    
-    
-
-
-
-
-
-
 
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
@@ -120,20 +86,18 @@ const Navbar = () => {
             {searchQuery ? <ProductList searchQuery={searchQuery} /> : (
                 <div className="pt-4">
                     <ul className="lg:flex items-center justify-evenly text-black hidden">
-                        {navItems.map(({ title, path, subcategories }) => (
-                            <li key={title} className="relative">
-                                
-                                <div onClick={() => handleCategoryClick(title)}>
+                        {allCategories.map(({ name, subcategories }) => (
+                            <li key={name} className="relative">
+                                <div onClick={() => handleCategoryClick(name)}>
                                     <NavLink
-                                        to={path}
-                                        className={selectedCategory === title ? "active" : ""}
-                                        style={{ color: selectedCategory === title ? "blue" : "black" }}
-                                        onMouseEnter={() => handleMouseEnterCategory(title)}
+                                        to={`/categories/${name.toLowerCase()}`}
+                                        className={selectedCategory === name ? "active" : ""}
+                                        style={{ color: selectedCategory === name ? "blue" : "black" }}
                                     >
-                                        {title}
+                                        {name}
                                     </NavLink>
                                 </div>
-                                {selectedCategory === title && (
+                                {selectedCategory === name && (
                                     <ul className="absolute left-0 top-full bg-white shadow-lg z-10">
                                         {subcategories &&
                                             subcategories.map((subcategory, index) => (
@@ -150,14 +114,12 @@ const Navbar = () => {
                     </ul>
                 </div>
             )}
-           {modalOpen && (
-    <FilterModal
-        category={selectedCategory}
-        subcategory={selectedSubcategory}
-        onFilter={handleFilter}
-        onClose={handleCloseModal}
-        onGoBack={handleGoBackToCategory}
-    />
+            {modalOpen && (
+                <FilterModal
+                    selectedCategory={selectedCategory}
+                    onClose={handleCloseModal}
+                    onGoBack={handleGoBackToCategory}
+                />
             )}
         </header>
     );
