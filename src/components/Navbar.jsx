@@ -7,6 +7,8 @@ import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
 import getAllCategories from "../redux/actions/Category/getAllCategories";
 import ProductFilter from "../components/ProductFilter";
+import isAuthenticated from "../Firebase/checkAuth";
+
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,6 +31,10 @@ const Navbar = () => {
             setSelectedCategory(null);
         }
     }, [modalOpen]);
+
+    useEffect(() => {
+        isAuthenticated(); // Check authentication status
+    }, []);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -73,6 +79,12 @@ const Navbar = () => {
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
                     </a>
+                    {localStorage.getItem('firebaseUid') && (
+                        <span>Logueado como: {localStorage.getItem('firebaseUid')}
+                        <button>Logout</button>
+                        </span>
+                        
+                    )}
                     <a href="/" className="flex items-center gap-2 ">
                         <FaStar />
                     </a>
