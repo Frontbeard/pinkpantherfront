@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddingImages = (props) => {
+const AddingImages = ({ setProduct, productData }) => {
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -20,26 +20,25 @@ const AddingImages = (props) => {
             );
             const file = await res.json();
             setImage(file.secure_url);
+            setProduct({ ["photo"]: file.secure_url })
         } catch (error) {
             console.error("Error uploading image: ", error); 
         } finally {
             setLoading(false);
         }
     };
-
     return (
         <div>
             <div style={{ textAlign: "left" }}>
                 <h1>Subir imagen de producto</h1>
-                <form>
                 <input
                     type="file"
-                    name="imagen"
+                    name="image"
                     accept="image/*"
                     onChange={uploadImage}
                     style={{ marginBottom: "10px" }}
                 />
-                </form>
+                 <input type='text' id='photo' name='photo' value={image} />
                 <img src={image} width="200px"/>
             </div>
         </div>
