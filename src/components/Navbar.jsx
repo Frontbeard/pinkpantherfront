@@ -4,10 +4,11 @@ import logo from "/logo.jpeg";
 import { NavLink } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
-import ProductList from "./ProductList";
 import { useSelector, useDispatch } from "react-redux";
 import getAllCategories from "../redux/actions/Category/getAllCategories";
+import ProductFilter from "../components/ProductFilter";
 import isAuthenticated from "../Firebase/checkAuth";
+
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,6 +45,9 @@ const Navbar = () => {
     const handleCategoryClick = (categoryId) => {
         setSelectedCategory(categoryId);
         setModalOpen(true);
+        const filtered = allCategories.find(category => category.id === categoryId)?.products || [];
+        setFilteredProducts(filtered);
+        console.log(filtered, 'productos filtrados en Navbar');
     };
 
     const handleCloseModal = () => {
@@ -55,22 +59,15 @@ const Navbar = () => {
         setSelectedCategory(null);
     };
 
-    const handleFilter = (filteredProducts) => {
-        setFilteredProducts(filteredProducts);
+    const handleMouseEnterCategory = (name) => {
+        setSelectedCategory(name);
     };
 
-    const handleMouseEnterCategory = (title) => {
-        setSelectedCategory(title);
-    };
-
-    const uniqueCategories = Array.isArray(allCategories)
-        ? new Set(allCategories.map(category => ({ id: category.id, name: category.name })))
-        : new Set();
-
-    const navItems = [...uniqueCategories].map(({ id, name }) => ({
+    const navItems = allCategories.map(({ id, name, products }) => ({
         id,
         name,
         path: name === "about us" ? "/about" : `/categories/${id}`,
+        products,
     }));
 
     return (
@@ -84,8 +81,10 @@ const Navbar = () => {
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
                     </a>
+
                     {customer && localStorage.getItem('firebaseUid') && (
                         <span>Logueado como: {customer.userName}
+
                         <button>Logout</button>
                         </span>
                         
@@ -104,7 +103,7 @@ const Navbar = () => {
                 </div>
             </nav>
             <hr />
-            {searchQuery ? <ProductList searchQuery={searchQuery} /> : (
+            {searchQuery ? null : (
                 <div className="pt-4">
                     <ul className="lg:flex items-center justify-evenly text-black hidden">
                         {navItems.map(({ id, name, path }) => (
@@ -127,18 +126,11 @@ const Navbar = () => {
             {modalOpen && (
                 <FilterModal
                     category={selectedCategory}
-                    onFilter={handleFilter}
                     onClose={handleCloseModal}
                 />
             )}
             {filteredProducts.length > 0 && (
-                <div>
-                    <ul>
-                        {filteredProducts.map(product => (
-                            <li key={product.id}>{product.name}</li>
-                        ))}
-                    </ul>
-                </div>
+                <ProductFilter products={filteredProducts} />
             )}
         </header>
     );

@@ -253,6 +253,8 @@ const rootReducer = (state = initialState, action) => {
 
 
       case GET_CATEGORIES_BY_ID:
+        console.log(state, 'reducer');
+
         return {
           ...state,
           allCategories: payload,

@@ -68,4 +68,3 @@ const isAuthenticated = (dispatch) => {
 }
 
 export default isAuthenticated;
-
