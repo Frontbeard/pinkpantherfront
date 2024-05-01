@@ -35,10 +35,14 @@ import {
   ORDER,
   FILT_BY_PRICE,
   GET_CATEGORIES_BY_ID,
-  //order
-  GET_ORDERS,
-  GET_ORDERID,
- // CHANGE_PAGE,
+  //ERROR
+  ERROR,
+  LOGIN_SUCCESS,
+    //order
+    GET_ORDERS,
+    GET_ORDERID,
+   // CHANGE_PAGE,
+
 } from '../actions/actions-types';
 
 const initialState = {
@@ -293,10 +297,41 @@ const rootReducer = (state = initialState, action) => {
       // console.log(action.payload);
       return {
         ...state,
-        ordersUser: action.payload,
-      };  
+        isLoggedIn: true,
+        accessToken: action.accessToken,
+        user: action.payload,
+      };
 
+      //actualiza el estado para indicar que el usuario cerro sesión
+      case LOGOUT_USER:
+        return {
+          ...state,
+          isLoggedIn: false,
+          userId: null, // o cualquier otro valor predeterminado que quieras establecer
+          accessToken: null, // También podría ser necesario eliminar el token de acceso
+          user: null, // Restablecer el usuario a null
+        };
 
+    case SAVE_EMAIL:
+      return {
+        ...state,
+        email: action.payload
+      };
+
+    case LOGIN_SUCCESS:
+      console.log("User data:", payload);
+      return {
+        ...state,
+        isLoggedIn: true,
+        // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
+        userData: payload
+        };
+
+    case ERROR:
+      return {
+          ...state,
+          errors: payload
+        }
     default:
       return state;
   }

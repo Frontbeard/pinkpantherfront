@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import login from '../redux/actions/Customer/login.js'
+import axios from 'axios';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import validation from "./validation.js";
 import { Link } from "react-router-dom";
@@ -61,7 +62,10 @@ function Login() {
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
       
       localStorage.setItem('firebaseUid', firebaseUid);
-      dispatch(login(firebaseUid))
+      const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
+      //console.log(data)
+      dispatch(login(data));
+      
 
     } catch (error) {
       console.error('Error submitting the form:', error)
