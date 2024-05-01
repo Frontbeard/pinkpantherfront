@@ -20,6 +20,8 @@ const Navbar = () => {
     const allCategories = useSelector(state => state.allCategories);
     console.log(allCategories);
 
+    const customer = useSelector(state => state.userData)
+    console.log(customer)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,7 +35,7 @@ const Navbar = () => {
     }, [modalOpen]);
 
     useEffect(() => {
-        isAuthenticated(); // Check authentication status
+        isAuthenticated(dispatch); // Check authentication status
     }, []);
 
     const toggleMenu = () => {
@@ -79,8 +81,10 @@ const Navbar = () => {
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
                     </a>
-                    {localStorage.getItem('firebaseUid') && (
-                        <span>Logueado como: {localStorage.getItem('firebaseUid')}
+
+                    {customer && localStorage.getItem('firebaseUid') && (
+                        <span>Logueado como: {customer.userName}
+
                         <button>Logout</button>
                         </span>
                         
