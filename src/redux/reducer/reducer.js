@@ -35,10 +35,10 @@ import {
   ORDER,
   FILT_BY_PRICE,
   GET_CATEGORIES_BY_ID,
-  //ERROR
-  ERROR,
-  LOGIN_SUCCESS,
-
+  //order
+  GET_ORDERS,
+  GET_ORDERID,
+ // CHANGE_PAGE,
 } from '../actions/actions-types';
 
 const initialState = {
@@ -49,37 +49,32 @@ const initialState = {
   //products
   product: [],
   allproducts: [],
-  allProductsAdmin: [],
-  allUsers: [],
+  allProductsAdmin:[],
+  allUsers:[],
   details: [],
   name: null,
   saveProducts: [],
   allCategories: [],
-  //favs
-  favorites: [],
   //users
   isLoggedIn: false,
   userId: [],
-  userData: null,
   user: [],
   token: [],
   email: "",
-  accessToken:[],
   //category
   saveFilters: {
-  category: [],
-  selectSize: "",
-  selectPrice:"",
-  selectCategory: "",
-  selectOrdered: "",
+    category: [],
+    selectSize: "",
+    selectPrice:"",
+    selectCategory: "",
+    selectOrdered: "",
   },
   //cart
   cart: [],
-  loggedIn: false,
-  loggedUser: '',
   //orders
-  allOrders: [],
-  ordersUser: [],
+  allOrders:[],
+  ordersUser:[],
+  favorites:[]
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -254,8 +249,6 @@ const rootReducer = (state = initialState, action) => {
 
 
       case GET_CATEGORIES_BY_ID:
-        console.log(state, 'reducer');
-
         return {
           ...state,
           allCategories: payload,
@@ -291,60 +284,19 @@ const rootReducer = (state = initialState, action) => {
       allproducts: filteredBySize,
     };
 
-    case LOGIN_USER:
+    case GET_ORDERS:
       return {
         ...state,
-        isLoggedIn: true,
-        userId: action.payload.id,
-        accessToken: action.payload.token,
+        allOrders: action.payload,
       };
-
-      // actualiza el estado con la información del usuario proporcionada en la acción
-      case USER_BY_ID:
-        return {
-          ...state,
-          user: action.payload,
-        };  
-
-      // el usuario esta autenticado
-    case AUTH_USER:
+    case GET_ORDERID:
+      // console.log(action.payload);
       return {
         ...state,
-        isLoggedIn: true,
-        accessToken: action.accessToken,
-        user: action.payload,
-      };
+        ordersUser: action.payload,
+      };  
 
-      //actualiza el estado para indicar que el usuario cerro sesión
-      case LOGOUT_USER:
-        return {
-          ...state,
-          isLoggedIn: false,
-          userId: null, // o cualquier otro valor predeterminado que quieras establecer
-          accessToken: null, // También podría ser necesario eliminar el token de acceso
-          user: null, // Restablecer el usuario a null
-        };
 
-    case SAVE_EMAIL:
-      return {
-        ...state,
-        email: action.payload
-      };
-
-    case LOGIN_SUCCESS:
-      console.log("User data:", payload);
-      return {
-        ...state,
-        isLoggedIn: true,
-        // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
-        userData: payload
-        };
-
-    case ERROR:
-      return {
-          ...state,
-          errors: payload
-        }
     default:
       return state;
   }
