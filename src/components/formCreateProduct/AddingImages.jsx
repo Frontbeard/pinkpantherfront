@@ -38,7 +38,7 @@ const AddingImages = ({ setProduct, productData }) => {
                     onChange={uploadImage}
                     style={{ marginBottom: "10px" }}
                 />
-                 <input type='text' id='photo' name='photo' value={image} />
+                {loading && <p>Cargando imagen...</p>}
                 <img src={image} width="200px"/>
             </div>
         </div>
