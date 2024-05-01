@@ -28,6 +28,7 @@ import {
   GET_CATEGORIES,
   POST_CATEGORIES,
   EDIT_CATEGORY,
+  SELECT_CATEGORY,
   //filtro
   FILT_BY_CATEGORY,
   FILT_BY_SIZE,
@@ -46,10 +47,6 @@ import {
 } from '../actions/actions-types';
 
 const initialState = {
-  // Paginación
-  //currentPage: 1,
- // totalPages: 1, // Se debe actualizar cuando obtengas el total de páginas desde tu fuente de datos
-
   //products
   product: [],
   allproducts: [],
@@ -232,7 +229,7 @@ const rootReducer = (state = initialState, action) => {
     case GET_CATEGORIES:
       return {
         ...state,
-        allCategories: action.payload,
+        allCategories: payload,
       };
     case POST_CATEGORIES:
       return {
@@ -257,6 +254,16 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           allCategories: payload,
         };
+        case SELECT_CATEGORY:
+          const selectedCategoryId = action.payload;
+          const selectedCategory = state.allCategories.find(category => category.id === selectedCategoryId);
+          const filteredProducts = selectedCategory ? selectedCategory.products : [];
+          return {
+            ...state,
+            selectedCategory: selectedCategoryId,
+            filteredProducts: filteredProducts,
+          };
+
     // Paginación
    // case CHANGE_PAGE:
    //   return {
@@ -338,5 +345,3 @@ const rootReducer = (state = initialState, action) => {
 };
 
 export default rootReducer;
-
-
