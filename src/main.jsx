@@ -52,6 +52,14 @@ const router = createBrowserRouter([
         path: "/categories/:categoryId",
         element: <ProductFilter/>,
       },
+      // {
+      //   path: "/dashboard",
+      //   element: <ProtectedAdmin user={user}><Dashboard /></ProtectedAdmin>,
+      // },
+      // {
+      //   path: "/profile",
+      //   element: <ProtectedRoute user={user}><><NavBarProfile/><PanelUser/><Footer/></></ProtectedRoute>,
+      // }, rutas dashboard del admin y perfil protegidas
       {
         path: "*",
         element: <NotFound />, // Ruta para la página 404
