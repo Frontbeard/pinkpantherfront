@@ -28,6 +28,7 @@ import {
   GET_CATEGORIES,
   POST_CATEGORIES,
   EDIT_CATEGORY,
+  SELECT_CATEGORY,
   //filtro
   FILT_BY_CATEGORY,
   FILT_BY_SIZE,
@@ -251,6 +252,16 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           allCategories: payload,
         };
+        case SELECT_CATEGORY:
+          const selectedCategoryId = action.payload;
+          const selectedCategory = state.allCategories.find(category => category.id === selectedCategoryId);
+          const filteredProducts = selectedCategory ? selectedCategory.products : [];
+          return {
+            ...state,
+            selectedCategory: selectedCategoryId,
+            filteredProducts: filteredProducts,
+          };
+
     // Paginación
    // case CHANGE_PAGE:
    //   return {

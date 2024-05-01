@@ -6,9 +6,9 @@ import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
 import getAllCategories from "../redux/actions/Category/getAllCategories";
-import ProductFilter from "../components/ProductFilter";
+import ProductFilter from "./ProductFilter";
+import selectCategory from "../redux/actions/Category/selectCategory"; 
 import isAuthenticated from "../Firebase/checkAuth";
-
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,22 +16,15 @@ const Navbar = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
-
     const allCategories = useSelector(state => state.allCategories);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getAllCategories());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
-        if (!modalOpen) {
-            setSelectedCategory(null);
-        }
-    }, [modalOpen]);
-
-    useEffect(() => {
-        isAuthenticated(); // Check authentication status
+        isAuthenticated();
     }, []);
 
     const toggleMenu = () => {
@@ -41,13 +34,16 @@ const Navbar = () => {
     const handleCategoryClick = (categoryId) => {
         setSelectedCategory(categoryId);
         setModalOpen(true);
-        const filtered = allCategories.find(category => category.id === categoryId)?.products || [];
+        dispatch(selectCategory(categoryId));
+        const selectedCategoryObj = allCategories.find(category => category.id === categoryId);
+        const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
         setFilteredProducts(filtered);
-        console.log(filtered, 'productos filtrados en Navbar');
     };
 
     const handleCloseModal = () => {
         setModalOpen(false);
+        // Restablecer los productos de la categoría seleccionada
+        handleCategoryClick(selectedCategory);
     };
 
     const handleSearch = (query) => {
@@ -55,16 +51,15 @@ const Navbar = () => {
         setSelectedCategory(null);
     };
 
-    const handleMouseEnterCategory = (name) => {
-        setSelectedCategory(name);
-    };
-
-    const navItems = allCategories.map(({ id, name, products }) => ({
+    const navItems = allCategories.map(({ id, name, path }) => ({
         id,
         name,
         path: name === "about us" ? "/about" : `/categories/${id}`,
-        products,
     }));
+
+    const handleUpdateFilteredProducts = (filteredProducts) => {
+        setFilteredProducts(filteredProducts);
+    };
 
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
@@ -81,7 +76,6 @@ const Navbar = () => {
                         <span>Logueado como: {localStorage.getItem('firebaseUid')}
                         <button>Logout</button>
                         </span>
-                        
                     )}
                     <a href="/" className="flex items-center gap-2 ">
                         <FaStar />
@@ -105,9 +99,8 @@ const Navbar = () => {
                                 <div onClick={() => handleCategoryClick(id)}>
                                     <NavLink
                                         to={path}
-                                        className={selectedCategory === name ? "active" : ""}
-                                        style={{ color: selectedCategory === name ? "blue" : "black" }}
-                                        onMouseEnter={() => handleMouseEnterCategory(name)}
+                                        className={selectedCategory === id ? "active" : ""}
+                                        style={{ color: selectedCategory === id ? "blue" : "black" }}
                                     >
                                         {name}
                                     </NavLink>
@@ -121,6 +114,8 @@ const Navbar = () => {
                 <FilterModal
                     category={selectedCategory}
                     onClose={handleCloseModal}
+                    products={filteredProducts}
+                    onUpdateFilteredProducts={handleUpdateFilteredProducts}
                 />
             )}
             {filteredProducts.length > 0 && (
@@ -131,3 +126,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
