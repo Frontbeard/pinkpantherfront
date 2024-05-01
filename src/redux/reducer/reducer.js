@@ -38,7 +38,10 @@ import {
   //ERROR
   ERROR,
   LOGIN_SUCCESS,
-  LOGOUT_SUCCESS
+    //order
+    GET_ORDERS,
+    GET_ORDERID,
+   // CHANGE_PAGE,
 
 } from '../actions/actions-types';
 
@@ -50,36 +53,32 @@ const initialState = {
   //products
   product: [],
   allproducts: [],
-  allProductsAdmin: [],
-  allUsers: [],
+  allProductsAdmin:[],
+  allUsers:[],
   details: [],
   name: null,
   saveProducts: [],
   allCategories: [],
-  //favs
-  favorites: [],
   //users
   isLoggedIn: false,
   userId: [],
-  userData: null,
   user: [],
   token: [],
   email: "",
   //category
   saveFilters: {
-  category: [],
-  selectSize: "",
-  selectPrice:"",
-  selectCategory: "",
-  selectOrdered: "",
+    category: [],
+    selectSize: "",
+    selectPrice:"",
+    selectCategory: "",
+    selectOrdered: "",
   },
   //cart
   cart: [],
-  loggedIn: false,
-  loggedUser: '',
   //orders
-  allOrders: [],
-  ordersUser: [],
+  allOrders:[],
+  ordersUser:[],
+  favorites:[]
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -254,8 +253,6 @@ const rootReducer = (state = initialState, action) => {
 
 
       case GET_CATEGORIES_BY_ID:
-        console.log(state, 'reducer');
-
         return {
           ...state,
           allCategories: payload,
@@ -291,23 +288,13 @@ const rootReducer = (state = initialState, action) => {
       allproducts: filteredBySize,
     };
 
-    case LOGIN_USER:
+    case GET_ORDERS:
       return {
         ...state,
-        isLoggedIn: true,
-        userId: action.payload.id,
-        accessToken: action.payload.token,
+        allOrders: action.payload,
       };
-
-      // actualiza el estado con la información del usuario proporcionada en la acción
-      case USER_BY_ID:
-        return {
-          ...state,
-          user: action.payload,
-        };  
-
-      // el usuario esta autenticado
-    case AUTH_USER:
+    case GET_ORDERID:
+      // console.log(action.payload);
       return {
         ...state,
         isLoggedIn: true,
@@ -339,14 +326,6 @@ const rootReducer = (state = initialState, action) => {
         // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
         userData: payload
         };
-    case LOGOUT_SUCCESS:
-      console.log("User data:", payload);
-      return {
-        ...state,
-        isLoggedIn: false,
-        // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
-        userData: null,
-        };    
 
     case ERROR:
       return {
