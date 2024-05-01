@@ -35,6 +35,9 @@ import {
   ORDER,
   FILT_BY_PRICE,
   GET_CATEGORIES_BY_ID,
+  //ERROR
+  ERROR,
+  LOGIN_SUCCESS,
 
 } from '../actions/actions-types';
 
@@ -57,24 +60,25 @@ const initialState = {
   //users
   isLoggedIn: false,
   userId: [],
+  userData: null,
   user: [],
   token: [],
   email: "",
   //category
   saveFilters: {
-    category: [],
-    selectSize: "",
-    selectPrice:"",
-    selectCategory: "",
-    selectOrdered: "",
+  category: [],
+  selectSize: "",
+  selectPrice:"",
+  selectCategory: "",
+  selectOrdered: "",
   },
   //cart
   cart: [],
   loggedIn: false,
   loggedUser: '',
-   //orders
-   allOrders: [],
-   ordersUser: [],
+  //orders
+  allOrders: [],
+  ordersUser: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -318,13 +322,26 @@ const rootReducer = (state = initialState, action) => {
           user: null, // Restablecer el usuario a null
         };
 
-
     case SAVE_EMAIL:
       return {
         ...state,
-        email: action.payload,
+        email: action.payload
       };
 
+    case LOGIN_SUCCESS:
+      console.log("User data:", payload);
+      return {
+        ...state,
+        isLoggedIn: true,
+        // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
+        userData: payload
+        };
+
+    case ERROR:
+      return {
+          ...state,
+          errors: payload
+        }
     default:
       return state;
   }
