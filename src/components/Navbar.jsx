@@ -6,6 +6,7 @@ import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
 import getAllCategories from "../redux/actions/Category/getAllCategories";
+import logout from "../redux/actions/Customer/logout";
 import ProductFilter from "./ProductFilter";
 import selectCategory from "../redux/actions/Category/selectCategory"; 
 import isAuthenticated from "../Firebase/checkAuth";
@@ -17,6 +18,10 @@ const Navbar = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
     const allCategories = useSelector(state => state.allCategories);
+    console.log(allCategories);
+
+    const customer = useSelector(state => state.userData)
+    console.log(customer)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,7 +29,7 @@ const Navbar = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        isAuthenticated();
+        isAuthenticated(dispatch);
     }, []);
 
     const toggleMenu = () => {
@@ -51,7 +56,15 @@ const Navbar = () => {
         setSelectedCategory(null);
     };
 
-    const navItems = allCategories.map(({ id, name, path }) => ({
+    const handleMouseEnterCategory = (name) => {
+        setSelectedCategory(name);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('firebaseUid')
+        dispatch(logout())
+    };
+    const navItems = allCategories.map(({ id, name, products }) => ({
         id,
         name,
         path: name === "about us" ? "/about" : `/categories/${id}`,
@@ -72,9 +85,11 @@ const Navbar = () => {
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
                     </a>
-                    {localStorage.getItem('firebaseUid') && (
-                        <span>Logueado como: {localStorage.getItem('firebaseUid')}
-                        <button>Logout</button>
+
+                    {customer && localStorage.getItem('firebaseUid') && (
+                        <span>Logueado como: {customer.userName}
+
+                        <button onClick={handleLogout}>Logout</button>
                         </span>
                     )}
                     <a href="/" className="flex items-center gap-2 ">

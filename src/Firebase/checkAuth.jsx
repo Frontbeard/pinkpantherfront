@@ -1,8 +1,44 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { URL_LINK } from '../URL.js'
+import login from '../redux/actions/Customer/login.js'
 
-const isAuthenticated = () => {
+// const isAuthenticated = () => {
+//   const auth = getAuth();
+//   onAuthStateChanged(auth, (user, error) => {
+//     if (user) {
+//       // User is signed in
+//       const uid = user.uid.toString();
+//       // Check if the UID matches the one stored in local storage
+//       const firebaseUid = localStorage.getItem('firebaseUid');
+//       if (uid !== firebaseUid) {
+//         // User is not authenticated
+//         console.log("User is not authenticated");
+//         localStorage.removeItem('firebaseUid'); // Remove the item from localStorage
+//       } else {
+//         // User is authenticated
+//         const customer = useSelector(state => state.userData)
+//         console.log("User is authenticated", customer);
+//       }
+//     } else {
+//       // User is signed out
+//       console.log("User is not authenticated or an error occurred", error);
+//       localStorage.removeItem('firebaseUid'); // Remove the item from localStorage
+//     }
+//   });
+// }
+
+// export default isAuthenticated;
+
+
+
+
+
+const isAuthenticated = (dispatch) => {
   const auth = getAuth();
-  onAuthStateChanged(auth, (user, error) => {
+  //const dispatch = useDispatch();
+  onAuthStateChanged(auth, async (user, error) => {
     if (user) {
       // User is signed in
       const uid = user.uid.toString();
@@ -14,7 +50,14 @@ const isAuthenticated = () => {
         localStorage.removeItem('firebaseUid'); // Remove the item from localStorage
       } else {
         // User is authenticated
-        console.log("User is authenticated");
+        try {
+          const response = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
+          console.log("User is authenticated", response.data);
+          dispatch(login(response))
+        } catch (error) {
+          console.error("Error fetching customer data:", error);
+          localStorage.removeItem('firebaseUid'); // Remove the item from localStorage
+        }
       }
     } else {
       // User is signed out

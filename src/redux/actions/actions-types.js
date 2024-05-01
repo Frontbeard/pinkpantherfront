@@ -44,6 +44,8 @@ export const LOGOUT_SUCCESS="LOGOUT_SUCCESS"
 //orders
 export const GET_ORDERS="GET_ORDERS"
 export const GET_ORDERID="GET_ORDERID"
+//error
+export const ERROR = 'ERROR'
 
 
 

@@ -78,7 +78,7 @@ function CreateAccount({ onDataChange }) {
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
 
       localStorage.setItem('firebaseUid', firebaseUid);
-      dispatch(login(firebaseUid));
+      
 
       const response = await axios.post(`${URL_LINK}/customer`, {
         idfirebase: firebaseUid,
@@ -100,6 +100,10 @@ function CreateAccount({ onDataChange }) {
       });
       
       console.log(response)
+      const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
+      //console.log(data)
+      dispatch(login(data));
+
       //setSuccessMessage
       if (response.data.created === true) {
         alert('Account created successfully!')
