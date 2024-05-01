@@ -8,8 +8,9 @@ import validation from "./validation.js";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
-//const URL_LINK = 'http://localhost:3001/customer'
-const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/customer'
+import { URL_LINK } from '../URL.js'
+//const URL_LINK = 'http://localhost:3001'
+//const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com'
 
 import { FaFacebook, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -77,9 +78,9 @@ function CreateAccount({ onDataChange }) {
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
 
       localStorage.setItem('firebaseUid', firebaseUid);
-      dispatch(login(firebaseUid));
+      
 
-      const response = await axios.post(URL_LINK, {
+      const response = await axios.post(`${URL_LINK}/customer`, {
         idfirebase: firebaseUid,
         enable: userData.enable,
         userName: userData.name, 
@@ -99,6 +100,10 @@ function CreateAccount({ onDataChange }) {
       });
       
       console.log(response)
+      const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
+      //console.log(data)
+      dispatch(login(data));
+
       //setSuccessMessage
       if (response.data.created === true) {
         alert('Account created successfully!')

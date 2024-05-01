@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import login from '../redux/actions/Customer/login.js'
+import axios from 'axios';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import validation from "./validation.js";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { FaFacebook, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
-//const URL_LINK = 'http://localhost:3001/customer'
-const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com/cutomer'
+import { URL_LINK } from '../URL.js'
+//const URL_LINK = 'http://localhost:3001'
+//const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com'
 
 
 
@@ -60,7 +62,10 @@ function Login() {
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
       
       localStorage.setItem('firebaseUid', firebaseUid);
-      dispatch(login(firebaseUid))
+      const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
+      //console.log(data)
+      dispatch(login(data));
+      
 
     } catch (error) {
       console.error('Error submitting the form:', error)

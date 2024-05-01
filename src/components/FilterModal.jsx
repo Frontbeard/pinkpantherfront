@@ -1,187 +1,131 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { filtByCategory } from '../redux/actions/Filter/filtByCategory';
-import { filtBySize } from '../redux/actions/Filter/filtBySize';
 
-const FilterModal = ({ category, subcategory, onClose, onGoBack }) => {
-  const dispatch = useDispatch();
-  const allProducts = useSelector(state => state.allproducts);
+const FilterModal = ({ onClose, products, onUpdateFilteredProducts, originalProducts }) => {
+    const [minPriceInput, setMinPriceInput] = useState('');
+    const [maxPriceInput, setMaxPriceInput] = useState('');
+    const [selectedSizeInput, setSelectedSizeInput] = useState('');
+    const [selectedSize, setSelectedSize] = useState('');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [productsFound, setProductsFound] = useState(true); // Estado para controlar si se encontraron productos
 
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [isProductFound, setIsProductFound] = useState(true);
-  const [priceError, setPriceError] = useState('');
+    // Función para aplicar los filtros
+    const applyFilters = () => {
+        let filtered = [...products];
 
-  useEffect(() => {
-    handleFilter();
-  }, [category, subcategory, minPrice, maxPrice, selectedSize]);
+        const minPriceValue = parseFloat(minPrice);
+        const maxPriceValue = parseFloat(maxPrice);
 
-  const handleFilter = () => {
-    let filteredProducts = [...allProducts];
+        if (!isNaN(minPriceValue)) {
+            filtered = filtered.filter(product => parseFloat(product.priceEfectivo) >= minPriceValue);
+        }
+        if (!isNaN(maxPriceValue)) {
+            filtered = filtered.filter(product => parseFloat(product.priceEfectivo) <= maxPriceValue);
+        }
 
-    // Filtrar por categoría
-    if (category) {
-      filteredProducts = filteredProducts.filter(product => product.category === category);
-      dispatch(filtByCategory(category));
-    }
+        if (selectedSize !== '') {
+            filtered = filtered.filter(product => product.size === selectedSize);
+        }
 
-    // Filtrar por precio mínimo
-    if (minPrice !== '') {
-      filteredProducts = filteredProducts.filter(product => product.price >= parseFloat(minPrice));
-    }
+        onUpdateFilteredProducts(filtered); // Pasar los productos filtrados al componente padre
 
-    // Filtrar por precio máximo
-    if (maxPrice !== '') {
-      filteredProducts = filteredProducts.filter(product => product.price <= parseFloat(maxPrice));
-    }
+        // Verificar si se encontraron productos después de aplicar los filtros
+        setProductsFound(filtered.length > 0);
+    };
 
-    // Filtrar por tamaño
-    if (selectedSize) {
-      filteredProducts = filteredProducts.filter(product => product.size === selectedSize);
-      dispatch(filtBySize(selectedSize));
-    }
+    // Función para limpiar los filtros y cerrar el modal
+    const clearFiltersAndClose = () => {
+        setMinPriceInput('');
+        setMaxPriceInput('');
+        setSelectedSizeInput('');
+        setSelectedSize('');
+        setMinPrice('');
+        setMaxPrice('');
+        onUpdateFilteredProducts(originalProducts); // Restablecer los productos originales
+        setProductsFound(true); // Restablecer el estado de productos encontrados
+        onClose(); // Cerrar el modal
+    };
 
-    // Actualizar los productos filtrados
-    setFilteredProducts(filteredProducts);
-    setIsProductFound(filteredProducts.length > 0);
+    // Actualizar valores de precio y tamaño al hacer clic en el botón de búsqueda
+    const updateFilters = () => {
+        setMinPrice(minPriceInput);
+        setMaxPrice(maxPriceInput);
+        setSelectedSize(selectedSizeInput);
+    };
 
-    // Validar que el precio máximo sea mayor que el mínimo y mostrar el mensaje de error si es necesario
-    if (parseFloat(maxPrice) <= parseFloat(minPrice)) {
-      setPriceError('El precio máximo debe ser mayor que el precio mínimo.');
-    } else {
-      setPriceError('');
-    }
-  };
+    useEffect(() => {
+        applyFilters();
+    }, [minPrice, maxPrice, selectedSize]);
 
-  const handleClearFilter = () => {
-    setMinPrice('');
-    setMaxPrice('');
-    setSelectedSize('');
-    setFilteredProducts([]);
-    setIsProductFound(true);
-    setPriceError('');
-  };
-
-  const handleSearch = () => {
-    // Validar que los precios sean números válidos
-    if (isNaN(parseFloat(minPrice)) || isNaN(parseFloat(maxPrice))) {
-      setPriceError('Ingrese precios válidos.');
-      return;
-    }
-
-    // Validar que el precio máximo sea mayor que el mínimo
-    if (parseFloat(maxPrice) <= parseFloat(minPrice)) {
-      setPriceError('El precio máximo debe ser mayor que el precio mínimo.');
-      return;
-    }
-
-    setPriceError('');
-    handleFilter();
-  };
-
-  const handleMinPriceChange = (e) => {
-    const value = e.target.value.trim(); // Eliminar espacios en blanco al inicio y al final
-
-    // Validar que solo se ingresen números y que no se permitan caracteres especiales
-    if (/^[0-9]*$/.test(value)) {
-      setMinPrice(value);
-    }
-  };
-
-  const handleMaxPriceChange = (e) => {
-    const value = e.target.value.trim(); // Eliminar espacios en blanco al inicio y al final
-
-    // Validar que solo se ingresen números y que no se permitan caracteres especiales
-    if (/^[0-9]*$/.test(value)) {
-      setMaxPrice(value);
-    }
-  };
-
-  return (
-    <div className="fixed left-0 top-0 bottom-0 w-80 bg-white z-10 p-6 overflow-y-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Filtrar productos</h2>
-        <button onClick={onClose}>
-          <FaTimes className="w-6 h-6 text-gray-500" />
-        </button>
-      </div>
-
-      <div className="mb-4">
-        <label htmlFor="minPrice" className="block mb-1">Precio mínimo:</label>
-        <input
-          type="text"
-          id="minPrice"
-          value={minPrice}
-          onChange={handleMinPriceChange}
-          className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-        />
-
-        <label htmlFor="maxPrice" className="block mb-1 mt-2">Precio máximo:</label>
-        <input
-          type="text"
-          id="maxPrice"
-          value={maxPrice}
-          onChange={handleMaxPriceChange}
-          className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-        />
-      </div>
-
-      {priceError && (
-        <div className="text-red-500 mb-4">{priceError}</div>
-      )}
-
-      <div className="mb-4">
-        <label htmlFor="size" className="block mb-1">Talle:</label>
-        <select
-          id="size"
-          value={selectedSize}
-          onChange={(e) => setSelectedSize(e.target.value)}
-          className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="">Todos los talles</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="U">U</option>
-        </select>
-      </div>
-
-      <div className="flex justify-center mt-4">
-        <button onClick={handleSearch} className="bg-pink-500 text-white px-6 py-1 rounded-sm mr-4">
-          <FaSearch className="mr-2" />
-          Buscar
-        </button>
-        <button onClick={handleClearFilter} className="bg-gray-300 text-black px-6 py-1 rounded-sm">
-          Limpiar
-        </button>
-      </div>
-      
-      {isProductFound ? (
-        <div className="mt-4">
-          {filteredProducts.map(product => (
-            <div key={product.id} className="border border-gray-300 rounded-lg p-4 mb-4">
-              <h3 className="text-lg font-semibold">{product.name}</h3>
-              <p>Tamaño: {product.size}</p>
-              <p>Categoría: {product.category}</p>
-              <p>Subcategoría: {product.subcategory}</p>
-              <p>Precio: ${product.price}</p>
+    return (
+        <div className="fixed right-0 top-0 bottom-0 w-80 bg-white z-10 p-6 overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Filtrar productos</h2>
+                <button onClick={onClose}>
+                    <FaTimes className="w-6 h-6 text-gray-500 cursor-pointer" />
+                </button>
             </div>
-          ))}
+
+            <div className="mb-4">
+                <label htmlFor="minPrice" className="block mb-1">Precio mínimo:</label>
+                <input
+                    type="number"
+                    id="minPrice"
+                    value={minPriceInput}
+                    onChange={(e) => setMinPriceInput(e.target.value)}
+                    className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                />
+            </div>
+
+            <div className="mb-4">
+                <label htmlFor="maxPrice" className="block mb-1 mt-2">Precio máximo:</label>
+                <input
+                    type="number"
+                    id="maxPrice"
+                    value={maxPriceInput}
+                    onChange={(e) => setMaxPriceInput(e.target.value)}
+                    className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                />
+            </div>
+
+            <div className="mb-4">
+                <label className="block mb-1">Tamaño:</label>
+                <select
+                    value={selectedSizeInput}
+                    onChange={(e) => setSelectedSizeInput(e.target.value)}
+                    className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+                    <option value="">Todos los tamaños</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="unico">unico</option>
+                </select>
+            </div>
+
+            <div className="flex justify-center mt-4">
+                <button onClick={updateFilters} className="bg-pink-500 text-white px-6 py-1 rounded-sm mr-4">
+                    <FaSearch className="mr-2" />
+                    Buscar
+                </button>
+                <button onClick={clearFiltersAndClose} className="bg-gray-300 text-black px-6 py-1 rounded-sm">
+                    Limpiar
+                </button>
+            </div>
+
+            {/* Mostrar mensaje si no se encontraron productos */}
+            {!productsFound && (
+                <p className="text-red-500 mt-4 text-center">No hay productos disponibles.</p>
+            )}
         </div>
-      ) : (
-        <div className="flex items-center justify-center h-32">
-          <p className="text-red-500">Lo sentimos, el producto que busca no está disponible.</p>
-        </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default FilterModal;
+
+
 
 

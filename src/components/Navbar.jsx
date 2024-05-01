@@ -7,6 +7,10 @@ import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
 import getAllCategories from "../redux/actions/Category/getAllCategories";
 import ProductFilter from "../components/ProductFilter";
+import logout from "../redux/actions/Customer/logout";
+import selectCategory from "../redux/actions/Category/selectCategory"; 
+import isAuthenticated from "../Firebase/checkAuth";
+
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,21 +18,20 @@ const Navbar = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
-
     const allCategories = useSelector(state => state.allCategories);
     console.log(allCategories);
 
+    const customer = useSelector(state => state.userData)
+    console.log(customer)
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllCategories()); // Dispatch para obtener las categorías al montar el componente
-    }, []);
+        dispatch(getAllCategories());
+    }, [dispatch]);
 
     useEffect(() => {
-        if (!modalOpen) {
-            setSelectedCategory(null);
-        }
-    }, [modalOpen]);
+        isAuthenticated(dispatch);
+    }, []);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -40,10 +43,13 @@ const Navbar = () => {
         const filtered = allCategories.find(category => category.id === categoryId)?.products || [];
         setFilteredProducts(filtered);
         console.log(filtered, 'productos filtrados en Navbar');
+
     };
 
     const handleCloseModal = () => {
         setModalOpen(false);
+        // Restablecer los productos de la categoría seleccionada
+        handleCategoryClick(selectedCategory);
     };
 
     const handleSearch = (query) => {
@@ -55,12 +61,21 @@ const Navbar = () => {
         setSelectedCategory(name);
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('firebaseUid')
+        dispatch(logout())
+    };
+
     const navItems = allCategories.map(({ id, name, products }) => ({
         id,
         name,
         path: name === "about us" ? "/about" : `/categories/${id}`,
         products,
     }));
+
+    const handleUpdateFilteredProducts = (filteredProducts) => {
+        setFilteredProducts(filteredProducts);
+    };
 
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
@@ -73,6 +88,13 @@ const Navbar = () => {
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
                     </a>
+
+                    {customer && localStorage.getItem('firebaseUid') && (
+                        <span>Logueado como: {customer.userName}
+
+                        <button onClick={handleLogout}>Logout</button>
+                        </span>
+                    )}
                     <a href="/" className="flex items-center gap-2 ">
                         <FaStar />
                     </a>
@@ -95,9 +117,8 @@ const Navbar = () => {
                                 <div onClick={() => handleCategoryClick(id)}>
                                     <NavLink
                                         to={path}
-                                        className={selectedCategory === name ? "active" : ""}
-                                        style={{ color: selectedCategory === name ? "blue" : "black" }}
-                                        onMouseEnter={() => handleMouseEnterCategory(name)}
+                                        className={selectedCategory === id ? "active" : ""}
+                                        style={{ color: selectedCategory === id ? "blue" : "black" }}
                                     >
                                         {name}
                                     </NavLink>
@@ -111,6 +132,8 @@ const Navbar = () => {
                 <FilterModal
                     category={selectedCategory}
                     onClose={handleCloseModal}
+                    products={filteredProducts}
+                    onUpdateFilteredProducts={handleUpdateFilteredProducts}
                 />
             )}
             {filteredProducts.length > 0 && (

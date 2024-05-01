@@ -28,6 +28,7 @@ import {
   GET_CATEGORIES,
   POST_CATEGORIES,
   EDIT_CATEGORY,
+  SELECT_CATEGORY,
   //filtro
   FILT_BY_CATEGORY,
   FILT_BY_SIZE,
@@ -35,25 +36,26 @@ import {
   ORDER,
   FILT_BY_PRICE,
   GET_CATEGORIES_BY_ID,
+  //ERROR
+  ERROR,
+  LOGIN_SUCCESS,
+    //order
+    GET_ORDERS,
+    GET_ORDERID,
+   // CHANGE_PAGE,
 
 } from '../actions/actions-types';
 
 const initialState = {
-  // Paginación
-  //currentPage: 1,
- // totalPages: 1, // Se debe actualizar cuando obtengas el total de páginas desde tu fuente de datos
-
   //products
   product: [],
   allproducts: [],
-  allProductsAdmin: [],
-  allUsers: [],
+  allProductsAdmin:[],
+  allUsers:[],
   details: [],
   name: null,
   saveProducts: [],
   allCategories: [],
-  //favs
-  favorites: [],
   //users
   isLoggedIn: false,
   userId: [],
@@ -70,11 +72,10 @@ const initialState = {
   },
   //cart
   cart: [],
-  loggedIn: false,
-  loggedUser: '',
-   //orders
-   allOrders: [],
-   ordersUser: [],
+  //orders
+  allOrders:[],
+  ordersUser:[],
+  favorites:[]
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -228,7 +229,7 @@ const rootReducer = (state = initialState, action) => {
     case GET_CATEGORIES:
       return {
         ...state,
-        allCategories: action.payload,
+        allCategories: payload,
       };
     case POST_CATEGORIES:
       return {
@@ -255,6 +256,16 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           allCategories: payload,
         };
+        case SELECT_CATEGORY:
+          const selectedCategoryId = action.payload;
+          const selectedCategory = state.allCategories.find(category => category.id === selectedCategoryId);
+          const filteredProducts = selectedCategory ? selectedCategory.products : [];
+          return {
+            ...state,
+            selectedCategory: selectedCategoryId,
+            filteredProducts: filteredProducts,
+          };
+
     // Paginación
    // case CHANGE_PAGE:
    //   return {
@@ -286,23 +297,13 @@ const rootReducer = (state = initialState, action) => {
       allproducts: filteredBySize,
     };
 
-    case LOGIN_USER:
+    case GET_ORDERS:
       return {
         ...state,
-        isLoggedIn: true,
-        userId: action.payload.id,
-        accessToken: action.payload.token,
+        allOrders: action.payload,
       };
-
-      // actualiza el estado con la información del usuario proporcionada en la acción
-      case USER_BY_ID:
-        return {
-          ...state,
-          user: action.payload,
-        };  
-
-      // el usuario esta autenticado
-    case AUTH_USER:
+    case GET_ORDERID:
+      // console.log(action.payload);
       return {
         ...state,
         isLoggedIn: true,
@@ -320,18 +321,29 @@ const rootReducer = (state = initialState, action) => {
           user: null, // Restablecer el usuario a null
         };
 
-
     case SAVE_EMAIL:
       return {
         ...state,
-        email: action.payload,
+        email: action.payload
       };
 
+    case LOGIN_SUCCESS:
+      console.log("User data:", payload);
+      return {
+        ...state,
+        isLoggedIn: true,
+        // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
+        userData: payload
+        };
+
+    case ERROR:
+      return {
+          ...state,
+          errors: payload
+        }
     default:
       return state;
   }
 };
 
 export default rootReducer;
-
-

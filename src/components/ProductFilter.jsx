@@ -20,10 +20,14 @@ const ProductFilter = ({ products }) => {
               </Link>
             </div>
           ))}
+
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    // Si no hay productos disponibles, no se renderiza nada
+    return null;
+  }
 };
 
 export default ProductFilter;

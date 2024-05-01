@@ -1,12 +1,13 @@
 import axios from "axios";
 import { GET_PRODUCT_BY_NAME, GET_ALL_PRODUCTS } from "../actions-types"; // Asumiendo que tienes una acción GET_ALL_PRODUCTS definida en actions-types.js
-
-const URL = 'https://pinkpanther-backend-ip0f.onrender.com/product';
+import { URL_LINK } from '../../../URL.js'
+//const URL = 'https://pinkpanther-backend-ip0f.onrender.com/product';
 
 export const getProductByName = (name) => {
     return async function (dispatch){
         try {            
-            let response = await axios.get(`${URL}?name=${name}`);
+            let response = await axios.get(`${URL_LINK}/product?name=${name}`);
+            //let response = await axios.get(`${URL}?name=${name}`);
             return dispatch({
                 type: GET_PRODUCT_BY_NAME,
                 payload: response.data
