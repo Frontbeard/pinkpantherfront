@@ -6,6 +6,7 @@ import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
 import getAllCategories from "../redux/actions/Category/getAllCategories";
+import logout from "../redux/actions/Customer/logout";
 import ProductFilter from "../components/ProductFilter";
 import isAuthenticated from "../Firebase/checkAuth";
 
@@ -63,6 +64,10 @@ const Navbar = () => {
         setSelectedCategory(name);
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('firebaseUid')
+        dispatch(logout())
+    };
     const navItems = allCategories.map(({ id, name, products }) => ({
         id,
         name,
@@ -85,7 +90,7 @@ const Navbar = () => {
                     {customer && localStorage.getItem('firebaseUid') && (
                         <span>Logueado como: {customer.userName}
 
-                        <button>Logout</button>
+                        <button onClick={handleLogout}>Logout</button>
                         </span>
                         
                     )}
