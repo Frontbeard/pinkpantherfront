@@ -1,9 +1,9 @@
 import { LOGOUT_SUCCESS } from "../actions-types";
 
-const logout = (firebaseUid) => {
+const logout = () => {
     return {
       type: LOGOUT_SUCCESS,
-      payload: firebaseUid,
+      //payload: firebaseUid,
     };
   };
 

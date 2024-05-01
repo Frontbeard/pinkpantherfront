@@ -101,7 +101,7 @@ function CreateAccount({ onDataChange }) {
       
       console.log(response)
       const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
-      console.log(data)
+      //console.log(data)
       dispatch(login(data));
 
       //setSuccessMessage
