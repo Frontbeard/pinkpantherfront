@@ -5,7 +5,9 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts, originalProd
     const [minPriceInput, setMinPriceInput] = useState('');
     const [maxPriceInput, setMaxPriceInput] = useState('');
     const [selectedSizeInput, setSelectedSizeInput] = useState('');
+    const [selectedColorInput, setSelectedColorInput] = useState('');
     const [selectedSize, setSelectedSize] = useState('');
+    const [selectedColor, setSelectedColor] = useState('');
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [productsFound, setProductsFound] = useState(true); // Estado para controlar si se encontraron productos
@@ -28,6 +30,10 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts, originalProd
             filtered = filtered.filter(product => product.size === selectedSize);
         }
 
+        if (selectedColor !== '') {
+            filtered = filtered.filter(product => product.color.toLowerCase() === selectedColor.toLowerCase());
+        }
+
         onUpdateFilteredProducts(filtered); // Pasar los productos filtrados al componente padre
 
         // Verificar si se encontraron productos después de aplicar los filtros
@@ -39,7 +45,9 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts, originalProd
         setMinPriceInput('');
         setMaxPriceInput('');
         setSelectedSizeInput('');
+        setSelectedColorInput('');
         setSelectedSize('');
+        setSelectedColor('');
         setMinPrice('');
         setMaxPrice('');
         onUpdateFilteredProducts(originalProducts); // Restablecer los productos originales
@@ -47,16 +55,17 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts, originalProd
         onClose(); // Cerrar el modal
     };
 
-    // Actualizar valores de precio y tamaño al hacer clic en el botón de búsqueda
+    // Actualizar valores de precio, tamaño y color al hacer clic en el botón de búsqueda
     const updateFilters = () => {
         setMinPrice(minPriceInput);
         setMaxPrice(maxPriceInput);
         setSelectedSize(selectedSizeInput);
+        setSelectedColor(selectedColorInput);
     };
 
     useEffect(() => {
         applyFilters();
-    }, [minPrice, maxPrice, selectedSize]);
+    }, [minPrice, maxPrice, selectedSize, selectedColor]);
 
     return (
         <div className="fixed right-0 top-0 bottom-0 w-80 bg-white z-10 p-6 overflow-y-auto">
@@ -106,6 +115,17 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts, originalProd
                 </select>
             </div>
 
+            <div className="mb-4">
+                <label htmlFor="color" className="block mb-1 mt-2">Color:</label>
+                <input
+                    type="text"
+                    id="color"
+                    value={selectedColorInput}
+                    onChange={(e) => setSelectedColorInput(e.target.value.replace(/[^A-Za-z]/ig, ''))}
+                    className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                />
+            </div>
+
             <div className="flex justify-center mt-4">
                 <button onClick={updateFilters} className="bg-pink-500 text-white px-6 py-1 rounded-sm mr-4">
                     <FaSearch className="mr-2" />
@@ -125,7 +145,5 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts, originalProd
 };
 
 export default FilterModal;
-
-
 
 
