@@ -6,10 +6,11 @@ import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
 import getAllCategories from "../redux/actions/Category/getAllCategories";
+import ProductFilter from "../components/ProductFilter";
 import logout from "../redux/actions/Customer/logout";
-import ProductFilter from "./ProductFilter";
 import selectCategory from "../redux/actions/Category/selectCategory"; 
 import isAuthenticated from "../Firebase/checkAuth";
+
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,10 +40,10 @@ const Navbar = () => {
     const handleCategoryClick = (categoryId) => {
         setSelectedCategory(categoryId);
         setModalOpen(true);
-        dispatch(selectCategory(categoryId));
-        const selectedCategoryObj = allCategories.find(category => category.id === categoryId);
-        const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
+        const filtered = allCategories.find(category => category.id === categoryId)?.products || [];
         setFilteredProducts(filtered);
+        console.log(filtered, 'productos filtrados en Navbar');
+
     };
 
     const handleCloseModal = () => {
@@ -64,10 +65,12 @@ const Navbar = () => {
         localStorage.removeItem('firebaseUid')
         dispatch(logout())
     };
+
     const navItems = allCategories.map(({ id, name, products }) => ({
         id,
         name,
         path: name === "about us" ? "/about" : `/categories/${id}`,
+        products,
     }));
 
     const handleUpdateFilteredProducts = (filteredProducts) => {

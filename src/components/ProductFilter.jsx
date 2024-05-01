@@ -1,19 +1,26 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Card from "./Card";
 
 const ProductFilter = ({ products }) => {
-  console.log(products, "productos filtrados en ProductFilter"); // Verifica si los productos están llegando correctamente
+  const handleProductClick = (productId) => {
+    // Redirigir al usuario a la página de detalle del producto
+    window.location.href = `/shop/${productId}`;
+  };
 
-  if (products && products.length > 0) {
-    console.log("Productos disponibles:", products); // Verifica los productos disponibles
-    return (
-      <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
-        <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-6 mb-5">
-          <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4 flex-wrap card-container">
-            {products.map((product) => (
-              <Card key={product.id} filteredItems={product} />
-            ))}
-          </div>
+  return (
+    <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
+      <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-6 mb-5">
+        <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4 flex-wrap card-container">
+          {products && products.map((product) => (
+            <div key={product.id} onClick={() => handleProductClick(product.id)}>
+              {/* Utiliza Link o NavLink para la navegación */}
+              <Link to={`/shop/${product.id}`}>
+                <Card filteredItems={product} />
+              </Link>
+            </div>
+          ))}
+
         </div>
       </div>
     );
