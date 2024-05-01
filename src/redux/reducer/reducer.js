@@ -64,6 +64,7 @@ const initialState = {
   user: [],
   token: [],
   email: "",
+  accessToken:[],
   //category
   saveFilters: {
   category: [],
