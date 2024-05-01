@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import login from '../redux/actions/Customer/login.js'
 import axios from 'axios';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import validation from "./validation.js";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
@@ -16,8 +16,24 @@ import { URL_LINK } from '../URL.js'
 
 function Login() {
   const [userData, setUserData] = useState({
+    idfirebase:'',
+    enable:true,
+    name:'',
     email:'',
     password:'',
+    confirmPassword:'',
+    role:'CUSTOMER',
+    DNI:'232',
+    birthdate:'1998-03-23',
+    firstName:'HOLA',
+    lastName:'PRUEBA',
+    telephone:'2324',
+    country:'Argentina',
+    city:'Buenos Aires',
+    street:'calle',
+    streetNumber:'2344',
+    apartmentNumber:'43',
+    postalCode:'324'
   })
 
   const dispatch = useDispatch()
@@ -76,6 +92,73 @@ function Login() {
   const togglePasswordVisibility = () => {
     setViewPassword(!viewPassword);
   };
+
+  const handleGoogle = async (event) => {
+    event.preventDefault()
+    try {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      const userCredential = await signInWithPopup(auth, provider)
+      //const userCredential = GoogleAuthProvider.credentialFromResult(result);
+      const user = userCredential.user
+      console.log(userCredential)
+      //const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      if (!userCredential) {
+        throw new Error('Firebase user creation failed');
+      }
+      //const user = userCredential.user;
+      const firebaseUid = userCredential.user.uid.toString();
+      const gmail = user.email
+      console.log(firebaseUid)
+      console.log(gmail)
+      //const id = uuidv5(firebaseUid, uuidv5.DNS);
+
+      localStorage.setItem('firebaseUid', firebaseUid);
+      
+      const response = await axios.post(`${URL_LINK}/customer`, {
+        idfirebase: firebaseUid,
+        enable: userData.enable,
+        userName: userData.firstName, 
+        role: userData.role, 
+        DNI: userData.DNI, 
+        birthdate: userData.birthdate, 
+        firstName: userData.firstName, 
+        lastName: userData.lastName, 
+        email: gmail, 
+        telephone: userData.telephone, 
+        country: userData.country, 
+        city: userData.city, 
+        street: userData.street, 
+        streetNumber: userData.streetNumber, 
+        apartmentNumber: userData.apartmentNumber, 
+        postalCode: userData.postalCode
+      });
+      
+      console.log(response)
+      const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
+      //console.log(data)
+      dispatch(login(data));
+
+      //setSuccessMessage
+      if (response.data.created === true) {
+        alert('Account created successfully!')
+        onDataChange && onDataChange(response.data.userData) // Call the callback function to update state
+        setUserData({
+          name: '',
+          email: '',
+          password: ''
+        })
+        // Clear the errors state
+        setErrors({})
+      } else if (response.data.created === false) {
+        alert('Username already exists in the DataBase!')
+      }
+    } catch (error) {
+      console.error('Error submitting the form:', error)
+      //alert('Error submitting the form. Please try again later.', error.message)
+    }
+  }
+
 
     return (
       <div className="grid grid-cols-1 items-center justify-items-center h-screen mt-8">
@@ -154,7 +237,7 @@ function Login() {
           </div>
           <hr />
           <CardFooter className="pt-0 mt-5 flex flex-col gap-2">
-            <Button className="text-black bg-white border flex items-center justify-center" variant="gradient" fullWidth>
+            <Button onClick={handleGoogle} className="text-black bg-white border flex items-center justify-center" variant="gradient" fullWidth>
               <FaGoogle className="mr-2" /> Continuar con Google
             </Button>
             <Button className="text-black bg-white border mt-2 flex items-center justify-center" variant="gradient" fullWidth>
