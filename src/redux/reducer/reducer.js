@@ -39,10 +39,8 @@ import {
   //ERROR
   ERROR,
   LOGIN_SUCCESS,
-<<<<<<< HEAD
-=======
   LOGOUT_SUCCESS,
->>>>>>> ee3cce4e9634d051b4b1ac4c2426dc9d42d6ed9d
+
     //order
     GET_ORDERS,
     GET_ORDERID,
@@ -337,9 +335,7 @@ const rootReducer = (state = initialState, action) => {
         // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
         userData: payload
         };
-<<<<<<< HEAD
 
-=======
     case LOGOUT_SUCCESS:
       console.log("User data:", payload);
       return {
@@ -348,7 +344,7 @@ const rootReducer = (state = initialState, action) => {
           // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
           userData: null,
           };  
->>>>>>> ee3cce4e9634d051b4b1ac4c2426dc9d42d6ed9d
+
     case ERROR:
       return {
           ...state,
