@@ -202,7 +202,7 @@ function CreateAccount({ onDataChange }) {
   }
   
     return (
-      <div className="grid grid-cols-1 items-center justify-items-center h-screen mt-8">
+      <div className="grid grid-cols-1 items-center justify-items-center min-h-full mt-8">
         <Card className="w-full max-w-md">
           <CardHeader variant="gradient" color="pink" className="mb-4 grid h-28 place-items-center">
             <Typography variant="h3" color="black">
