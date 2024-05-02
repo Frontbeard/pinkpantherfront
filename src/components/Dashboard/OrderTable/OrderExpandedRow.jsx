@@ -10,7 +10,7 @@ const OrderExpandedRow = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${URL_LINK}/product`); // Reemplaza '/api/products' con la ruta correcta a tu endpoint de productos
+        const response = await axios.get(`${URL_LINK}/product`); 
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);

@@ -6,6 +6,7 @@ import { Switch } from "@headlessui/react";
 import CreateAccount from "../../CreateAccount";
 import userBan from "../../../redux/actions/User/userBan";
 
+//es una tabla que muestra una lista de usuarios y proporciona la funcionalidad de editar y cambiar el estado de bloqueo de un usuario
 const UsersTable = () => {
   const dispatch = useDispatch();
   const [showEditModal, setShowEditModal] = useState(false);
