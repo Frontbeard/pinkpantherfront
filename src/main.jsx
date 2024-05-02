@@ -83,11 +83,8 @@ const router = createBrowserRouter([
         path:'/admin/resumen',
         element: <Resumen/>
       },
-
-      }
-
-    ],
-  },
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
