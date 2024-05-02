@@ -19,7 +19,7 @@ const Dashboard = () => {
       <div className="flex-1 overflow-y-auto overflow-x-hidden p-10">
         {location.pathname === "/admin" && <Panel/>}
         {location.pathname === "/admin/usuarios" && <UsersTable />}
-        {location.pathname === "/admin/productos" && <ProductsTable />}
+        {location.pathname === "/admin/products" && <ProductsTable />}
         {location.pathname === "/admin/ordenes" && <OrdersTable/>}
         {location.pathname === "/admin/crear-producto" && <CreateProduct/>}
       </div>
