@@ -1,42 +1,45 @@
 import React from 'react'
+import { Card, Row, Col, Image } from 'antd';
+import { getColorName } from '../../utils/getColorName';
 
-//muestra los detalles de los productos en una orden expandida
 const OrderExpandedRow = ({ products }) => {
   return (
     <div>
-      <h3 className="text-xl font-bold mb-4">Productos</h3>
-      <div>
+      <h3 className="mb-4">Productos</h3>
+      <div className="flex flex-wrap">
         {products.map((product) => (
-          <div className="border border-gray-200 rounded-lg p-4 mb-4" key={product.id}>
-            <div className="flex items-center mb-2">
-              <div className="flex-1 mr-4">
-                <p className="font-bold">Nombre</p>
-                <p>{product.name}</p>
-              </div>
-              <div>
-                <img alt={product.name} src={product.photo} className="w-20 h-auto" />
-              </div>
-            </div>
-            <div className="flex items-center mb-2">
-             
-              <div className="mr-4">
-                <p className="font-bold">Cant.</p>
-                <p>{product.quantity}</p>
-              </div>
-              <div className="mr-4">
-                <p className="font-bold">Precio x unidad</p>
-                <p>${product.price}</p>
-              </div>
-              <div>
-                <p className="font-bold">Total</p>
-                <p>${product.price * product.quantity}</p>
-              </div>
-            </div>
-          </div>
+          <Card
+            bordered={false}
+            hoverable={true}
+            className="w-full md:w-2/5 lg:w-1/4 mx-2 my-2"
+            key={product.id}
+            name={product.size}
+          >
+            <Row justify="center">
+              <Col span={24} className="mb-2">
+                <div className="text-center">Nombre<br />{product.name}</div>
+              </Col>
+              <Col span={24} className="mb-2">
+                <div className="flex justify-center"><Image alt={product.name} src={product.image && product.image} width={35} /></div>
+              </Col>
+              <Col span={24} className="mb-2">
+                <div className="text-center">Color<br />{getColorName(product.color)}</div>
+              </Col>
+              <Col span={24} className="mb-2">
+                <div className="text-center">Cant.<br />{product.quantity}</div>
+              </Col>
+              <Col span={24} className="mb-2">
+                <div className="text-center">Precio x unidad<br />${product.price}</div>
+              </Col>
+              <Col span={24} className="mb-2">
+                <div className="text-center">Total<br />${product.price * product.quantity}</div>
+              </Col>
+            </Row>
+          </Card>
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OrderExpandedRow;
+export default OrderExpandedRow

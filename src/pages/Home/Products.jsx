@@ -35,6 +35,11 @@ const Products = () => {
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
 
+ 
+  if (!Array.isArray(paginatedItems)) {
+    return null; // o maneja el error de manera adecuada
+  }
+
   const filterItems = (category) => {
     const filtered =
       category === "all"
@@ -100,3 +105,4 @@ const Products = () => {
 };
 
 export default Products;
+

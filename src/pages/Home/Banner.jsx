@@ -1,10 +1,8 @@
 import React from "react";
 import { FaShoppingBag } from "react-icons/fa";
-import bannerImg from "/images/banner.png";
-import banner from "./../../../public/banner.jpg"
+import banner from "./../../../public/banner.jpg";
 
-
-const Banner = () => {
+const Banner = ({ onVerAhoraClick }) => {
   return (
     <div className="bg-gray-100 py-12 xl:px-28 px-4 flex justify-center items-center border shadow-sm border-t border-b mt-5 ">
       <div className="max-w-4xl w-full">
@@ -18,8 +16,8 @@ const Banner = () => {
             <p className="text-xl mb-7 text-center text-pink-400">
               ¡Potencia tu estilo, libera tu fuerza! Descubrí nuestra colección de indumentaria deportiva para brillar en cada movimiento.
             </p>
-            <button className="bg-black hover:bg-pink-400 px-6 py-2 text-white font-semibold flex gap-2 items-center rounded-sm mx-auto">
-              <FaShoppingBag className="inline-flex" /> Ver ahora
+            <button className="bg-black hover:bg-pink-400 px-6 py-2 text-white font-semibold flex gap-2 items-center rounded-sm mx-auto" onClick={onVerAhoraClick}>
+              <FaShoppingBag className="inline-flex" /> Destacados
             </button>
           </div>
         </div>
