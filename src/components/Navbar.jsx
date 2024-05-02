@@ -14,15 +14,13 @@ import isAuthenticated from "../Firebase/checkAuth";
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [modalOpen, setModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
     const allCategories = useSelector(state => state.allCategories);
-    console.log(allCategories);
 
-    const customer = useSelector(state => state.userData)
-    console.log(customer)
+    const customer = useSelector(state => state.userData);
     const dispatch = useDispatch();
+    const [showFilterModal, setShowFilterModal] = useState(false);
 
     useEffect(() => {
         dispatch(getAllCategories());
@@ -36,18 +34,19 @@ const Navbar = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleCategoryClick = (categoryId) => {
+    const handleCategoryClick = (categoryId, categoryName) => {
         setSelectedCategory(categoryId);
-        setModalOpen(true);
-        dispatch(selectCategory(categoryId));
-        const selectedCategoryObj = allCategories.find(category => category.id === categoryId);
-        const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
-        setFilteredProducts(filtered);
+        if (categoryName !== "about us") {
+            setShowFilterModal(true);
+            dispatch(selectCategory(categoryId));
+            const selectedCategoryObj = allCategories.find(category => category.id === categoryId);
+            const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
+            setFilteredProducts(filtered);
+        }
     };
 
     const handleCloseModal = () => {
-        setModalOpen(false);
-        // Restablecer los productos de la categoría seleccionada
+        setShowFilterModal(false);
         handleCategoryClick(selectedCategory);
     };
 
@@ -56,14 +55,11 @@ const Navbar = () => {
         setSelectedCategory(null);
     };
 
-    const handleMouseEnterCategory = (name) => {
-        setSelectedCategory(name);
+    const handleLogout = () => {
+        localStorage.removeItem('firebaseUid');
+        dispatch(logout());
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('firebaseUid')
-        dispatch(logout())
-    };
     const navItems = allCategories.map(({ id, name, products }) => ({
         id,
         name,
@@ -88,8 +84,7 @@ const Navbar = () => {
 
                     {customer && localStorage.getItem('firebaseUid') && (
                         <span>Logueado como: {customer.userName}
-
-                        <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleLogout}>Logout</button>
                         </span>
                     )}
                     <a href="/" className="flex items-center gap-2 ">
@@ -111,7 +106,7 @@ const Navbar = () => {
                     <ul className="lg:flex items-center justify-evenly text-black hidden">
                         {navItems.map(({ id, name, path }) => (
                             <li key={id} className="relative">
-                                <div onClick={() => handleCategoryClick(id)}>
+                                <div onClick={() => handleCategoryClick(id, name)}>
                                     <NavLink
                                         to={path}
                                         className={selectedCategory === id ? "active" : ""}
@@ -125,7 +120,7 @@ const Navbar = () => {
                     </ul>
                 </div>
             )}
-            {modalOpen && (
+            {showFilterModal && (
                 <FilterModal
                     category={selectedCategory}
                     onClose={handleCloseModal}
