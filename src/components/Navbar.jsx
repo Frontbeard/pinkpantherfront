@@ -90,10 +90,10 @@ const Navbar = () => {
                             <button onClick={handleLogout}>Logout</button>
                         </span>
                     )}
-                    <a href="/" className="flex items-center gap-2 ">
+                    <a href="/favorites" className="flex items-center gap-2 ">
                         <FaStar />
                     </a>
-                    <a href="/" className="flex items-center gap-2 container">
+                    <a href="/cart" className="flex items-center gap-2 container">
                         <FaShoppingBag />
                     </a>
                 </div>
