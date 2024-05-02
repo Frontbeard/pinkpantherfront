@@ -35,49 +35,10 @@ const Products = () => {
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
 
-  const filterItems = (category) => {
-    const filtered =
-      category === "all"
-        ? products
-        : products.filter((item) => item.category === category);
-
-    setFilteredItems(filtered);
-    setSelectedCategory(category);
-    setCurrentPage(1);
-    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-  };
-
-  const showAll = () => {
-    setFilteredItems(products);
-    setSelectedCategory("all");
-    setCurrentPage(1);
-    setTotalPages(Math.ceil(products.length / itemsPerPage));
-  };
-
-  const handleSortChange = (option) => {
-    setSortOption(option);
-
-    let sortedItems = [...filteredItems];
-
-    switch (option) {
-      case "A-Z":
-        sortedItems.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case "Z-A":
-        sortedItems.sort((a, b) => b.title.localeCompare(a.title));
-        break;
-      case "low-to-high":
-        sortedItems.sort((a, b) => a.price - b.price);
-        break;
-      case "high-to-low":
-        sortedItems.sort((a, b) => b.price - a.price);
-        break;
-      default:
-        break;
-    }
-
-    setFilteredItems(sortedItems);
-  };
+  // Ensure paginatedItems is an array before mapping
+  if (!Array.isArray(paginatedItems)) {
+    return null; // or handle the error gracefully
+  }
 
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
