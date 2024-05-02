@@ -63,6 +63,8 @@ const Navbar = () => {
     const handleLogout = () => {
         localStorage.removeItem('firebaseUid')
         dispatch(logout())
+        console.log('You have logged out');
+        alert('Has cerrado sesión');
     };
     const navItems = allCategories.map(({ id, name, products }) => ({
         id,
