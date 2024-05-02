@@ -4,6 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import CreateProduct from './formCreateProduct/CreateProduct';
 
 import Resumen from './Dashboard/Panel/Resumen';
+import ProductsTable from './Dashboard/ProductsTable/ProductsTable';
 
 
 const SideBarDashboard = () => {
@@ -23,6 +24,7 @@ const SideBarDashboard = () => {
         icon: '🛒',
         label: 'Productos',
         path: '/admin/products',
+        element: <ProductsTable/>
       },
       {
         key: '3',

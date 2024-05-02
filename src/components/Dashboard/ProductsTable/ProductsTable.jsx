@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PencilAltIcon } from '@heroicons/react/outline';
 import EditProductModal from '../../EditProductModal/EditProductModal';
+import  { getAllProducts } from "../../../redux/actions/Product/getAllProducts"
+import { updateProduct } from '../../../redux/actions/Product/updateProduct';
 
 const ProductsTable = () => {
   const dispatch = useDispatch();
@@ -10,12 +12,17 @@ const ProductsTable = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [productUpdate, setProductUpdate] = useState({});
 
+  useEffect(() => {
+    dispatch(getAllProducts(accessToken));
+  }, [dispatch, accessToken]);
+
+
   const sortedProducts = products?.sort((a, b) => a.name.localeCompare(b.name));
 
   const handleActive = async (value, product) => {
     try {
       const response = await dispatch(
-        editProduct(
+        updateProduct(
           {
             id: product.id,
             name: product.name,
@@ -29,12 +36,11 @@ const ProductsTable = () => {
           accessToken
         )
       );
-      if (response.message === 'Producto editado correctamente')
-        message.success('Producto editado correctamente', [2]);
+      if (response && response.message === 'Producto editado correctamente') {
+        dispatch(getAllProducts(accessToken));
+      }
     } catch (error) {
       console.log(error);
-    } finally {
-      dispatch(getAllProducts(accessToken));
     }
   };
 

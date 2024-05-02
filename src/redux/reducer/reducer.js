@@ -91,6 +91,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         allproducts: payload,
+        allProductsAdmin: action.payload
       };
     case GET_PRODUCT_BY_ID:
       return {

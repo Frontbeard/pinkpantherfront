@@ -23,6 +23,7 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Resumen from "./components/Dashboard/Panel/Resumen.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
+import ProductsTable from "./components/Dashboard/ProductsTable/ProductsTable.jsx";
 
 // import dotenv from 'dotenv'
 // dotenv.config();
@@ -83,9 +84,15 @@ const router = createBrowserRouter([
         path:'/admin/resumen',
         element: <Resumen/>
       },
-    ]
-  }
-]);
+
+      {
+        path:'/admin/products',
+        element: <ProductsTable/>
+      },
+
+    ],
+  },
+])
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
