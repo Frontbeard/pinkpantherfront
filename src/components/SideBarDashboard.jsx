@@ -5,6 +5,8 @@ import CreateProduct from './formCreateProduct/CreateProduct';
 
 import Resumen from './Dashboard/Panel/Resumen';
 import ProductsTable from './Dashboard/ProductsTable/ProductsTable';
+import OrdersTable from './Dashboard/OrderTable/OrderTable';
+import UsersTable from './Dashboard/UsersTable/UsersTable';
 
 
 const SideBarDashboard = () => {
@@ -17,7 +19,8 @@ const SideBarDashboard = () => {
         key: '1',
         icon: '👤',
         label: 'Usuarios',
-        path: '/admin/costumer',
+        path: '/admin/user',
+        element: <UsersTable/>,
       },
       {
         key: '2',
@@ -30,7 +33,8 @@ const SideBarDashboard = () => {
         key: '3',
         icon: '🛍️',
         label: 'Ordenes de compra',
-        path: '/admin/orde',
+        path: '/admin/orders',
+        element: <OrdersTable/>,
       },
       {
         key: '4',
