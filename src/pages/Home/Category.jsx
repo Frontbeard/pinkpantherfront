@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Category = () => {
+const Category = ({ onBackToBannerClick }) => {
   return (
     <div className="max-w-screen-2xl container xl:px-28 px-4 py-16">
 
@@ -47,6 +47,13 @@ const Category = () => {
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Botón para volver al Banner */}
+      <div className="mt-8">
+        <button onClick={onBackToBannerClick} className="bg-black hover:bg-pink-400 px-6 py-2 text-white font-semibold rounded-sm">
+          Volver
+        </button>
       </div>
     </div>
   );

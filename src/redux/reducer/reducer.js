@@ -28,6 +28,7 @@ import {
   GET_CATEGORIES,
   POST_CATEGORIES,
   EDIT_CATEGORY,
+  SELECT_CATEGORY,
   //filtro
   FILT_BY_CATEGORY,
   FILT_BY_SIZE,
@@ -38,6 +39,10 @@ import {
   //ERROR
   ERROR,
   LOGIN_SUCCESS,
+<<<<<<< HEAD
+=======
+  LOGOUT_SUCCESS,
+>>>>>>> ee3cce4e9634d051b4b1ac4c2426dc9d42d6ed9d
     //order
     GET_ORDERS,
     GET_ORDERID,
@@ -46,10 +51,6 @@ import {
 } from '../actions/actions-types';
 
 const initialState = {
-  // Paginación
-  //currentPage: 1,
- // totalPages: 1, // Se debe actualizar cuando obtengas el total de páginas desde tu fuente de datos
-
   //products
   product: [],
   allproducts: [],
@@ -232,7 +233,7 @@ const rootReducer = (state = initialState, action) => {
     case GET_CATEGORIES:
       return {
         ...state,
-        allCategories: action.payload,
+        allCategories: payload,
       };
     case POST_CATEGORIES:
       return {
@@ -257,6 +258,16 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           allCategories: payload,
         };
+        case SELECT_CATEGORY:
+          const selectedCategoryId = action.payload;
+          const selectedCategory = state.allCategories.find(category => category.id === selectedCategoryId);
+          const filteredProducts = selectedCategory ? selectedCategory.products : [];
+          return {
+            ...state,
+            selectedCategory: selectedCategoryId,
+            filteredProducts: filteredProducts,
+          };
+
     // Paginación
    // case CHANGE_PAGE:
    //   return {
@@ -326,7 +337,18 @@ const rootReducer = (state = initialState, action) => {
         // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
         userData: payload
         };
+<<<<<<< HEAD
 
+=======
+    case LOGOUT_SUCCESS:
+      console.log("User data:", payload);
+      return {
+          ...state,
+          isLoggedIn: false,
+          // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
+          userData: null,
+          };  
+>>>>>>> ee3cce4e9634d051b4b1ac4c2426dc9d42d6ed9d
     case ERROR:
       return {
           ...state,
@@ -338,5 +360,3 @@ const rootReducer = (state = initialState, action) => {
 };
 
 export default rootReducer;
-
-
