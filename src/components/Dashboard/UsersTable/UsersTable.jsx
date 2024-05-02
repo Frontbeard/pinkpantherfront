@@ -13,8 +13,6 @@ const UsersTable = () => {
   const [user, setUser] = useState({});
   const accessToken = useSelector((state) => state.accessToken);
   const allUsers = useSelector((state) => state.allUsers);
-  const isMobile = useMediaQuery({ maxWidth: 769 });
-  const isOp = useMediaQuery({ maxWidth: 500 });
 
   const onChange = async (value, user) => {
     try {

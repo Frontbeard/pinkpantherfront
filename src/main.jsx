@@ -24,6 +24,8 @@ import Resumen from "./components/Dashboard/Panel/Resumen.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
 import ProductsTable from "./components/Dashboard/ProductsTable/ProductsTable.jsx";
+import OrdersTable from "./components/Dashboard/OrderTable/OrderTable.jsx";
+import UsersTable from "./components/Dashboard/UsersTable/UsersTable.jsx";
 
 // import dotenv from 'dotenv'
 // dotenv.config();
@@ -89,6 +91,14 @@ const router = createBrowserRouter([
         path:'/admin/products',
         element: <ProductsTable/>
       },
+      {
+        path: '/admin/orders',
+        element: <OrdersTable/>,
+      },
+      {
+        path: '/admin/user',
+        element: <UsersTable/>,
+      }
 
     ],
   },
