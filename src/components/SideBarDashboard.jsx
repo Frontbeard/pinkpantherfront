@@ -2,7 +2,9 @@ import { Menu } from '@headlessui/react';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
 import CreateProduct from './formCreateProduct/CreateProduct';
+
 import Resumen from './Dashboard/Panel/Resumen';
+
 
 const SideBarDashboard = () => {
     const navigate = useNavigate();
@@ -42,6 +44,7 @@ const SideBarDashboard = () => {
         path: '/admin/resumen',
         onClick:()=>navigate('/admin/resumen'),
         element: <Resumen/>
+
       },
     ];
   
