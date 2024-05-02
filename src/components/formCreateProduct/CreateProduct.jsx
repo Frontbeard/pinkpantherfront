@@ -4,9 +4,10 @@ import axios from "axios";
 import { useState, useEffect } from 'react';
 import validation from './validation';
 
-const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
-/* const URL_PRODUCT = "http://localhost:3001/product" */
-const URL_CATEGORIES = "https://pinkpanther-backend-ip0f.onrender.com/categories";
+// const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
+ const URL_PRODUCT = "http://localhost:3001/product" 
+// const URL_CATEGORIES = "https://pinkpanther-backend-ip0f.onrender.com/categories";
+const URL_CATEGORIES="http://localhost:3001/categories"
 
 
 const CreateProduct =()=>{

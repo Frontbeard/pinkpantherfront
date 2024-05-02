@@ -1,22 +1,11 @@
-import { Button, Switch, Table, Card } from "antd";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
-import EditProductModal from "../../../components/EditPorductModal/EditPorductModal";
-// import updateProduct from "../../../redux/Actions/Product/updateProduct";
-import { useMediaQuery } from "react-responsive";
-import getAllProducts from "../../../redux/actions/Product/getAllProducts";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { PencilAltIcon } from '@heroicons/react/outline';
+import EditProductModal from '../../EditProductModal/EditProductModal';
 
 const ProductsTable = () => {
-  const isMobile = useMediaQuery({ maxWidth: 769 });
-  const minMobile = useMediaQuery({ maxWidth: 500 });
   const dispatch = useDispatch();
   const products = useSelector((state) => state.allProductsAdmin);
-  const allCatgories = useSelector((state) => state.allCategories);
   const accessToken = useSelector((state) => state.accessToken);
   const [showEditModal, setShowEditModal] = useState(false);
   const [productUpdate, setProductUpdate] = useState({});
@@ -26,98 +15,28 @@ const ProductsTable = () => {
   const handleActive = async (value, product) => {
     try {
       const response = await dispatch(
-        updateProduct(
+        editProduct(
           {
             id: product.id,
             name: product.name,
-            price: product.price,
-            priceOnSale: product.priceOnSale || product.price,
-            unitsSold: product.unitsSold,
-            image: product.image,
+            priceEfectivo: product.priceEfectivo,
+            priceCuotas: product.priceCuotas || product.priceEfectivo,
+            photo: product.photo,
             category: product.category,
             stock: product.stock,
-            active: value,
+            estado: value,
           },
           accessToken
         )
       );
-      if (response.message === "Producto editado correctamente")
-        message.success("Producto editado correctamente", [2]);
+      if (response.message === 'Producto editado correctamente')
+        message.success('Producto editado correctamente', [2]);
     } catch (error) {
       console.log(error);
     } finally {
       dispatch(getAllProducts(accessToken));
     }
   };
-
-  const columns = [
-    {
-      title: "Imagen",
-      dataIndex: "image",
-      key: "image",
-      render: (image) => <img src={image} className="productsTableImage" alt="Product" />,
-    },
-    {
-      title: "Nombre",
-      dataIndex: "name",
-      sorter: (a, b) => a.name.localeCompare(b.name),
-      key: "name",
-      render: (text) => <p>{text.toUpperCase()}</p>,
-    },
-    {
-      title: "Acciones",
-      dataIndex: "",
-      key: "action",
-      render: (cell) => (
-        <Button
-          type="primary"
-          icon={<EditOutlined />}
-          size="small"
-          onClick={() => {
-            setShowEditModal(true), setProductUpdate(cell);
-          }}
-        />
-      ),
-    },
-    {
-      title: "Activo",
-      dataIndex: "",
-      key: "active",
-      render: (cell) => (
-        <Switch
-          checkedChildren={<CheckOutlined />}
-          unCheckedChildren={<CloseOutlined />}
-          defaultChecked={cell.active === true ? true : false}
-          onChange={() =>
-            handleActive(cell.active === true ? false : true, cell)
-          }
-        />
-      ),
-    },
-  ];
-
-  if (!isMobile) {
-    // Si no es un dispositivo móvil, agregamos las columnas "Categoria", "Precio" y "Unidades Vendidas"
-    columns.splice(2, 0, {
-      title: "Categoria",
-      dataIndex: "Category",
-      key: "Category",
-      render: (category) => <p>{category.name}</p>,
-    });
-    columns.splice(3, 0, {
-      title: "Precio",
-      dataIndex: "price",
-      key: "price",
-      sorter: (a, b) => a.price - b.price,
-      render: (price) => <p>${price}</p>,
-    });
-    columns.splice(4, 0, {
-      title: "Unidades Vendidas",
-      dataIndex: "unitsSold",
-      key: "unitsSold",
-      render: (stock) => <p>{stock}</p>,
-    });
-  }
 
   return (
     <div>
@@ -128,49 +47,41 @@ const ProductsTable = () => {
           product={productUpdate}
         />
       )}
-      {minMobile ? (
-        sortedProducts.map((product, index) => (
-          <Card
-            key={index}
-            title={product.name}
-            bordered={false}
-            hoverable={true}
-            style={{
-              width: "100%",
-              marginBottom: "10px",
-              marginTop: "10px",
-              backgroundColor: "#f5f5f5",
-            }}
-          >
-            <div className="w-full flex justify-center">
-              <img className="productsTableImageMobile" src={product.image} alt="Product" />
-            </div>
-            <div className="flex flex-col items-center">
-              <p>Unidades Vendidas: {product.unitsSold}</p>
-              <div className="flex items-center">
-                <Button
-                  type="primary"
-                  icon={<EditOutlined />}
-                  size="small"
-                  onClick={() => {
-                    setShowEditModal(true), setProductUpdate(product);
-                  }}
-                />
-                <Switch
-                  checkedChildren={<CheckOutlined />}
-                  unCheckedChildren={<CloseOutlined />}
-                  defaultChecked={product.active === true ? true : false}
-                  onChange={() =>
-                    handleActive(product.active === true ? false : true, product)
-                  }
-                />
-              </div>
-            </div>
-          </Card>
-        ))
-      ) : (
-        <Table dataSource={sortedProducts} columns={columns} />
-      )}
+      {sortedProducts.map((product, index) => (
+        <div key={index} className="border-b-2 border-gray-200 py-4 flex items-center">
+          <img src={product.image} className="w-16 h-16 mr-4" alt="Product" />
+          <div className="flex flex-col flex-grow">
+            <p className="font-bold text-lg mb-1">{product.name}</p>
+            <p className="text-sm">Unidades Vendidas: {product.unitsSold}</p>
+          </div>
+          <div className="flex items-center">
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md mr-2"
+              onClick={() => {
+                setShowEditModal(true), setProductUpdate(product);
+              }}
+            >
+              <PencilAltIcon className="h-4 w-4" />
+            </button>
+            <label htmlFor={`toggle-${product.id}`} className="flex items-center cursor-pointer">
+              <input
+                id={`toggle-${product.id}`}
+                type="checkbox"
+                className="hidden"
+                checked={product.active}
+                onChange={() => handleActive(!product.active, product)}
+              />
+              <span className={`relative inline-block w-10 h-6 rounded-full ${product.active ? 'bg-green-500' : 'bg-gray-400'}`}>
+                <span
+                  className={`absolute inset-0 w-4 h-4 m-1 rounded-full transition-transform duration-300 ${
+                    product.active ? 'transform translate-x-full bg-white' : 'bg-white translate-x-0'
+                  }`}
+                ></span>
+              </span>
+            </label>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

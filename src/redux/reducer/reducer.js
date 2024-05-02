@@ -77,7 +77,9 @@ const initialState = {
   //orders
   allOrders:[],
   ordersUser:[],
-  favorites:[]
+  favorites:[],
+  shippingType: null,
+  shippingCost: null,
 };
 
 const rootReducer = (state = initialState, action) => {

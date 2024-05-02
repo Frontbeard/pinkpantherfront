@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { productbyID } from "../../redux/actions/Product/productById";
 
-const demoText = {
+/* const demoText = {
   description:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elited scelerisque turpis posuere. Mauris in felis id eros dapibus tristique. Sed vehicula vestibulum vehicula. Donec vestibulum purus non vestibulum fringilla.",
   highlights: [
@@ -15,7 +15,7 @@ const demoText = {
   ],
   details:
     "Lorem ipsum dolor sitnec rutuismod, mauris sit amet rutrum tempor, odio lectus facilisis nisi, a scelerisque sem orci vel nunc. Fusce scelerisque eros a sem fermentum, ac convallis nisi dictum. Vivamus sit amet pretium eros.",
-};
+}; */
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -33,7 +33,7 @@ const SingleProduct = () => {
       .catch(() => setLoading(false));
   }, [dispatch, id]);
 
-  const { photo, name, size, priceEfectivo, priceCuotas } = productDetails;
+  const { photo, name, size, priceEfectivo, priceCuotas, color, quantity, supplier, enable, Categories } = productDetails;
 
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 bg-gray-100">
@@ -69,9 +69,9 @@ const SingleProduct = () => {
                         </h1>
                       
 
-                        <p className="mt-3 text-gray-600 text-md leading-6 text-justify sm:text-left sm:mt-4">
+                       {/*  <p className="mt-3 text-gray-600 text-md leading-6 text-justify sm:text-left sm:mt-4">
                           {demoText.description}
-                        </p>
+                        </p> */}
                         
 
 
@@ -81,11 +81,29 @@ const SingleProduct = () => {
                           ))}
                         </span>
                         <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
-                      Precio Efectivo: ${priceEfectivo}
-                     </span>
-                     <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
-                  Precio Cuotas: ${priceCuotas}
-                  </span>
+                          Precio Efectivo: ${priceEfectivo}
+                        </span>
+                        <br />
+                        <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
+                          Precio Cuotas: ${priceCuotas}
+                        </span>
+                        <br />
+                        <span>
+                          Color: {color}
+                        </span>
+                        <br />
+                        <span>
+                          Fábrica: {supplier}
+                        </span>
+                        <br />
+                        <span>
+                          Cantidad disponible: {quantity}
+                        </span>
+                        <br />
+                        <span>
+                          Pertenece a la categoría: {Categories.name}
+                        </span>
+
 
                       </div>
                      
@@ -120,25 +138,25 @@ const SingleProduct = () => {
           </div>
 
           {/* product details */}
-          <div className="mt-8">
+         {/*  <div className="mt-8">
             <h2 className="text-sm font-medium text-gray-900">Detalles</h2>
             <div className="mt-4 space-y-6">
               <p className="text-sm text-gray-600">
                 {demoText.details}
               </p>
             </div>
-          </div>
+          </div> */}
 
-          <div className="mt-4">
+         {/*  <div className="mt-4">
             <h2 className="text-sm font-medium text-gray-900">Descripción</h2>
             <div className="mt-4 space-y-6">
               <p className="text-sm text-gray-600">
                 {demoText.description}
               </p>
             </div>
-          </div>
+          </div> */}
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <h2 className="text-sm font-medium text-gray-900">Características</h2>
             <div className="mt-4 space-y-4">
               <li className="text-sm text-gray-600">
@@ -154,7 +172,7 @@ const SingleProduct = () => {
                 {demoText.highlights[3]}
               </li>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

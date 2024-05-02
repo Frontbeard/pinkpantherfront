@@ -4,7 +4,7 @@ import login from '../redux/actions/Customer/login.js'
 import axios from 'axios';
 import { getAuth, signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import validation from "./validation.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { FaFacebook, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -37,6 +37,7 @@ function Login() {
   })
 
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({})
 
   const [isFormValid, setIsFormValid] = useState(false)
@@ -82,6 +83,7 @@ function Login() {
       //console.log(data)
       dispatch(login(data));
       
+      navigate("/");
 
     } catch (error) {
       console.error('Error submitting the form:', error)
@@ -153,6 +155,9 @@ function Login() {
       } else if (response.data.created === false) {
         alert('Username already exists in the DataBase!')
       }
+
+      navigate("/");
+      
     } catch (error) {
       console.error('Error submitting the form:', error)
       //alert('Error submitting the form. Please try again later.', error.message)
@@ -239,9 +244,6 @@ function Login() {
           <CardFooter className="pt-0 mt-5 flex flex-col gap-2">
             <Button onClick={handleGoogle} className="text-black bg-white border flex items-center justify-center" variant="gradient" fullWidth>
               <FaGoogle className="mr-2" /> Continuar con Google
-            </Button>
-            <Button className="text-black bg-white border mt-2 flex items-center justify-center" variant="gradient" fullWidth>
-              <FaFacebook className="mr-2" /> Continuar con Facebook
             </Button>
           </CardFooter>
         </Card>
