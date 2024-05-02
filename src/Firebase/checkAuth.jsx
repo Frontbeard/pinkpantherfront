@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { URL_LINK } from '../URL.js'
 import login from '../redux/actions/Customer/login.js'
+import logout from '../redux/actions/Customer/login.js'
 
 const isAuthenticated = (dispatch) => {
   const auth = getAuth();

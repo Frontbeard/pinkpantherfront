@@ -3,9 +3,10 @@ import { LOGIN_SUCCESS } from "../actions-types";
 import { URL_LINK } from '../../../URL.js'
 
 const login = (data) => {
-    console.log(data.data.customer)
+    //console.log(data.data.customer)
     return {
       type: LOGIN_SUCCESS,
+      //payload: data.data.customer,
       payload: data.data.customer,
     };
   };

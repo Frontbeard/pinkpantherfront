@@ -62,6 +62,7 @@ const initialState = {
   isLoggedIn: false,
   userId: [],
   user: [],
+  userData: [],
   token: [],
   email: "",
   //category
