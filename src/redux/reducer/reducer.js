@@ -40,6 +40,7 @@ import {
   ERROR,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
+
     //order
     GET_ORDERS,
     GET_ORDERID,
@@ -334,6 +335,7 @@ const rootReducer = (state = initialState, action) => {
         // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
         userData: payload
         };
+
     case LOGOUT_SUCCESS:
       console.log("User data:", payload);
       return {
@@ -342,6 +344,7 @@ const rootReducer = (state = initialState, action) => {
           // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
           userData: null,
           };  
+
     case ERROR:
       return {
           ...state,
