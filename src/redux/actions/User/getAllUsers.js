@@ -1,37 +1,21 @@
 import axios from "axios";
+import { GET_ALL_USERS } from "../actions-types";
 import { URL_LINK } from "../../../URL";
 
-
-const postOrder = ({
-  userId,
-  products,
-  mpId,
-  totalAmount,
-  shippingCost,
-  shippingType,
-  accessToken,
-}) => {
+const getAllUsers = (accessToken) => {
   return async (dispatch) => {
     try {
       const config = {
         headers: {
-          authorization: `Bearer ${accessToken}`,
-        },
-      };
-      const { data } = await axios.post(
-        `${URL_LINK}/order/create` ,
-        {
-          userId,
-          products,
-          shippingCost,
-          shippingType,
-        },
-        config
-      );
-
-      return {
-        message: "Compra realizada correctamente",
-      };
+          authorization: `Bearer ${accessToken}`
+        }
+      }
+      const response = await axios.get(`${URL_LINK}/user/allUsers`, config);
+      return dispatch({
+        type: GET_ALL_USERS,
+        payload: response.data,
+    
+      });
     } catch (error) {
       if (error.response) {
         console.error(
@@ -48,4 +32,4 @@ const postOrder = ({
   };
 };
 
-export default postOrder;
+export default getAllUsers;

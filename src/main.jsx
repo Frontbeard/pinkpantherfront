@@ -9,7 +9,6 @@ import AboutUs from "./components/AboutUs.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store/store.js";
 import { app, auth } from "./Firebase/firebase.jsx";
-
 import Navbar from "./components/Navbar.jsx";
 import Login from "./components/Login.jsx";
 import CreateAccount from "./components/CreateAccount.jsx";
@@ -20,6 +19,8 @@ import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx"
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+
 // import dotenv from 'dotenv'
 // dotenv.config();
 
@@ -65,6 +66,15 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFound />, // Ruta para la página 404
       },
+      {
+        path:"/admin",
+        element:<Dashboard/>,
+      },
+      {
+      
+        path:"/admin/createProduct",
+        element: <CreateProduct />
+      }
     ],
   },
 ]);

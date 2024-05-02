@@ -1,9 +1,10 @@
 import { useLocation } from "react-router";
-import SideBarDashboard from "../../components/SideBar/SideBarDashboard/SideBarDashboard";
+// import SideBarDashboard from "../SideBarDashboard";
+import SideBarDashboard from "./../SideBarDashboard";
 import UsersTable from "./UsersTable/UsersTable";
 import ProductsTable from "./ProductsTable/ProductsTable";
-import CreateProduct from "../../components/CreateProduct/CreateProduct";
-import OrdersTable from "./OrderTable/OrdersTable";
+import CreateProduct from "../formCreateProduct/CreateProduct";
+import OrdersTable from "./OrderTable/OrderTable";
 import Panel from "./Panel/Panel";
 
 const Dashboard = () => {
