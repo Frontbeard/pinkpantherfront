@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-icons/fa";
-import logo from "/logo.jpeg";
+import logo2 from "/logo2.png";
 import { NavLink } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
@@ -74,8 +74,8 @@ const Navbar = () => {
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
             <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
                 <SearchBar onSearch={handleSearch} />
-                <a href="/" className="ml-24">
-                    <img src={logo} alt="" />
+                <a href="/" className="ml-24 w-64">
+                <img src={logo2} alt="" />
                 </a>
                 <div className="text-lg text-Black sm:flex items-center gap-4 hidden">
                     <a href="/login" className="flex items-center gap-2 ">
