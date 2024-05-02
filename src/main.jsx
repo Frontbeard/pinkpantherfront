@@ -19,6 +19,7 @@ import CreateProduct from "./components/formCreateProduct/CreateProduct.jsx";
 import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx"
 // import dotenv from 'dotenv'
 // dotenv.config();
 
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <AboutUs />,
+        element: <ProtectedRoute> <AboutUs /></ProtectedRoute>,
       },
       { path: "/login", element: <Login /> },
       { path: "/create-account", element: <CreateAccount /> },
