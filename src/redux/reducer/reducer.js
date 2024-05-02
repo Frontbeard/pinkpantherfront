@@ -62,6 +62,7 @@ const initialState = {
   isLoggedIn: false,
   userId: [],
   user: [],
+  userData: [],
   token: [],
   email: "",
   //category
@@ -77,7 +78,9 @@ const initialState = {
   //orders
   allOrders:[],
   ordersUser:[],
-  favorites:[]
+  favorites:[],
+  shippingType: null,
+  shippingCost: null,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -88,6 +91,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         allproducts: payload,
+        allProductsAdmin: action.payload
       };
     case GET_PRODUCT_BY_ID:
       return {

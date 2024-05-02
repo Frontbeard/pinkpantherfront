@@ -9,7 +9,6 @@ import AboutUs from "./components/AboutUs.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store/store.js";
 import { app, auth } from "./Firebase/firebase.jsx";
-
 import Navbar from "./components/Navbar.jsx";
 import Login from "./components/Login.jsx";
 import CreateAccount from "./components/CreateAccount.jsx";
@@ -19,6 +18,15 @@ import CreateProduct from "./components/formCreateProduct/CreateProduct.jsx";
 import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
+
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import Resumen from "./components/Dashboard/Panel/Resumen.jsx";
+
+import ProtectedRoute from "./components/ProtectedRoute.jsx"
+import ProductsTable from "./components/Dashboard/ProductsTable/ProductsTable.jsx";
+import OrdersTable from "./components/Dashboard/OrderTable/OrderTable.jsx";
+import UsersTable from "./components/Dashboard/UsersTable/UsersTable.jsx";
+
 // import dotenv from 'dotenv'
 // dotenv.config();
 
@@ -37,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <AboutUs />,
+        element: <ProtectedRoute> <AboutUs /></ProtectedRoute>,
       },
       { path: "/login", element: <Login /> },
       { path: "/create-account", element: <CreateAccount /> },
@@ -64,9 +72,37 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFound />, // Ruta para la página 404
       },
+      {
+        path:"/admin",
+        element:<Dashboard/>,
+      },
+      {
+      
+        path:"/admin/createProduct",
+        element: <CreateProduct />
+
+      },
+      {
+        path:'/admin/resumen',
+        element: <Resumen/>
+      },
+
+      {
+        path:'/admin/products',
+        element: <ProductsTable/>
+      },
+      {
+        path: '/admin/orders',
+        element: <OrdersTable/>,
+      },
+      {
+        path: '/admin/user',
+        element: <UsersTable/>,
+      }
+
     ],
   },
-]);
+])
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>

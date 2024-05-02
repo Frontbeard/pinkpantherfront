@@ -5,6 +5,7 @@ import { getMonthSales } from "../../utils/getMonthSales";
 import Resumen from "./Resumen";
 import Chart from "./Chart";
 
+//visualiza resúmenes y gráficos de datos relacionados con las ventas mensuales
 const Panel = () => {
   const dispatch = useDispatch();
   const allOrders = useSelector((state) => state.allOrders);

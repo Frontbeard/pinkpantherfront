@@ -1,9 +1,10 @@
 import { useLocation } from "react-router";
-import SideBarDashboard from "../../components/SideBar/SideBarDashboard/SideBarDashboard";
+// import SideBarDashboard from "../SideBarDashboard";
+import SideBarDashboard from "./../SideBarDashboard";
 import UsersTable from "./UsersTable/UsersTable";
 import ProductsTable from "./ProductsTable/ProductsTable";
-import CreateProduct from "../../components/CreateProduct/CreateProduct";
-import OrdersTable from "./OrderTable/OrdersTable";
+import CreateProduct from "../formCreateProduct/CreateProduct";
+import OrdersTable from "./OrderTable/OrderTable";
 import Panel from "./Panel/Panel";
 
 const Dashboard = () => {
@@ -18,7 +19,7 @@ const Dashboard = () => {
       <div className="flex-1 overflow-y-auto overflow-x-hidden p-10">
         {location.pathname === "/admin" && <Panel/>}
         {location.pathname === "/admin/usuarios" && <UsersTable />}
-        {location.pathname === "/admin/productos" && <ProductsTable />}
+        {location.pathname === "/admin/products" && <ProductsTable />}
         {location.pathname === "/admin/ordenes" && <OrdersTable/>}
         {location.pathname === "/admin/crear-producto" && <CreateProduct/>}
       </div>
