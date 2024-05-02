@@ -26,7 +26,7 @@ const Resumen = ({ allOrders }) => {
           <h2 className="text-lg font-semibold mb-2">Total recaudado:</h2>
           <p className="text-2xl font-bold">
             {formatCurrency(
-              allOrders.reduce((acc, order) => acc + Number(order.totalAmount), 0)
+              allOrders?.reduce((acc, order) => acc + Number(order.totalAmount), 0)
             )}
           </p>
         </div>

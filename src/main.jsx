@@ -20,6 +20,7 @@ import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import Resumen from "./components/Dashboard/Panel/Resumen.jsx";
 // import dotenv from 'dotenv'
 // dotenv.config();
 
@@ -73,7 +74,11 @@ const router = createBrowserRouter([
       
         path:"/admin/createProduct",
         element: <CreateProduct />
-      }
+      },
+      {
+        path:'/admin/resumen',
+        element: <Resumen/>
+      },
     ],
   },
 ]);
