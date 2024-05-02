@@ -84,6 +84,7 @@ const router = createBrowserRouter([
         path:'/admin/resumen',
         element: <Resumen/>
       },
+
       {
         path:'/admin/products',
         element: <ProductsTable/>
@@ -91,7 +92,7 @@ const router = createBrowserRouter([
 
     ],
   },
-]);
+])
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
