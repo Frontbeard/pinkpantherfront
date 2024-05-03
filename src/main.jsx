@@ -19,6 +19,7 @@ import CreateProduct from "./components/formCreateProduct/CreateProduct.jsx";
 import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
+import { Compras } from "./components/Compras.jsx";
 // import dotenv from 'dotenv'
 // dotenv.config();
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "/categories/:categoryId",
         element: <ProductFilter/>,
+      },
+      {
+        path: "/compras",
+        element: <Compras/>
       },
       // {
       //   path: "/dashboard",
