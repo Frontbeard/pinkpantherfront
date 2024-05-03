@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import isAuthenticated from '../Firebase/checkAuth';
+import axios from 'axios';
 
+/*
 const products = [
   {
     id: 1,
@@ -25,34 +29,88 @@ const products = [
     imageAlt: 'Front side of charcoal cotton t-shirt.',
   },
   // More products...
+
 ];
+*/
 
-export default function Example() {
-  const [cart, setCart] = useState(products.map(product => ({ ...product, quantity: 1 })));
+const Cart = () => {
+  const [cart, setCart] = useState([]);
+  const dispatch = useDispatch();
+  const firebaseUid = useSelector(state => state.auth.firebaseUid); 
 
-  const incrementQuantity = (productId) => {
-    setCart(cart.map(item => item.id === productId ? { ...item, quantity: Math.min(item.quantity + 1, item.inStock ? Infinity : 1) } : item));
+  const fetchCart = async () => {
+    try {
+      const response = await axios.get(`/cart/${customerId /*firebaseUid*/}`);
+      setCart(response.data);
+    } catch (error) {
+      console.error('Error al obtener el carrito del usuario:', error);
+    }
   };
 
-  const decrementQuantity = (productId) => {
-    setCart(cart.map(item => item.id === productId ? { ...item, quantity: Math.max(item.quantity - 1, 1) } : item));
+  const addToCart = async (productId) => {
+    try {
+      await axios.post('/cart/create', { customerId: firebaseUid, productId });
+      fetchCart();
+    } catch (error) {
+      console.error('Error al agregar el producto al carrito:', error);
+    }
   };
 
-  const removeProduct = (productId) => {
-    setCart(cart.filter(item => item.id !== productId));
+  const removeFromCart = async (productId) => {
+    try {
+      await axios.delete(`/cart/${firebaseUid}/remove/${productId}`);
+      fetchCart();
+    } catch (error) {
+      console.error('Error al eliminar el producto del carrito:', error);
+    }
+  };
+
+  const updateCartItem = async (productId, quantity) => {
+    try {
+      await axios.put('/cart/update', { customerId: firebaseUid, productId, quantity });
+      fetchCart();
+    } catch (error) {
+      console.error('Error al actualizar la cantidad del producto en el carrito:', error);
+    }
+  };
+
+  useEffect(() => {
+    isAuthenticated(dispatch);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (firebaseUid) {
+      fetchCart();
+    }
+  }, [firebaseUid]);
+
+  const handleCheckout = async () => {
+    try {
+      // Realiza una validación para verificar si el carrito está vacío
+      if (cart.length === 0) {
+        console.error('No puedes realizar el pago porque tu carrito está vacío.');
+        return;
+      }
+
+      // Redirige al usuario a una URL de pago (podría ser la URL de MercadoPago)
+      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?customerId=${firebaseUid}`;
+
+    } catch (error) {
+      console.error('Error realizando el pago:', error);
+    }
   };
 
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0">
         <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mi carrito de compras</h1>
-
+  
         <form className="mt-12">
           <section aria-labelledby="cart-heading">
             <h2 id="cart-heading" className="sr-only">
               Items en tu carrito de compras
             </h2>
-
+  
             <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
               {cart.map((item) => (
                 <li key={item.id} className="flex py-6">
@@ -63,7 +121,7 @@ export default function Example() {
                       className="h-24 w-24 rounded-md object-cover object-center sm:h-32 sm:w-32"
                     />
                   </div>
-
+  
                   <div className="ml-4 flex flex-1 flex-col sm:ml-6">
                     <div>
                       <div className="flex justify-between">
@@ -77,18 +135,18 @@ export default function Example() {
                       <p className="mt-1 text-sm text-gray-500">{item.color}</p>
                       <p className="mt-1 text-sm text-gray-500">{item.size}</p>
                     </div>
-
+  
                     <div className="mt-4 flex flex-1 items-end justify-between">
                       <div className="flex items-center space-x-2">
-                        <button type="button" onClick={() => decrementQuantity(item.id)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500" disabled={!item.inStock || item.quantity === 1}>
-                          <span>-</span>
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button type="button" onClick={() => incrementQuantity(item.id)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500" disabled={!item.inStock || item.quantity === 1}>
+                        <button type="button" onClick={() => updateCartItem(item.id, item.quantity + 1)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500" disabled={!item.inStock}>
                           <span>+</span>
                         </button>
+                        <span>{item.quantity}</span>
+                        <button type="button" onClick={() => updateCartItem(item.id, item.quantity - 1)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500" disabled={!item.inStock || item.quantity === 1}>
+                          <span>-</span>
+                        </button>
                       </div>
-                      <button type="button" onClick={() => removeProduct(item.id)} className="ml-4 text-sm font-medium text-red-600 hover:text-red-500">
+                      <button type="button" onClick={() => removeFromCart(item.id)} className="ml-4 text-sm font-medium text-red-600 hover:text-red-500">
                         <span>Eliminar</span>
                       </button>
                     </div>
@@ -97,13 +155,12 @@ export default function Example() {
               ))}
             </ul>
           </section>
-
-          {/* Order summary */}
+  
           <section aria-labelledby="summary-heading" className="mt-10">
             <h2 id="summary-heading" className="sr-only">
               Resúmen del pedido
             </h2>
-
+  
             <div>
               <dl className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -113,16 +170,17 @@ export default function Example() {
               </dl>
               <p className="mt-1 text-sm text-gray-500">Los gastos de envío y los impuestos se calcularán en el momento de pagar.</p>
             </div>
-
+  
             <div className="mt-10">
               <button
-                type="submit"
+                type="button"
+                onClick={handleCheckout}
                 className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
                 Pagar
               </button>
             </div>
-
+  
             <div className="mt-6 text-center text-sm">
               <p>
                 o{' '}
@@ -136,5 +194,7 @@ export default function Example() {
         </form>
       </div>
     </div>
-  )
+  );
 }
+
+export default Cart;
