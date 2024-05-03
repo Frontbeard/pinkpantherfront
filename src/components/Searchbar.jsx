@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import getProductByName from '../redux/actions/Product/getProductByName';
-import getAllProducts  from '../redux/actions/Product/getAllProducts';
+import getAllProducts from '../redux/actions/Product/getAllProducts';
 import { useParams } from 'react-router-dom'; // Importar useParams
 import SearchCard from './SearchCard'; // Importar el componente Card
 
@@ -58,6 +58,9 @@ const SearchBar = () => {
       } else {
         setShowResults(true);
       }
+
+      // Redirigir a la página de resultados de búsqueda con el término de búsqueda en la URL
+      window.history.pushState({}, '', '/search/' + query);
     }
   };
 

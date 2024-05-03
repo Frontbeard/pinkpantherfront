@@ -29,7 +29,7 @@ import Resumen from "./components/Dashboard/Panel/Resumen.jsx";
 import ProductsTable from "./components/Dashboard/ProductsTable/ProductsTable.jsx";
 import OrdersTable from "./components/Dashboard/OrderTable/OrderTable.jsx";
 import UsersTable from "./components/Dashboard/UsersTable/UsersTable.jsx";
-import SearchBar from "./components/Searchbar.jsx";
+//import SearchBar from "./components/Searchbar.jsx";
 import SearchResult from "./components/SearchResult.jsx";
 // import dotenv from 'dotenv'
 // dotenv.config();
