@@ -72,11 +72,18 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
         applyFilters();
     }, [minPrice, maxPrice, selectedSize, colorInput]);
 
+    const resetProducts = () => {
+        onUpdateFilteredProducts(originalProducts);
+    };
+
     return (
         <div className="fixed right-0 top-0 bottom-0 w-80 bg-white z-10 p-6 overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Filtrar productos</h2>
-                <button onClick={onClose}>
+                <button onClick={() => {
+                    onClose();
+                    resetProducts(); // Llama a la función de reseteo al cerrar el modal
+                }}>
                     <FaTimes className="w-6 h-6 text-gray-500 cursor-pointer" />
                 </button>
             </div>
