@@ -59,6 +59,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('firebaseUid');
+        localStorage.removeItem('gmail');
         dispatch(logout());
         console.log('Has cerrado sesión');
         alert('Has cerrado sesión');
