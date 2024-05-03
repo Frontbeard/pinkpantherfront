@@ -1,41 +1,103 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { Bar, Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  LinearScale,
+  CategoryScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  LineElement,
+  Legend,
+} from "chart.js";
 
-//se encarga de mostrar estadísticas de ventas y cantidad de pedidos por mes
+ChartJS.register(
+  ArcElement,
+  LinearScale,
+  CategoryScale,
+  PointElement,
+  BarElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 const Chart = ({ months }) => {
-  const allProducts = useSelector((state) => state.allProducts);
-  const allCategories = useSelector((state) => state.allCategories);
+  const options = {
+    maintainsAspectRatio: false,
+    responsive: true,
+  };
 
   const monthsSales = months.map((month) =>
     month.sales.reduce((acc, order) => acc + Number(order.totalAmount), 0)
   );
   const monthsOrders = months.map((month) => month.sales.length);
 
+  const data = {
+    labels: [
+      "Ene",
+      "Feb",
+      "Mar",
+      "Abr",
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dic",
+    ],
+    datasets: [
+      {
+        label: "Venta en $",
+        backgroundColor: "rgba(186, 51, 138, 1)",
+        borderColor: "rgba(0,0,0,0)",
+        borderWidth: 2,
+        data: monthsSales,
+      },
+    ],
+  };
+
+  const data2 = {
+    labels: [
+      "Ene",
+      "Feb",
+      "Mar",
+      "Abr",
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dic",
+    ],
+    datasets: [
+      {
+        label: "Cantidad de ordenes",
+        tension: 0.3,
+        fill: true,
+        backgroundColor: "rgba(186, 51, 138, 1)",
+        borderColor: "rgba(224, 179, 211,1)",
+        pointRadius: 5,
+        borderWidth: 2,
+        data: monthsOrders,
+      },
+    ],
+  };
+
   return (
-    <div className="flex flex-wrap justify-center gap-4">
-      <div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2">
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-lg font-semibold mb-4">Venta en $</h3>
-          <ul>
-            {monthsSales.map((sales, index) => (
-              <li key={index}>
-                {["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"][index]}: ${sales}
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="min-h-20 w-full flex justify-center items-center space-x-4 mt-20 gap-20">
+      <div className="w-96">
+        <Bar data={data} options={options} />
       </div>
-      <div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2">
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-lg font-semibold mb-4">Cantidad de ordenes</h3>
-          <ul>
-            {monthsOrders.map((orders, index) => (
-              <li key={index}>
-                {["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"][index]}: {orders}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="w-96">
+        <Line data={data2} options={options} />
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ import NotFound from "./components/NotFound.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Resumen from "./components/Dashboard/Panel/Resumen.jsx";
 
-import ProtectedRoute from "./components/ProtectedRoute.jsx"
+//import ProtectedRoute from "./components/ProtectedRoute.jsx"
 import ProductsTable from "./components/Dashboard/ProductsTable/ProductsTable.jsx";
 import OrdersTable from "./components/Dashboard/OrderTable/OrderTable.jsx";
 import UsersTable from "./components/Dashboard/UsersTable/UsersTable.jsx";
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <ProtectedRoute> <AboutUs /></ProtectedRoute>,
+        element: <AboutUs />,
       },
       { path: "/login", element: <Login /> },
       { path: "/create-account", element: <CreateAccount /> },
