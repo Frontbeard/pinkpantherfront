@@ -317,7 +317,11 @@ const rootReducer = (state = initialState, action) => {
         accessToken: action.accessToken,
         user: action.payload,
       };
-
+      case GET_ALL_USERS:
+        return {
+          ...state,
+          allUsers: action.payload,
+        };
       //actualiza el estado para indicar que el usuario cerro sesión
       case LOGOUT_USER:
         return {
