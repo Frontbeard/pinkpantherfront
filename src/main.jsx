@@ -20,8 +20,12 @@ import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
 import { Compras } from "./components/Compras.jsx";
+import { useSelector } from "react-redux";
+import { CreateReview } from "./components/CreateReview.jsx";
 // import dotenv from 'dotenv'
 // dotenv.config();
+
+
 
 const router = createBrowserRouter([
   {
@@ -65,6 +69,10 @@ const router = createBrowserRouter([
       //   path: "/profile",
       //   element: <ProtectedRoute user={user}><><NavBarProfile/><PanelUser/><Footer/></></ProtectedRoute>,
       // }, rutas dashboard del admin y perfil protegidas
+      {
+        path: "/create-review",
+        element: <CreateReview/>
+      },
       {
         path: "*",
         element: <NotFound />, // Ruta para la página 404

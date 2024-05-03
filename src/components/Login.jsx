@@ -61,7 +61,7 @@ function Login() {
       ...prevErrors,
       [name]: fieldErrors[name] || '', // Clear the error if validation passes
     }))
-    console.log(errors);
+    // console.log(errors);
   };
 
   const handleSubmit = async (event) => {

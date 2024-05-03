@@ -154,6 +154,7 @@ const SingleProduct = () => {
                 {demoText.highlights[3]}
               </li>
             </div>
+          <h1>getreview</h1>
           </div>
         </div>
       )}

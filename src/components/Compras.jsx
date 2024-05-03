@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "./Card";
 import Pagination from "./Pagination";
 import { getAllProducts } from "../redux/actions/Product/getAllProducts";
+import getAllOrders from "../redux/actions/Order/getOrders";
+import { Button, CardFooter } from "@material-tailwind/react";
+import {  useNavigate } from "react-router-dom";
 
 export const Compras = () => {
   const [filteredItems, setFilteredItems] = useState([]);
@@ -10,11 +13,16 @@ export const Compras = () => {
   const [totalPages, setTotalPages] = useState(1); // Total pages
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const orders = useSelector((state) => state.allOrders)
   const products = useSelector((state) => state.allproducts);
-  console.log(products);
+  const customer = useSelector(state => state.userData);
+  console.log(customer);
+  // console.log(products);
 
   useEffect(() => {
     dispatch(getAllProducts());
+    dispatch(getAllOrders())
   }, [dispatch]);
 
   useEffect(() => {
@@ -38,12 +46,19 @@ export const Compras = () => {
     return null; // o maneja el error de manera adecuada
   }
 
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    navigate("/create-review");
+  }
 
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
         Nuestros productos
       </h2>
+      <p onClick={() => console.log(orders)}>prueba</p>
+      <p onClick={() => console.log(customer)}>prueba2</p>
+      <br /><br />
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
         {/* Aquí renderizamos los productos paginados */}
         {paginatedItems.map((product) => (
@@ -55,6 +70,11 @@ export const Compras = () => {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
+      <CardFooter className="pt-0 mt-1">
+            <Button onClick={handleSubmit} className="text-white bg-pink-500" variant="gradient" fullWidth>
+              Calificar
+            </Button>
+          </CardFooter>
     </div>
   );
 };
