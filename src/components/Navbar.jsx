@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-icons/fa";
 import logo2 from "/logo2.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,6 +19,7 @@ const Navbar = () => {
     const allCategories = useSelector(state => state.allCategories);
     const customer = useSelector(state => state.userData);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showFilterModal, setShowFilterModal] = useState(false);
 
     useEffect(() => {
@@ -61,9 +62,28 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('firebaseUid');
+        localStorage.removeItem('gmail');
         dispatch(logout());
         console.log('Has cerrado sesión');
         alert('Has cerrado sesión');
+    };
+
+    const handleMisCompras = () => {
+        console.log('Has hecho click');
+        alert('Has hecho click');
+        navigate("/miscompras")
+    };
+
+    const handleMiPerfil = () => {
+        console.log('Has hecho click');
+        alert('Has hecho click');
+        navigate("/perfil")
+    };
+
+    const handleDashboard = () => {
+        console.log('Has hecho click');
+        alert('Has hecho click');
+        navigate("/admin")
     };
 
     const navItems = allCategories.map(({ id, name, products }) => ({
@@ -88,9 +108,21 @@ const Navbar = () => {
                         <FaUser />
                     </a>
 
-                    {customer && localStorage.getItem('firebaseUid') && (
-                        <span>Logueado como: {customer.userName}
+                    {customer.role === "CUSTOMER" && localStorage.getItem('firebaseUid') && (
+                        <span>
+                            Logueado como: {customer.userName}
                             <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleMisCompras}>Mis compras</button>
+                            <button onClick={handleMiPerfil}>Mi perfil</button>
+                        </span>
+                    )}
+
+                    {customer.role === "ADMIN" && localStorage.getItem('firebaseUid') && (
+                        <span>
+                            Logueado como: {customer.userName}
+                            <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleDashboard}>Dashboard</button>
+                            <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
                     <a href="/favorites" className="flex items-center gap-2 ">
