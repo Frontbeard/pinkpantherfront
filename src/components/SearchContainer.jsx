@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FaSearch, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import SearchBar from './Searchbar';
+import SearchCard from './SearchCard';
+import getAllProducts from '../redux/actions/Product/getAllProducts';
 import getProductByName from '../redux/actions/Product/getProductByName';
-import getAllProducts  from '../redux/actions/Product/getAllProducts';
-import { useParams } from 'react-router-dom'; // Importar useParams
-import SearchCard from './SearchCard'; // Importar el componente Card
 
-const SearchBar = () => {
+const SearchContainer = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showResults, setShowResults] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -67,30 +67,19 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="search-bar-container">
-      <form onSubmit={handleFormSubmit} className="flex items-center border border-gray-300 rounded-md px-3 py-1">
-        <input
-          type="text"
-          placeholder="Buscar productos..."
-          value={searchTerm}
-          onChange={handleInputChange}
-          className={`outline-none border-none flex-grow px-2 ${invalidInput ? 'invalid-input' : ''}`}
-        />
-        {searchTerm && (
-          <button type="button" onClick={handleClearSearch} className="text-gray-500 hover:text-gray-700">
-            <FaTimes />
-          </button>
-        )}
-        <button type="submit" className="text-gray-500 hover:text-gray-700">
-          <FaSearch />
-        </button>
-      </form>
-
+    <div className="search-container">
+      <SearchBar
+        searchTerm={searchTerm}
+        handleInputChange={handleInputChange}
+        handleClearSearch={handleClearSearch}
+        handleFormSubmit={handleFormSubmit}
+        invalidInput={invalidInput}
+      />
       {showResults && (
         <div className="product-list">
           {searchedProducts.length > 0 ? (
             searchedProducts.map(product => (
-              <SearchCard key={product.name} filteredItems={product} /> // Renderizar los productos en forma de tarjetas
+              <SearchCard key={product.name} filteredItems={product} />
             ))
           ) : (
             <div className="not-found-message">Ese producto no está disponible</div>
@@ -102,4 +91,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export default SearchContainer;
