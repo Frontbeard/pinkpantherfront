@@ -1,46 +1,16 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import isAuthenticated from '../Firebase/checkAuth';
 import axios from 'axios';
 
-/*
-const products = [
-  {
-    id: 1,
-    name: 'Artwork Tee',
-    href: '#',
-    price: '$32.00',
-    color: 'Mint',
-    size: 'Medium',
-    inStock: true,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/checkout-page-03-product-04.jpg',
-    imageAlt: 'Front side of mint cotton t-shirt with wavey lines pattern.',
-  },
-  {
-    id: 2,
-    name: 'Basic Tee',
-    href: '#',
-    price: '$32.00',
-    color: 'Charcoal',
-    inStock: false,
-    leadTime: '7-8 years',
-    size: 'Large',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg',
-    imageAlt: 'Front side of charcoal cotton t-shirt.',
-  },
-  // More products...
-
-];
-*/
-
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const dispatch = useDispatch();
-  const firebaseUid = useSelector(state => state.auth.firebaseUid); 
+  const firebaseUid = useSelector(state => state.auth.firebaseUid);
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get(`/cart/${customerId /*firebaseUid*/}`);
+      const response = await axios.get(`/cart/${firebaseUid}`);
       setCart(response.data);
     } catch (error) {
       console.error('Error al obtener el carrito del usuario:', error);
@@ -86,15 +56,12 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
-      // Realiza una validación para verificar si el carrito está vacío
       if (cart.length === 0) {
         console.error('No puedes realizar el pago porque tu carrito está vacío.');
         return;
       }
 
-      // Redirige al usuario a una URL de pago (podría ser la URL de MercadoPago)
       window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?customerId=${firebaseUid}`;
-
     } catch (error) {
       console.error('Error realizando el pago:', error);
     }
@@ -103,14 +70,12 @@ const Cart = () => {
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0">
-        <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mi carrito de compras</h1>
-  
+        <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mi carrito de compras</h2>
+
         <form className="mt-12">
           <section aria-labelledby="cart-heading">
-            <h2 id="cart-heading" className="sr-only">
-              Items en tu carrito de compras
-            </h2>
-  
+            <h3 id="cart-heading" className="sr-only">Items en tu carrito de compras</h3>
+
             <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
               {cart.map((item) => (
                 <li key={item.id} className="flex py-6">
@@ -121,7 +86,7 @@ const Cart = () => {
                       className="h-24 w-24 rounded-md object-cover object-center sm:h-32 sm:w-32"
                     />
                   </div>
-  
+
                   <div className="ml-4 flex flex-1 flex-col sm:ml-6">
                     <div>
                       <div className="flex justify-between">
@@ -135,7 +100,7 @@ const Cart = () => {
                       <p className="mt-1 text-sm text-gray-500">{item.color}</p>
                       <p className="mt-1 text-sm text-gray-500">{item.size}</p>
                     </div>
-  
+
                     <div className="mt-4 flex flex-1 items-end justify-between">
                       <div className="flex items-center space-x-2">
                         <button type="button" onClick={() => updateCartItem(item.id, item.quantity + 1)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500" disabled={!item.inStock}>
@@ -155,12 +120,10 @@ const Cart = () => {
               ))}
             </ul>
           </section>
-  
+
           <section aria-labelledby="summary-heading" className="mt-10">
-            <h2 id="summary-heading" className="sr-only">
-              Resúmen del pedido
-            </h2>
-  
+            <h3 id="summary-heading" className="sr-only">Resumen del pedido</h3>
+
             <div>
               <dl className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -170,7 +133,7 @@ const Cart = () => {
               </dl>
               <p className="mt-1 text-sm text-gray-500">Los gastos de envío y los impuestos se calcularán en el momento de pagar.</p>
             </div>
-  
+
             <div className="mt-10">
               <button
                 type="button"
@@ -180,7 +143,7 @@ const Cart = () => {
                 Pagar
               </button>
             </div>
-  
+
             <div className="mt-6 text-center text-sm">
               <p>
                 o{' '}
