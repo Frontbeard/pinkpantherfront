@@ -58,6 +58,7 @@ const Navbar = () => {
         setSearchQuery(query);
         setSelectedCategory(null);
         setFilteredProducts([]); // Limpiar productos filtrados al realizar una nueva búsqueda
+        navigate(`/search/${query}`);
     };
 
     const handleLogout = () => {
