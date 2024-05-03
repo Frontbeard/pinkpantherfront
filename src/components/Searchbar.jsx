@@ -1,7 +1,10 @@
-import React, { useState } from 'react'; // Agregar importación de useState desde React
+import React, { useState, useEffect } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductByName, getAllProducts } from '../redux/actions/Product/getProductByName'; // Asumiendo que existe una acción para obtener todos los productos
+import getProductByName from '../redux/actions/Product/getProductByName';
+import getAllProducts from '../redux/actions/Product/getAllProducts';
+import { useParams } from 'react-router-dom'; // Importar useParams
+import SearchCard from './SearchCard'; // Importar el componente Card
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -10,6 +13,14 @@ const SearchBar = () => {
   const [invalidInput, setInvalidInput] = useState(false);
   const dispatch = useDispatch();
   const searchedProducts = useSelector(state => state.allproducts);
+  const { query } = useParams(); // Obtener el parámetro de búsqueda de la URL
+
+  useEffect(() => {
+    if (query && query.trim() !== '') {
+      setSearchTerm(query.trim()); // Actualizar el estado searchTerm con el valor del parámetro query
+      handleSearch(query.trim()); // Realizar la búsqueda al cargar la página con el parámetro de búsqueda
+    }
+  }, [query]);
 
   const handleInputChange = event => {
     const value = event.target.value;
@@ -47,6 +58,9 @@ const SearchBar = () => {
       } else {
         setShowResults(true);
       }
+
+      // Redirigir a la página de resultados de búsqueda con el término de búsqueda en la URL
+      window.history.pushState({}, '', '/search/' + query);
     }
   };
 
@@ -65,12 +79,11 @@ const SearchBar = () => {
           onChange={handleInputChange}
           className={`outline-none border-none flex-grow px-2 ${invalidInput ? 'invalid-input' : ''}`}
         />
-      {searchTerm && (
-  <button type="button" onClick={handleClearSearch} className="text-gray-500 hover:text-gray-700">
-    <FaTimes />
-  </button>
-)}
-
+        {searchTerm && (
+          <button type="button" onClick={handleClearSearch} className="text-gray-500 hover:text-gray-700">
+            <FaTimes />
+          </button>
+        )}
         <button type="submit" className="text-gray-500 hover:text-gray-700">
           <FaSearch />
         </button>
@@ -80,9 +93,7 @@ const SearchBar = () => {
         <div className="product-list">
           {searchedProducts.length > 0 ? (
             searchedProducts.map(product => (
-              <div key={product.id} className="product-item">
-                <h3>{product.name}</h3>
-              </div>
+              <SearchCard key={product.name} filteredItems={product} /> // Renderizar los productos en forma de tarjetas
             ))
           ) : (
             <div className="not-found-message">Ese producto no está disponible</div>

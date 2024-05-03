@@ -17,7 +17,6 @@ const Navbar = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
     const allCategories = useSelector(state => state.allCategories);
-
     const customer = useSelector(state => state.userData);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -43,6 +42,9 @@ const Navbar = () => {
             const selectedCategoryObj = allCategories.find(category => category.id === categoryId);
             const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
             setFilteredProducts(filtered);
+        } else {
+            setShowFilterModal(false); // Agregamos esta línea para cerrar el modal al hacer clic en "about us"
+            setFilteredProducts([]); // Limpiamos los productos filtrados
         }
     };
 
@@ -94,13 +96,12 @@ const Navbar = () => {
         setFilteredProducts(filteredProducts);
     };
 
-    
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
             <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
                 <SearchBar onSearch={handleSearch} />
                 <a href="/" className="ml-24 w-64">
-                <img src={logo2} alt="" />
+                    <img src={logo2} alt="" />
                 </a>
                 <div className="text-lg text-Black sm:flex items-center gap-4 hidden">
                     <a href="/login" className="flex items-center gap-2 ">
@@ -166,9 +167,8 @@ const Navbar = () => {
                 />
             )}
            {filteredProducts && filteredProducts.length > 0 && (
-    <ProductFilter products={filteredProducts} />
-)}
-
+                <ProductFilter products={filteredProducts} />
+            )}
         </header>
     );
 };
