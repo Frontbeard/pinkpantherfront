@@ -5,18 +5,20 @@ import CreateProductSchema from "../formCreateProduct/CreateProduct.schema";
 
 const EditProductModal = ({ visible, onClose, product }) => {
     
-    const category = product.Category
-    
   const initialValues = {
     id: product.id,
     name: product.name,
+    color: product.color,
     priceEfectivo: product.priceEfectivo,
     priceCuotas: product.priceCuotas,
     photo: product.photo,
-    category: category,
-    stock: product.stock,
-    estado: product.estado,
+    category: product.Categories,
+    size: product.size,
+    quantity: product.quantity,
+    supplier: product.supplier,
   };
+
+  console.log("INITIAL VALUES 1", initialValues)
 
   return (
     <div className={`fixed z-10 inset-0 overflow-y-auto ${visible ? 'block' : 'hidden'}`}>
@@ -35,19 +37,7 @@ const EditProductModal = ({ visible, onClose, product }) => {
               </div>
             </div>
             <div className="mt-5 sm:mt-6">
-              <Formik
-                initialValues={initialValues}
-                validationSchema={CreateProductSchema}
-                onSubmit={(values) => {
-                  console.log(values);
-                }}
-              >
-                {({ errors, touched }) => (
-                  <Form>
-                    <CreateProduct onClose={onClose} isEditing={true} errors={errors} />
-                  </Form>
-                )}
-              </Formik>
+                <CreateProduct initialValues={initialValues} />
             </div>
           </div>
         </div>

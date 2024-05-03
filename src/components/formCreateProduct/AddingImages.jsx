@@ -30,7 +30,6 @@ const AddingImages = ({ setProduct, productData }) => {
     return (
         <div>
             <div style={{ textAlign: "left" }}>
-                <h1>Subir imagen de producto</h1>
                 <input
                     type="file"
                     name="image"
