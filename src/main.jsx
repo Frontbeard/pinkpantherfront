@@ -12,6 +12,7 @@ import { app, auth } from "./Firebase/firebase.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Login from "./components/Login.jsx";
 import CreateAccount from "./components/CreateAccount.jsx";
+import CreateAccountGoogle from "./components/CreateAccountGoogle.jsx";
 import AuthenticationHandler from "./Firebase/checkAuth.jsx";
 // import Dashboard from "./components/Dashboard.jsx";
 import CreateProduct from "./components/formCreateProduct/CreateProduct.jsx";
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
       },
       { path: "/login", element: <Login /> },
       { path: "/create-account", element: <CreateAccount /> },
+      { path: "/create-account-google", element: <CreateAccountGoogle /> },
       // { path: "/dashboard", element: <Dashboard /> },
       { path: "/create-product", element: <CreateProduct /> },
       {
