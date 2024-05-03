@@ -1,54 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch,  } from 'react-redux'
-import login from '../redux/actions/Customer/login.js'
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+//import login from '../redux/actions/Customer/login.js'
 import axios from 'axios';
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-//import { v5 as uuidv5 } from 'uuid';
 import validation from "./validation.js";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { URL_LINK } from '../URL.js'
-//const URL_LINK = 'http://localhost:3001'
-//const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com'
 
-import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
-
-
-function CreateAccount({ onDataChange }) {
+const MiPerfilEdit = () => {
+  const userDataOld = useSelector((state) => state.userData)
   const [userData, setUserData] = useState({
-    idfirebase:'',
-    enable:true,
-    name:'',
-    email:'',
-    password:'',
-    confirmPassword:'',
-    role:'CUSTOMER',
-    DNI:'232',
-    birthdate:'1998-03-23',
-    firstName:'HOLA',
-    lastName:'PRUEBA',
-    telephone:'333',
-    country:'Argentina',
-    city:'Ciudad',
-    street:'calle',
-    streetNumber:'333',
-    apartmentNumber:'333',
-    postalCode:'333'
+    idfirebase:userDataOld.idfirebase,
+    enable:userDataOld.enable,
+    name: userDataOld.name,
+    email: userDataOld.email,
+    //password:'',
+    //confirmPassword:'',
+    DNI: userDataOld.DNI, 
+    birthdate: userDataOld.birthdate, 
+    firstName: userDataOld.firstName, 
+    lastName: userDataOld.lastName, 
+    email: userDataOld.email, 
+    telephone: userDataOld.telephone, 
+    country: userDataOld.country, 
+    city: userDataOld.city, 
+    street: userDataOld.street, 
+    streetNumber: userDataOld.streetNumber, 
+    apartmentNumber: userDataOld.apartmentNumber, 
+    postalCode: userDataOld.postalCode
   })
-  const[errors, setErrors] = useState({})
-  const [isFormValid, setIsFormValid] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [viewPassword, setViewPassword] = useState(false)
-  
+  const[errors, setErrors] = useState({})
+  const [isFormValid, setIsFormValid] = useState(false)
+
   useEffect(() => {
     const errorsArray = Object.values(errors)
-    setIsFormValid(userData.email && userData.password && userData.confirmPassword > 0 && errorsArray.every(error => !error))
+    setIsFormValid(userData.email > 0 && errorsArray.every(error => !error))
   }, [userData, errors])
-
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -64,112 +56,44 @@ function CreateAccount({ onDataChange }) {
     }))
   };
 
+  const handleSubmit = async () => {
+    console.log('Has hecho click');
+    
+    const response = await axios.put(`${URL_LINK}/customer/${userData.idfirebase}`, {
+      //idfirebase: firebaseUid,
+      enable: userData.enable,
+      userName: userData.email, 
+      role: userData.role, 
+      DNI: userData.DNI, 
+      birthdate: userData.birthdate, 
+      firstName: userData.firstName, 
+      lastName: userData.lastName, 
+      email: userData.email, 
+      telephone: userData.telephone, 
+      //country: userData.country, 
+      city: userData.city, 
+      street: userData.street, 
+      streetNumber: userData.streetNumber, 
+      apartmentNumber: userData.apartmentNumber, 
+      postalCode: userData.postalCode
+    });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    try {
-      const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
-      if (!userCredential) {
-        throw new Error('Firebase user creation failed');
-      }
-      const user = userCredential.user;
-      const firebaseUid = userCredential.user.uid.toString();
-      console.log(firebaseUid)
-      //const id = uuidv5(firebaseUid, uuidv5.DNS);
+    navigate("/")
+};
 
-      localStorage.setItem('firebaseUid', firebaseUid);
-      
+const handleBaja = () => {
+  console.log('Has hecho click');
+  alert('Has hecho click');
+  navigate("/")
+};
 
-      const response = await axios.post(`${URL_LINK}/customer`, {
-        idfirebase: firebaseUid,
-        enable: userData.enable,
-        userName: userData.email, 
-        role: userData.role, 
-        DNI: userData.DNI, 
-        birthdate: userData.birthdate, 
-        firstName: userData.firstName, 
-        lastName: userData.lastName, 
-        email: userData.email, 
-        telephone: userData.telephone, 
-        country: userData.country, 
-        city: userData.city, 
-        street: userData.street, 
-        streetNumber: userData.streetNumber, 
-        apartmentNumber: userData.apartmentNumber, 
-        postalCode: userData.postalCode
-      });
-      
-      console.log(response)
-      const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
-      //console.log(data)
-      dispatch(login(data));
 
-      //setSuccessMessage
-      if (response.data.created === true) {
-        alert('Account created successfully!')
-        onDataChange && onDataChange(response.data.userData) // Call the callback function to update state
-        setUserData({
-          name: '',
-          email: '',
-          password: ''
-        })
-        // Clear the errors state
-        setErrors({})
-      } else if (response.data.created === false) {
-        alert('Username already exists in the DataBase!')
-      }
-
-      navigate("/");
-
-    } catch (error) {
-      console.error('Error submitting the form:', error)
-      alert('Error submitting the form. Please try again later.', error.message)
-    }
-  }
-
-  const togglePasswordVisibility = () => {
-    setViewPassword(!viewPassword);
-  };
-
-  const handleGoogle = async (event) => {
-    event.preventDefault()
-    try {
-      const auth = getAuth();
-      const provider = new GoogleAuthProvider();
-      const userCredential = await signInWithPopup(auth, provider)
-      //const userCredential = GoogleAuthProvider.credentialFromResult(result);
-      const user = userCredential.user
-      console.log(userCredential)
-      //const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password)
-      if (!userCredential) {
-        throw new Error('Firebase user creation failed');
-      }
-      //const user = userCredential.user;
-      const firebaseUid = userCredential.user.uid.toString();
-      const gmail = user.email
-      console.log(firebaseUid)
-      console.log(gmail)
-      //const id = uuidv5(firebaseUid, uuidv5.DNS);
-
-      localStorage.setItem('firebaseUid', firebaseUid);
-      localStorage.setItem('gmail', gmail);
-      
-      
-      navigate("/create-account-google");
-      
-    } catch (error) {
-      console.error('Error submitting the form:', error)
-      //alert('Error submitting the form. Please try again later.', error.message)
-    }
-  }
-  
-    return (
-      <div className="grid grid-cols-1 items-center justify-items-center min-h-full mt-8">
+  return (
+    <div className="grid grid-cols-1 items-center justify-items-center min-h-full mt-8">
         <Card className="w-full max-w-md">
           <CardHeader variant="gradient" color="pink" className="mb-4 grid h-28 place-items-center">
             <Typography variant="h3" color="black">
-              Crear cuenta
+              Editar Perfil
             </Typography>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
@@ -178,85 +102,13 @@ function CreateAccount({ onDataChange }) {
                 Correo electrónico
               </Typography>
               <div className="flex flex-col">
-              <input
-                className={errors.email ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
-                type="email"
-                name="email"
-                value={userData.email}
-                onChange={handleChange}
-                placeholder="Ingresa tu correo electrónico"
-              />
+              <span>
+                {userData.email}
+              </span>
               <p className="text-red-500"> 
                 {errors.name}
               </p>
               </div>
-              
-            </div>
-            <div className="flex flex-col gap-1">
-              <Typography variant="p" color="black" className="mb-1">
-                Contraseña
-              </Typography>
-              <div className="flex flex-col">
-                <div className='flex flex-row items-center relative'>
-                <input
-                className={errors.password ? "input-box border-2 rounded-lg border-red-400 px-4 py-2 block w-full" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2 block w-full" }
-                type={viewPassword ? 'text' : 'password'}
-                name="password"
-                value={userData.password}
-                onChange={handleChange}
-                placeholder="Ingresa tu contraseña"
-                />
-                {viewPassword ? (
-                <FaEye
-                  onClick={togglePasswordVisibility}
-                  color='white'
-                  className='cursor-pointer absolute right-3 top-3.5'
-                />
-              ) : (
-                <FaEyeSlash
-                  onClick={togglePasswordVisibility}
-                  color='white'
-                  className='cursor-pointer absolute right-3 top-3.5'
-                />
-              )}
-                </div>
-              </div>
-              <p className="text-red-500"> 
-                {errors.password}
-              </p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <Typography variant="p" color="black" className="mb-1">
-                Confirmar contraseña
-              </Typography>
-              <div classname="flex flex-col">
-                <div className='flex flex-row items-center relative'>
-                <input
-                className={errors.confirmPassword ? "input-box border-2 rounded-lg border-red-400 px-4 py-2 block w-full" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2 block w-full" }
-                type={viewPassword ? 'text' : 'password'}
-                name="confirmPassword"
-                value={userData.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirma tu contraseña"
-              />
-              {viewPassword ? (
-                <FaEye
-                  onClick={togglePasswordVisibility}
-                  color='white'
-                  className='cursor-pointer absolute right-3 top-3.5'
-                />
-              ) : (
-                <FaEyeSlash
-                  onClick={togglePasswordVisibility}
-                  color='white'
-                  className='cursor-pointer absolute right-3 top-3.5'
-                />
-              )}
-                </div>
-              </div>
-              <p className="text-red-500">
-                {errors.confirmPassword}
-              </p>
             </div>
 
             <div className="flex flex-col gap-1">
@@ -451,23 +303,18 @@ function CreateAccount({ onDataChange }) {
           </CardBody>
           <CardFooter className="pt-0 mt-5">
             <Button onClick={handleSubmit} disabled={!isFormValid} className="text-white bg-pink-500" variant="gradient" fullWidth>
-              Registrarse
+              Confirmar Nuevos Datos
             </Button>
           </CardFooter>
-          <div>
-            <Typography variant="h1" color="black" className="mb-4 grid h-15 place-items-center text-sm mt-0">
-              <Link to="/login">¿Ya tienes cuenta? ¡Inicia sesión aquí!</Link>
-            </Typography>
-          </div>
           <hr />
           <CardFooter  className="pt-0 mt-5 flex flex-col gap-2">
-            <Button onClick={handleGoogle} className="text-black bg-white border flex items-center justify-center" variant="gradient" fullWidth>
-              <FaGoogle className="mr-2" /> Registrarse con Google
+            <Button onClick={handleBaja} className="text-black bg-white border flex items-center justify-center" variant="gradient" fullWidth>
+               Dar de baja el perfil
             </Button>
           </CardFooter>
         </Card>
       </div>
-    );
+  );
 };
 
-export default CreateAccount;
+export default MiPerfilEdit;
