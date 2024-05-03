@@ -1,11 +1,20 @@
-import { ADDING_PRODUCT } from "../actions-types";
+import axios from "axios";
+import { ADD_TO_CART } from "../actions-types";
+import { URL_LINK } from '../../../URL.js';
 
-const addingProduct = (product) => {
-    return {
-      type: ADDING_PRODUCT,
-      payload: product,
-    };
+export const addToCart = (customerId, productId, productQuantity) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URL_LINK}/cart/create`, {
+        productQuantity,
+        customerId,
+        productId
+      });
+      dispatch({
+        type: ADD_TO_CART,
+      });
+    } catch (error) {
+      console.error('Error al agregar el producto al carrito', error);
+    }
   };
-
-  export default addingProduct;
-
+};

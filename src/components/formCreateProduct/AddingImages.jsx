@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const AddingImages = ({ setProduct, productData }) => {
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState(productData.photo);
     const [loading, setLoading] = useState(false);
 
     const uploadImage = async (event) => {
@@ -37,6 +37,7 @@ const AddingImages = ({ setProduct, productData }) => {
                     onChange={uploadImage}
                     style={{ marginBottom: "10px" }}
                 />
+                {/* {setImage(productData.photo)}; */}
                 {loading && <p>Cargando imagen...</p>}
                 <img src={image} width="200px"/>
             </div>

@@ -77,13 +77,13 @@ const Navbar = () => {
 
     const handleMiPerfil = () => {
         console.log('Has hecho click');
-        alert('Has hecho click');
+        //alert('Has hecho click');
         navigate("/perfil")
     };
 
     const handleDashboard = () => {
         console.log('Has hecho click');
-        alert('Has hecho click');
+        //alert('Has hecho click');
         navigate("/admin")
     };
 
