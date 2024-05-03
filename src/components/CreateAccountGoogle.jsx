@@ -101,7 +101,7 @@ function CreateAccountGoogle({ onDataChange }) {
       });
       
       console.log(response)
-      const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
+      const data = await axios.get(`${URL_LINK}/customer/${userData.idfirebase}`);
       //console.log(data)
       dispatch(login(data));
 

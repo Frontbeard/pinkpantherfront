@@ -19,6 +19,8 @@ import CreateProduct from "./components/formCreateProduct/CreateProduct.jsx";
 import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
+import MiPerfil from "./components/MiPerfil.jsx";
+import MisCompras from "./components/MisCompras.jsx";
 
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Resumen from "./components/Dashboard/Panel/Resumen.jsx";
@@ -57,7 +59,14 @@ const router = createBrowserRouter([
         path: "/cart",
         element: <Carrito />,
       },
-
+      {
+        path: "/miscompras",
+        element: <MisCompras />,
+      },
+      {
+        path: "/perfil",
+        element: <MiPerfil />,
+      },
       {
         path: "/categories/:categoryId",
         element: <ProductFilter/>,
