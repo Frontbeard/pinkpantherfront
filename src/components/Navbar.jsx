@@ -47,20 +47,21 @@ const Navbar = () => {
 
     const handleCloseModal = () => {
         setShowFilterModal(false);
-        handleCategoryClick(selectedCategory);
+        setSelectedCategory(null);
+        setFilteredProducts([]); // Limpiar productos filtrados al cerrar el modal
     };
 
     const handleSearch = (query) => {
         setSearchQuery(query);
         setSelectedCategory(null);
+        setFilteredProducts([]); // Limpiar productos filtrados al realizar una nueva búsqueda
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('firebaseUid')
-        dispatch(logout())
-        console.log('You have logged out');
+        localStorage.removeItem('firebaseUid');
+        dispatch(logout());
+        console.log('Has cerrado sesión');
         alert('Has cerrado sesión');
-
     };
 
     const navItems = allCategories.map(({ id, name, products }) => ({
@@ -73,6 +74,7 @@ const Navbar = () => {
         setFilteredProducts(filteredProducts);
     };
 
+    
     return (
         <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
             <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
@@ -131,9 +133,10 @@ const Navbar = () => {
                     onUpdateFilteredProducts={handleUpdateFilteredProducts}
                 />
             )}
-            {filteredProducts.length > 0 && (
-                <ProductFilter products={filteredProducts} />
-            )}
+           {filteredProducts && filteredProducts.length > 0 && (
+    <ProductFilter products={filteredProducts} />
+)}
+
         </header>
     );
 };
