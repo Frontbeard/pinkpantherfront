@@ -17,6 +17,7 @@ export const Compras = () => {
   const orders = useSelector((state) => state.allOrders)
   const products = useSelector((state) => state.allproducts);
   const customer = useSelector(state => state.userData);
+  const postorders = useSelector((state) => state.use)
   console.log(customer);
   // console.log(products);
 
