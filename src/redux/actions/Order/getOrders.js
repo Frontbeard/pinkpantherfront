@@ -1,18 +1,10 @@
 import axios from "axios";
 import { GET_ORDERS } from "../actions-types";
 
-const API_URL_BASE = import.meta.env.VITE_VERCEL_API_URL_BASE;
-const endpoint = `${API_URL_BASE}/order/allOrders`;
-
-const getAllOrders = (accessToken) => {
+const getAllOrders = () => {
   return async (dispatch) => {
     try {
-      const config = {
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-        },
-      };
-      const { data } = await axios(endpoint, config);
+      const { data } = await axios(`${URL_LINK}/order/`);
       return dispatch({
         type: GET_ORDERS,
         payload: data,

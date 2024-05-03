@@ -56,8 +56,9 @@ export const Compras = () => {
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
         Nuestros productos
       </h2>
-      <p onClick={() => console.log(orders)}>prueba</p>
-      <p onClick={() => console.log(customer)}>prueba2</p>
+      <p onClick={() => console.log(orders)}>orders</p>
+      <p onClick={() => console.log(postorders)}>postorders</p>
+      <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
         {/* Aquí renderizamos los productos paginados */}
