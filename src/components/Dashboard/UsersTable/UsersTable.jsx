@@ -16,9 +16,9 @@ const UsersTable = () => {
 
   const onChange = async (value, user) => {
     try {
-      const response = await dispatch(userBan(value, user, accessToken));
+      const response = await dispatch(userBan(value, user));
       if (response) {
-        dispatch(getAllUsers(accessToken));
+        dispatch(getAllUsers());
         message.success("Usuario actualizado correctamente", [2], onClose());
       }
     } catch (error) {
@@ -27,7 +27,7 @@ const UsersTable = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllUsers(accessToken));
+    dispatch(getAllUsers());
   }, []);
 
   return (
@@ -42,9 +42,9 @@ const UsersTable = () => {
       )}
 
       <div className="my-8">
-        {allUsers.map((user, index) => (
+        {allUsers.customer?.map((user, index) => (
           <div key={index} className="bg-white shadow-md rounded-md p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-2">{`Usuario ${user.name} ${user.surname}`}</h2>
+            <h2 className="text-lg font-semibold mb-2">{`Usuario ${user.firstName} ${user.lastName}`}</h2>
             <p className="font-medium">Email: {user.email}</p>
             <p className="font-medium">Telefono: {user.phone || "No definido"}</p>
             <p className="font-medium">Rol: {user.typeUser}</p>
