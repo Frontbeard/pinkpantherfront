@@ -215,7 +215,7 @@ const CreateProduct =({ initialValues })=>{
                 <label>
                     Categorías seleccionadas:
                     {console.log("CATEGORÍAS SELECCIONADAS", productData.Categories)}
-                    <input type="text" readOnly value={productData.Categories.map(c => {
+                    <input type="text" readOnly value={productData.Categories && productData.Categories.map(c => {
                     return c ? c.name : ''; 
                     }).join(', ')} />
                 </label>
@@ -225,11 +225,12 @@ const CreateProduct =({ initialValues })=>{
                     <AddingImages setProduct={setProductData} productData={productData} />
                     {errors.photo && <span>{errors.photo}</span>}
                 </label>
-                
-                <button type="submit">Crear Producto</button>
+                <button type="submit">
+                    {initialValues && Object.keys(initialValues).length !== 0 ? 'Editar Producto' : 'Crear Producto'}
+                </button>                                                                                                                                                                     
             </form>
-        </div>
+        </div>                                                                                                                                                                                                      
     )
-}
+}                                                                                                                                                                                                                                                                                       
 
 export default CreateProduct;
