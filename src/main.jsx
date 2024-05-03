@@ -20,6 +20,7 @@ import Carrito from "./pages/Carrito/Carrito.jsx";
 import ProductFilter from "./components/ProductFilter.jsx";
 import NotFound from "./components/NotFound.jsx";
 import MiPerfil from "./components/MiPerfil.jsx";
+import MiPerfilEdit from "./components/MiPerfilEdit.jsx";
 import MisCompras from "./components/MisCompras.jsx";
 
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/perfil",
         element: <MiPerfil />,
+      },
+      {
+        path: "/perfil-edit",
+        element: <MiPerfilEdit />,
       },
       {
         path: "/categories/:categoryId",
