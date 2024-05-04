@@ -37,6 +37,7 @@ import OrdersTable from "./components/Dashboard/OrderTable/OrderTable.jsx";
 import UsersTable from "./components/Dashboard/UsersTable/UsersTable.jsx";
 //import SearchBar from "./components/Searchbar.jsx";
 import SearchResult from "./components/SearchResult.jsx";
+import TermsAndConditions from "./components/TermsAndConditions.jsx";
 
 // import dotenv from 'dotenv'
 // dotenv.config();
@@ -135,6 +136,10 @@ const router = createBrowserRouter([
         {
         path:'/search/:query', 
         element: <SearchResult/>
+      },
+      {
+        path:'/Privacy', 
+        element: <TermsAndConditions/>
       },
 
     ],
