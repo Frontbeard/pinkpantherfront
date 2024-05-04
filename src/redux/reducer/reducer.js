@@ -17,13 +17,16 @@ import {
   GET_ALL_USERS,
   SAVE_EMAIL,
   //cart
-  ADDING_PRODUCT,
-  CLEAN_CART,
   GET_CART,
-  DECREMENT_QUANTITY,
+  ADD_TO_CART,
+  UPDATE_CART_ITEM,
+  REMOVE_FROM_CART,
+  CLEAR_CART,
+  CHECKOUT,
   INCREMENT_QUANTITY,
-  REMOVING_PRODUCT,
-  CLEAN_CART_REDUCER,
+  FETCH_CART_LOADING,
+  FETCH_CART_SUCCESS,
+  FETCH_CART_FAILURE,
   //category
   GET_CATEGORIES,
   POST_CATEGORIES,
@@ -61,6 +64,7 @@ const initialState = {
   isLoggedIn: false,
   userId: [],
   user: [],
+  userData: [],
   token: [],
   email: "",
   //category
@@ -77,6 +81,8 @@ const initialState = {
   allOrders: [],
   ordersUser: [],
   favorites: [],
+  shippingType: null,
+  shippingCost: null,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -87,6 +93,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         allproducts: payload,
+        allProductsAdmin: action.payload,
       };
     case GET_PRODUCT_BY_ID:
       return {
@@ -146,17 +153,17 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cart: action.payload,
       };
-    case CLEAN_CART:
+    case CLEAR_CART:
       return {
         ...state,
         cart: [],
       };
-    case CLEAN_CART_REDUCER:
+    case CHECKOUT:
       return {
         ...state,
         cart: action.payload,
       };
-    case ADDING_PRODUCT:
+    case ADD_TO_CART:
       if (!state.cart.length) {
         return {
           ...state,
@@ -206,12 +213,13 @@ const rootReducer = (state = initialState, action) => {
           }
         }
       }
-    case REMOVING_PRODUCT:
+    case REMOVE_FROM_CART:
       let productRemoved = state.cart[action.payload];
       return {
         ...state,
         cart: state.cart.filter((prod) => prod !== productRemoved),
       };
+      11;
     case INCREMENT_QUANTITY:
       let product = state.cart[action.payload];
       if (product.quantity > 1) {
@@ -227,6 +235,7 @@ const rootReducer = (state = initialState, action) => {
           cart: state.cart.filter((prod) => prod !== product),
         };
       }
+
     //category
     case GET_CATEGORIES:
       return {
@@ -319,6 +328,7 @@ const rootReducer = (state = initialState, action) => {
         accessToken: action.accessToken,
         user: action.payload,
       };
+
     // case GET_ORDERS_ID:
     //   return {
     //     ...state,
@@ -335,6 +345,14 @@ const rootReducer = (state = initialState, action) => {
         user: null, // Restablecer el usuario a null
       };
 
+    case GET_ALL_USERS:
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+    //actualiza el estado para indicar que el usuario cerro sesión
+
+    // },
     case SAVE_EMAIL:
       return {
         ...state,
