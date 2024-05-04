@@ -146,78 +146,39 @@ const rootReducer = (state = initialState, action) => {
       };
     //cart
     case CREATE_CART:
-      console.log('Payload desde el reducer:', payload)
+      const newCart = payload
+      localStorage.setItem('cart', JSON.stringify(newCart));
       return {
         ...state,
-        cart: payload,
+        cart: newCart,
       };
       case CLEAR_CART:
+        localStorage.removeItem('cart');
         return {
           ...state,
-          cart: [],
+          cart: null,
         };
     case GET_CART:
+      const getCart = JSON.parse(localStorage.getItem('cart'))
       return {
         ...state,
-        cart: action.payload,
+        cart: getCart,
       };
     case ADD_CART:
-      if (!state.cart) {
-        return {
-          ...state,
-          cart: action.payload,
-        };
-      } else {
-        let productDontMatch = [];
-        productDontMatch = state.cart.filter(
-          (prod) =>
-            prod.name !== action.payload.name ||
-            prod.size !== action.payload.size
-        );
-
-        if (
-          productDontMatch.length &&
-          productDontMatch.length === state.cart.length
-        ) {
-          return {
-            ...state,
-            cart: [...state.cart, action.payload],
-          };
-        } else {
-          let productDontMatch = [];
-          productDontMatch = state.cart.filter(
-            (prod) =>
-              prod.name !== action.payload.name ||
-              prod.size !== action.payload.size
-          );
-
-          if (
-            productDontMatch.length &&
-            productDontMatch.length === state.cart.length
-          ) {
-            return {
-              ...state,
-              cart: [...state.cart, action.payload],
-            };
-          } else {
-            let productFound = state.cart.find(
-              (prod) =>
-                prod.name === action.payload.name &&
-                prod.size === action.payload.size
-            );
-            productFound.quantity += action.payload.quantity;
-            product: updatedProduct;
-            allproducts: updatedProduct;
-          }
-        }
-      }
-    case REMOVE_CART:
-      let productRemoved = state.cart[action.payload];
+      //const newCartAdd = [...state.cart, ...payload];
+      const newCartAdd = state.cart.concat(payload);
+      localStorage.setItem('cart', JSON.stringify(newCartAdd));
       return {
         ...state,
-        cart: state.cart.filter((prod) => prod !== productRemoved),
+        cart: newCartAdd,
       };
-      11;
+    case REMOVE_CART:
+      const newCartRemove = state.cart.filter(item => !payload.includes(item));
+      localStorage.setItem('cart', JSON.stringify(newCartRemove));
+      return {
+        ...state,
+        cart: newCartRemove,
+      };
     case INCREMENT_QUANTITY:
       let product = state.cart[action.payload];
       if (product.quantity > 1) {
@@ -368,6 +329,7 @@ const rootReducer = (state = initialState, action) => {
 
     case LOGOUT_SUCCESS:
       console.log("User data:", payload);
+      localStorage.removeItem('cart');
       return {
         ...state,
         isLoggedIn: false,

@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { URL_LINK } from '../URL.js'
 import login from '../redux/actions/Customer/login.js'
-import logout from '../redux/actions/Customer/login.js'
+import logout from '../redux/actions/Customer/logout.js'
+import getCart from '../redux/actions/Cart/getCart.js'
 
 const isAuthenticated = (dispatch) => {
   const auth = getAuth();
@@ -28,6 +29,7 @@ const isAuthenticated = (dispatch) => {
           const response = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
           console.log("User is authenticated", response.data);
           dispatch(login(response))
+          dispatch(getCart())
         } catch (error) {
           console.error("Error fetching customer data:", error);
           //localStorage.removeItem('firebaseUid'); // Remove the item from localStorage
