@@ -78,12 +78,11 @@ const initialState = {
   //cart
   cart: [],
   //orders
-  allOrders:[],
-  ordersUser:[],
-  favorites:[],
+  allOrders: [],
+  ordersUser: [],
+  favorites: [],
   shippingType: null,
   shippingCost: null,
-
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -94,7 +93,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         allproducts: payload,
-        allProductsAdmin: action.payload
+        allProductsAdmin: action.payload,
       };
     case GET_PRODUCT_BY_ID:
       return {
@@ -148,43 +147,27 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         favorites: action.payload,
       };
-      //cart
-  case GET_CART:
-    return {
-      ...state,
-      cart: action.payload
-    };
-  case CLEAR_CART:
-    return {
-      ...state,
-      cart: [],
-    };
-  case CHECKOUT:
-    return {
-      ...state,
-      cart: action.payload
-    };
-  case ADD_TO_CART:
-    if (!state.cart.length) {
+    //cart
+    case GET_CART:
       return {
         ...state,
-        cart: [action.payload],
+        cart: action.payload,
       };
-    } else {
-      let productDontMatch = [];
-      productDontMatch = state.cart.filter(
-        (prod) =>
-          prod.name !== action.payload.name ||
-          prod.size !== action.payload.size
-      );
-
-      if (
-        productDontMatch.length &&
-        productDontMatch.length === state.cart.length
-      ) {
+    case CLEAR_CART:
+      return {
+        ...state,
+        cart: [],
+      };
+    case CHECKOUT:
+      return {
+        ...state,
+        cart: action.payload,
+      };
+    case ADD_TO_CART:
+      if (!state.cart.length) {
         return {
           ...state,
-          cart: [...state.cart, action.payload],
+          cart: [action.payload],
         };
       } else {
         let productDontMatch = [];
@@ -198,44 +181,60 @@ const rootReducer = (state = initialState, action) => {
           productDontMatch.length &&
           productDontMatch.length === state.cart.length
         ) {
-          
           return {
             ...state,
             cart: [...state.cart, action.payload],
           };
         } else {
-          let productFound = state.cart.find(
+          let productDontMatch = [];
+          productDontMatch = state.cart.filter(
             (prod) =>
-              prod.name === action.payload.name &&
-              prod.size === action.payload.size
+              prod.name !== action.payload.name ||
+              prod.size !== action.payload.size
           );
-          productFound.quantity += action.payload.quantity;
-          product: updatedProduct;
-          allproducts: updatedProduct;
+
+          if (
+            productDontMatch.length &&
+            productDontMatch.length === state.cart.length
+          ) {
+            return {
+              ...state,
+              cart: [...state.cart, action.payload],
+            };
+          } else {
+            let productFound = state.cart.find(
+              (prod) =>
+                prod.name === action.payload.name &&
+                prod.size === action.payload.size
+            );
+            productFound.quantity += action.payload.quantity;
+            product: updatedProduct;
+            allproducts: updatedProduct;
+          }
         }
       }
-    }
-  case REMOVE_FROM_CART:
-    let productRemoved = state.cart[action.payload];
-    return {
-      ...state,
-      cart: state.cart.filter((prod) => prod !== productRemoved)
-    };11
-  case INCREMENT_QUANTITY:
-    let product = state.cart[action.payload];
-    if(product.quantity > 1){
-      product.quantity = product.quantity -1;
+    case REMOVE_FROM_CART:
+      let productRemoved = state.cart[action.payload];
       return {
         ...state,
-        cart: [...state.cart]
+        cart: state.cart.filter((prod) => prod !== productRemoved),
       };
-    } else {
+      11;
+    case INCREMENT_QUANTITY:
       let product = state.cart[action.payload];
-      return{
-        ...state,
-        cart: state.cart.filter((prod) => prod !== product)
-      };
-    }
+      if (product.quantity > 1) {
+        product.quantity = product.quantity - 1;
+        return {
+          ...state,
+          cart: [...state.cart],
+        };
+      } else {
+        let product = state.cart[action.payload];
+        return {
+          ...state,
+          cart: state.cart.filter((prod) => prod !== product),
+        };
+      }
 
     //category
     case GET_CATEGORIES:
@@ -346,12 +345,14 @@ const rootReducer = (state = initialState, action) => {
         user: null, // Restablecer el usuario a null
       };
 
-      case GET_ALL_USERS:
-        return {
-          ...state,
-          allUsers: action.payload,
-        };
-      //actualiza el estado para indicar que el usuario cerro sesión
+    case GET_ALL_USERS:
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+    //actualiza el estado para indicar que el usuario cerro sesión
+
+    // },
     case SAVE_EMAIL:
       return {
         ...state,
