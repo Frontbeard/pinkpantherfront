@@ -1,11 +1,10 @@
 import axios from "axios";
 import { GET_ORDERS } from "../actions-types";
-import { URL_LINK } from '../../../URL.js'
 
 const getAllOrders = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios(`${URL_LINK}/order/`);
+      const { data } = await axios(`${URL_LINK}/order/:customerId`);
       return dispatch({
         type: GET_ORDERS,
         payload: data,
@@ -17,4 +16,3 @@ const getAllOrders = () => {
 };
 
 export default getAllOrders;
-
