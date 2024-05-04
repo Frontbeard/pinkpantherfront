@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowAltCircleRight, FaStar } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { productbyID } from "../../redux/actions/Product/productById";
 import { ADD_TO_CART } from "../../redux/actions/actions-types";
@@ -9,6 +9,7 @@ import { addToCart } from "../../redux/actions/Cart/addingProduct";
 const SingleProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const productDetails = useSelector(state => state.details);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1); // Estado para la cantidad de productos
@@ -39,8 +40,17 @@ const SingleProduct = () => {
   // };
 
   const handleOnClick = () => {
-    //dispatch(addToCart(customerId, productId, productQuantity)) asi entra en el reducer
-    dispatch(addToCart(userData.idfirebase, id, quantity))
+    //dispatch(addToCart(customerId, productId, productQuantity, totalPrice, discounts)) asi entra en el reducer
+    console.log('id firebase:', userData.idfirebase)
+    console.log('product id:', id)
+    console.log('cantidad', quantity)
+    dispatch(addToCart(userData.idfirebase, id, quantity ))
+    alert("Producto agregado al carrito")
+    navigate("/")
+  };
+
+  const handleOnRedireccion = () => {
+    navigate("/login")
   };
 
   return (
@@ -128,6 +138,17 @@ const SingleProduct = () => {
                         </div>
                         
                         <div className="w-full text-left my-4">
+                        {!localStorage.getItem('firebaseUid') && (userData.role === "" || "GUEST") && (
+                          <button
+                            className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
+                            title="Agregar al Carrito"
+                            onClick={handleOnRedireccion}
+                          >
+                            <span>¡Inicie sesión para comprar!</span>
+                            <FaArrowAltCircleRight />
+                          </button>
+                        )}
+                        {localStorage.getItem('firebaseUid') && (userData.role === "ADMIN" || "CUSTOMER") && (
                           <button
                             className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
                             title="Agregar al Carrito"
@@ -136,6 +157,8 @@ const SingleProduct = () => {
                             <span>Agregar al Carrito</span>
                             <FaArrowAltCircleRight />
                           </button>
+                        )}
+
                         </div>
                       </div>
                     </div>
