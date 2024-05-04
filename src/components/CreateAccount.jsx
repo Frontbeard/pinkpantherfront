@@ -120,7 +120,7 @@ function CreateAccount({ onDataChange }) {
         alert('Username already exists in the DataBase!')
       }
 
-      //navigate("/");
+      navigate("/");
 
     } catch (error) {
       console.error('Error submitting the form:', error)

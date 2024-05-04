@@ -3,8 +3,8 @@ import { FaArrowAltCircleRight, FaStar } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { productbyID } from "../../redux/actions/Product/productById";
-import { ADD_TO_CART } from "../../redux/actions/actions-types";
-import { addToCart } from "../../redux/actions/Cart/addingProduct";
+import { createCart } from "../../redux/actions/Cart/createCart";
+import { addCart } from "../../redux/actions/Cart/addCart";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -14,6 +14,7 @@ const SingleProduct = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1); // Estado para la cantidad de productos
   const userData = useSelector((state) => state.userData)
+  const userCart = useSelector((state) => state.cart)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -44,9 +45,15 @@ const SingleProduct = () => {
     console.log('id firebase:', userData.idfirebase)
     console.log('product id:', id)
     console.log('cantidad', quantity)
-    dispatch(addToCart(userData.idfirebase, id, quantity ))
+    console.log(userCart)
+    if (!userCart) { 
+      dispatch(createCart(userData.id, id, quantity ))
+    } else {
+      dispatch(addCart(userCart.id, id, quantity ))
+    }
+
     alert("Producto agregado al carrito")
-    navigate("/")
+    //navigate("/")
   };
 
   const handleOnRedireccion = () => {
