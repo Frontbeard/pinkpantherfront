@@ -19,8 +19,8 @@ const AddingImages = ({ setProduct, productData }) => {
                 }
             );
             const file = await res.json();
-            setImage(file.secure_url);
-            setProduct({ ["photo"]: file.secure_url })
+            
+            setProduct({...productData, ["photo"]: file.secure_url })
         } catch (error) {
             console.error("Error uploading image: ", error); 
         } finally {
@@ -37,9 +37,8 @@ const AddingImages = ({ setProduct, productData }) => {
                     onChange={uploadImage}
                     style={{ marginBottom: "10px" }}
                 />
-                {/* {setImage(productData.photo)}; */}
                 {loading && <p>Cargando imagen...</p>}
-                <img src={image} width="200px"/>
+                <img src={productData.photo} width="200px"/>
             </div>
         </div>
     );
