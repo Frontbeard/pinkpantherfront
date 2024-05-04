@@ -119,7 +119,7 @@ const Navbar = () => {
                         <span>
                             Logueado como: {customer.userName}
                             <button onClick={handleLogout}>Logout</button>
-                            <button onClick={handleMisCompras}>Mis compras</button>
+                            {/* <button onClick={handleMisCompras}>Mis compras</button> */}
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
@@ -139,6 +139,10 @@ const Navbar = () => {
                     </a>
                     <a href="/cart" className="flex items-center gap-2 container">
                         <FaShoppingBag />
+                    </a>
+
+                    <a href="/compras" className="flex items-center gap-2">
+                        Mis compras
                     </a>
                     {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
                         <span>
