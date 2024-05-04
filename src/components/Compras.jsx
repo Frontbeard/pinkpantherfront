@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "./Card";
 import Pagination from "./Pagination";
 import { getAllProducts } from "../redux/actions/Product/getAllProducts";
-import getAllOrders from "../redux/actions/Order/getOrders";
+import getAllOrdersById from "../redux/actions/Order/getOrdersById";
 import { Button, CardFooter } from "@material-tailwind/react";
 import {  useNavigate } from "react-router-dom";
 import postOrder from "../redux/actions/Order/postOrder";
@@ -15,21 +15,23 @@ export const Compras = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const orders = useSelector((state) => state.allOrders)
+  const ordersById = useSelector((state) => state.ordersUser)
   const products = useSelector((state) => state.allproducts);
   const customer = useSelector(state => state.userData);
-  const postorders = useSelector((state) => state.a)
+ 
+  // const postorders = useSelector((state) => state.a)
   console.log(customer);
   // console.log(products);
 
   useEffect(() => {
     dispatch(getAllProducts());
-    dispatch(getAllOrders())
+    dispatch(getAllOrdersById(customer.id))
   }, [dispatch]);
 
   useEffect(() => {
     if (products.length > 0) {
-      setFilteredItems(products);
+      // setFilteredItems(products);
+      setFilteredItems(products)
       setTotalPages(Math.ceil(products.length / itemsPerPage));
     }
   }, [products]);
@@ -59,12 +61,16 @@ export const Compras = () => {
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
         Nuestros productos
       </h2>
-      <p onClick={() => console.log(orders)}>orders</p>
+      <p onClick={() => console.log(ordersById)}>ordersById</p>
       <p onClick={() => console.log(postorders)}>postorders</p>
       <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
         {/* Aquí renderizamos los productos paginados */}
+        {paginatedItems.map((product) => (
+          <Card key={product.id} filteredItems={product} />
+        ))}
+        {/* */}
         {paginatedItems.map((product) => (
           <Card key={product.id} filteredItems={product} />
         ))}
