@@ -7,6 +7,8 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const dispatch = useDispatch();
   const firebaseUid = useSelector(state => state.auth.firebaseUid);
+  const userCart = useSelector((state) => state.Cart) 
+  const userData = useSelector((state) => state.userData)
 
   const fetchCart = async () => {
     try {
