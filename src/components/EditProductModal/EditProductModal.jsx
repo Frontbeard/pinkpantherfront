@@ -12,13 +12,12 @@ const EditProductModal = ({ visible, onClose, product }) => {
     priceEfectivo: product.priceEfectivo,
     priceCuotas: product.priceCuotas,
     photo: product.photo,
-    category: product.Categories,
+    Categories: product.Categories,
     size: product.size,
     quantity: product.quantity,
     supplier: product.supplier,
+    enable: product.enable
   };
-
-  console.log("INITIAL VALUES 1", initialValues)
 
   return (
     <div className={`fixed z-10 inset-0 overflow-y-auto ${visible ? 'block' : 'hidden'}`}>

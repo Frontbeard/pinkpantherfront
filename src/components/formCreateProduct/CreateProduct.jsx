@@ -26,6 +26,7 @@ const CreateProduct =({ initialValues })=>{
             };
         } else {
             return {
+                id: initialValues.id,
                 name: initialValues.name,
                 color: initialValues.color,
                 priceEfectivo: initialValues.priceEfectivo,
@@ -33,8 +34,9 @@ const CreateProduct =({ initialValues })=>{
                 size: initialValues.size,
                 quantity: initialValues.quantity,
                 photo: initialValues.photo,
+                supplier: initialValues.supplier,
                 enable: initialValues.enable,
-                Categories: initialValues.category || []
+                Categories: initialValues.Categories || []
             };
         }
     });
@@ -92,12 +94,10 @@ const CreateProduct =({ initialValues })=>{
         }));
     }
 
-    const handleSubmit = async (event) => {
+    const handlePost = async (event) => {
         event.preventDefault();
-        console.log("product data", productData)
         const validationErrors = validation(productData);
         setErrors(validationErrors);
-        console.log(Object.keys(validationErrors))
         if (Object.keys(validationErrors).length === 0) {
             try {
                 const response = await axios.post(URL_PRODUCT, productData);
@@ -126,9 +126,31 @@ const CreateProduct =({ initialValues })=>{
         }
     }
 
+    const handlePut = async (event) => {
+        event.preventDefault();
+        const validationErrors = validation(productData);
+        setErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
+            try {
+                const response = await axios.put(`${URL_PRODUCT}/${productData.id}`, productData);
+                if (response.status === 200) {
+                    alert("Tu producto se actualizó correctamente");
+                } else {
+                    throw new Error("Error al actualizar tu producto");
+                }
+            } catch (error) {
+                console.error("Error al actualizar tu producto: ", error);
+            }
+        } else {
+            alert("Faltan datos o hay errores en el formulario");
+        }
+    }
+
+    
+
     return(
         <div>
-            <form onSubmit={handleSubmit}>
+            <form  onSubmit={initialValues && Object.keys(initialValues).length !== 0 ? handlePut : handlePost} >
                 <label>
                     Nombre:
                     <input type='text' placeholder='Ingrese el nombre del producto' id='name' name='name' value={productData.name} onChange={handleChange}/> 
@@ -194,7 +216,7 @@ const CreateProduct =({ initialValues })=>{
                     {errors.photo && <span>{errors.photo}</span>}
                 </label>
                 <button type="submit">
-                    {initialValues && Object.keys(initialValues).length !== 0 ? 'Editar Producto' : 'Crear Producto'}
+                    {initialValues && Object.keys(initialValues).length !== 0 ? 'Actualizar Producto' : 'Crear Producto'}
                 </button>                                                                                                                                                                     
             </form>
         </div>                                                                                                                                                                                                      
