@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowAltCircleRight, FaStar } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { productbyID } from "../../redux/actions/Product/productById";
+import { createCart } from "../../redux/actions/Cart/createCart";
+import { addCart } from "../../redux/actions/Cart/addCart";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const productDetails = useSelector(state => state.details);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1); // Estado para la cantidad de productos
+  const userData = useSelector((state) => state.userData)
+  const userCart = useSelector((state) => state.cart)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -23,16 +28,36 @@ const SingleProduct = () => {
   const { photo, name, size, priceEfectivo, priceCuotas, color, quantity: availableQuantity, Categories } = productDetails;
 
   // Funciones para incrementar y decrementar la cantidad de productos
-  const incrementQuantity = () => {
-    if (quantity < availableQuantity) {
-      setQuantity(prevQuantity => prevQuantity + 1);
+  // const incrementQuantity = () => {
+  //   if (quantity < availableQuantity) {
+  //     setQuantity(prevQuantity => prevQuantity + 1);
+  //   }
+  // };
+
+  // const decrementQuantity = () => {
+  //   if (quantity > 1) {
+  //     setQuantity(prevQuantity => prevQuantity - 1);
+  //   }
+  // };
+
+  const handleOnClick = () => {
+    //dispatch(addToCart(customerId, productId, productQuantity, totalPrice, discounts)) asi entra en el reducer
+    console.log('id firebase:', userData.idfirebase)
+    console.log('product id:', id)
+    console.log('cantidad', quantity)
+    console.log(userCart)
+    if (!userCart) { 
+      dispatch(createCart(userData.id, id, quantity ))
+    } else {
+      dispatch(addCart(userCart.id, id, quantity ))
     }
+
+    alert("Producto agregado al carrito")
+    //navigate("/")
   };
 
-  const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(prevQuantity => prevQuantity - 1);
-    }
+  const handleOnRedireccion = () => {
+    navigate("/login")
   };
 
   return (
@@ -101,20 +126,46 @@ const SingleProduct = () => {
                               className="border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-red-500 text-center"
                               type="number"
                               value={quantity}
-                              onChange={(e) => setQuantity(e.target.value)}
+                              onChange={(e) => {
+                                let value = parseInt(e.target.value);
+                                // Check if the entered value is greater than available quantity
+                                if (value > availableQuantity) {
+                                  value = availableQuantity;
+                                }
+                                // Check if the entered value is less than 1
+                                if (value < 1) {
+                                  value = 1;
+                                }
+                                // Update the quantity
+                                setQuantity(value);
+                              }}
                             />
                             
                           </div>
                         </div>
                         
                         <div className="w-full text-left my-4">
+                        {!localStorage.getItem('firebaseUid') && (userData.role === "" || "GUEST") && (
                           <button
                             className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
                             title="Agregar al Carrito"
+                            onClick={handleOnRedireccion}
+                          >
+                            <span>¡Inicie sesión para comprar!</span>
+                            <FaArrowAltCircleRight />
+                          </button>
+                        )}
+                        {localStorage.getItem('firebaseUid') && (userData.role === "ADMIN" || "CUSTOMER") && (
+                          <button
+                            className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
+                            title="Agregar al Carrito"
+                            onClick={handleOnClick}
                           >
                             <span>Agregar al Carrito</span>
                             <FaArrowAltCircleRight />
                           </button>
+                        )}
+
                         </div>
                       </div>
                     </div>

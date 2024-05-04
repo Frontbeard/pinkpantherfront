@@ -17,16 +17,13 @@ import {
   GET_ALL_USERS,
   SAVE_EMAIL,
   //cart
-  GET_CART,
-  ADD_TO_CART,
-  UPDATE_CART_ITEM,
-  REMOVE_FROM_CART,
+  CREATE_CART,
   CLEAR_CART,
-  CHECKOUT,
+  GET_CART,
+  ADD_CART,
+  REMOVE_CART,
+
   INCREMENT_QUANTITY,
-  FETCH_CART_LOADING,
-  FETCH_CART_SUCCESS,
-  FETCH_CART_FAILURE,
   //category
   GET_CATEGORIES,
   POST_CATEGORIES,
@@ -77,7 +74,7 @@ const initialState = {
     selectOrdered: "",
   },
   //cart
-  cart: [],
+  cart: null,
   //orders
   allOrders: [],
   ordersUser: [],
@@ -149,26 +146,27 @@ const rootReducer = (state = initialState, action) => {
         favorites: action.payload,
       };
     //cart
+    case CREATE_CART:
+      console.log('Payload desde el reducer:', payload)
+      return {
+        ...state,
+        cart: payload,
+      };
+      case CLEAR_CART:
+        return {
+          ...state,
+          cart: [],
+        };
     case GET_CART:
       return {
         ...state,
         cart: action.payload,
       };
-    case CLEAR_CART:
-      return {
-        ...state,
-        cart: [],
-      };
-    case CHECKOUT:
-      return {
-        ...state,
-        cart: action.payload,
-      };
-    case ADD_TO_CART:
-      if (!state.cart.length) {
+    case ADD_CART:
+      if (!state.cart) {
         return {
           ...state,
-          cart: [action.payload],
+          cart: action.payload,
         };
       } else {
         let productDontMatch = [];
@@ -214,7 +212,7 @@ const rootReducer = (state = initialState, action) => {
           }
         }
       }
-    case REMOVE_FROM_CART:
+    case REMOVE_CART:
       let productRemoved = state.cart[action.payload];
       return {
         ...state,

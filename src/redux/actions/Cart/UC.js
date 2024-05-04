@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { URL_LINK } from '../../../URL.js';
-import { UPDATE_CART_ITEM } from "../actions-types";
+import { UPDATE_CART_ITEM } from "../actions-types.js";
 
 export const updateProduct = (cartId, productId, productQuantity) => {
     return async (dispatch) => {

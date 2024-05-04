@@ -6,9 +6,8 @@ import validation from './validation';
 
 // const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
  const URL_PRODUCT = "http://localhost:3001/product" 
-const URL_CATEGORIES = "https://pinkpanther-backend-ip0f.onrender.com/categories";
-/* const URL_CATEGORIES="http://localhost:3001/categories" */
-
+/* const URL_CATEGORIES = "https://pinkpanther-backend-ip0f.onrender.com/categories"; */
+const URL_CATEGORIES="http://localhost:3001/categories"
 
 const CreateProduct =({ initialValues })=>{
     const [productData, setProductData] = useState(() => {
@@ -22,11 +21,12 @@ const CreateProduct =({ initialValues })=>{
                 quantity: 0,
                 photo: "",
                 supplier: "",
-                enable: false,
+                enable: true,
                 Categories: []
             };
         } else {
             return {
+                id: initialValues.id,
                 name: initialValues.name,
                 color: initialValues.color,
                 priceEfectivo: initialValues.priceEfectivo,
@@ -34,8 +34,9 @@ const CreateProduct =({ initialValues })=>{
                 size: initialValues.size,
                 quantity: initialValues.quantity,
                 photo: initialValues.photo,
+                supplier: initialValues.supplier,
                 enable: initialValues.enable,
-                Categories: initialValues.category || []
+                Categories: initialValues.Categories || []
             };
         }
     });
@@ -54,18 +55,7 @@ const CreateProduct =({ initialValues })=>{
     }, []);
 
     const handleChange = (event) => {
-        const fieldName = event.target.name;
-        const fieldValue = event.target.value;
-    
-        setProductData(prevData => ({
-            ...prevData,
-            [fieldName]: fieldValue 
-        }));
-
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            [fieldName]: validation({ ...productData, [fieldName]: fieldValue })[fieldName]
-        }));
+        setProductData({...productData, [event.target.name]:event.target.value });
     }
 
     const handleCategoriesChange = (event) => {
@@ -88,20 +78,6 @@ const CreateProduct =({ initialValues })=>{
             }));
         }
     }
-    
-
-    const handleEnableChange = (event) => {
-        const fieldValue = event.target.checked;
-        setProductData(prevData => ({
-            ...prevData,
-            enable: fieldValue
-        }));
-
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            enable: validation({ ...productData, enable: fieldValue }).enable
-        }));
-    }
 
     const handleNumberChange = (event) => {
         const fieldName = event.target.name;
@@ -118,12 +94,10 @@ const CreateProduct =({ initialValues })=>{
         }));
     }
 
-    const handleSubmit = async (event) => {
+    const handlePost = async (event) => {
         event.preventDefault();
-
         const validationErrors = validation(productData);
         setErrors(validationErrors);
-
         if (Object.keys(validationErrors).length === 0) {
             try {
                 const response = await axios.post(URL_PRODUCT, productData);
@@ -138,7 +112,7 @@ const CreateProduct =({ initialValues })=>{
                         quantity: 0,
                         photo: "",
                         supplier: "",
-                        enable: false,
+                        enable: true,
                         Categories: []
                     });
                 } else {
@@ -152,9 +126,31 @@ const CreateProduct =({ initialValues })=>{
         }
     }
 
+    const handlePut = async (event) => {
+        event.preventDefault();
+        const validationErrors = validation(productData);
+        setErrors(validationErrors);
+        if (Object.keys(validationErrors).length === 0) {
+            try {
+                const response = await axios.put(`${URL_PRODUCT}/${productData.id}`, productData);
+                if (response.status === 200) {
+                    alert("Tu producto se actualizó correctamente");
+                } else {
+                    throw new Error("Error al actualizar tu producto");
+                }
+            } catch (error) {
+                console.error("Error al actualizar tu producto: ", error);
+            }
+        } else {
+            alert("Faltan datos o hay errores en el formulario");
+        }
+    }
+
+    
+
     return(
         <div>
-            <form onSubmit={handleSubmit}>
+            <form  onSubmit={initialValues && Object.keys(initialValues).length !== 0 ? handlePut : handlePost} >
                 <label>
                     Nombre:
                     <input type='text' placeholder='Ingrese el nombre del producto' id='name' name='name' value={productData.name} onChange={handleChange}/> 
@@ -197,11 +193,6 @@ const CreateProduct =({ initialValues })=>{
                     {errors.supplier && <span>{errors.supplier}</span>}
                 </label>
                 <br />
-               {/*  <label>
-                    Habilitar producto:
-                    <input type='checkbox' id='enable' name='enable' checked={productData.enable} onChange={handleEnableChange}/>
-                </label>
-                <br /> */}
                 <label>
                     Categorías:
                     <select size="5" multiple value={productData.Categories} onChange={handleCategoriesChange}>
@@ -214,7 +205,6 @@ const CreateProduct =({ initialValues })=>{
                 <br />
                 <label>
                     Categorías seleccionadas:
-                    {console.log("CATEGORÍAS SELECCIONADAS", productData.Categories)}
                     <input type="text" readOnly value={productData.Categories && productData.Categories.map(c => {
                     return c ? c.name : ''; 
                     }).join(', ')} />
@@ -226,7 +216,7 @@ const CreateProduct =({ initialValues })=>{
                     {errors.photo && <span>{errors.photo}</span>}
                 </label>
                 <button type="submit">
-                    {initialValues && Object.keys(initialValues).length !== 0 ? 'Editar Producto' : 'Crear Producto'}
+                    {initialValues && Object.keys(initialValues).length !== 0 ? 'Actualizar Producto' : 'Crear Producto'}
                 </button>                                                                                                                                                                     
             </form>
         </div>                                                                                                                                                                                                      
