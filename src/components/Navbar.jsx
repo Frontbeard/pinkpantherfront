@@ -104,10 +104,11 @@ const Navbar = () => {
                 <a href="/" className="ml-24 w-64">
                     <img src={logo2} alt="" />
                 </a>
-                <div className="text-lg text-Black sm:flex items-center gap-4 hidden">
+                <div className="text-lg text-Black sm:flex items-center gap-4 hidden truncate">
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
                     </a>
+
 
                     {customer.role === "CUSTOMER" && localStorage.getItem('firebaseUid') && (
                         <span>
@@ -121,6 +122,7 @@ const Navbar = () => {
                     {customer.role === "ADMIN" && localStorage.getItem('firebaseUid') && (
                         <span>
                             Logueado como: {customer.userName}
+
                             <button onClick={handleLogout}>Logout</button>
                             <button onClick={handleDashboard}>Dashboard</button>
                             <button onClick={handleMiPerfil}>Mi perfil</button>
@@ -131,6 +133,10 @@ const Navbar = () => {
                     </a>
                     <a href="/cart" className="flex items-center gap-2 container">
                         <FaShoppingBag />
+                    </a>
+                    
+                    <a href="/compras" className="flex items-center gap-2">
+                        Mis compras
                     </a>
                 </div>
                 <div className="sm:hidden">
