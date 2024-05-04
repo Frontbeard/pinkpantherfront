@@ -19,7 +19,7 @@ export const CreateReview = () => {
 
     useEffect(() => {
         const errorsArray = Object.values(errors) // objeto con mensajes de error
-        setIsFormValid(userData.email && userData.password > 0 && errorsArray.every(error => !error)) // verifica que los campos tengan valor, verifica que no haya errores
+        setIsFormValid(userData.title && userData.description && userData.points > 0 && errorsArray.every(error => !error)) // verifica que los campos tengan valor, verifica que no haya errores
     }, [userData, errors])
 
     const handleChange = (event) => {
@@ -29,7 +29,7 @@ export const CreateReview = () => {
           [name]: value
         }));
         // Update the error state for the current field only
-        const fieldErrors = validation({ ...userData, [name]: value })
+        const fieldErrors = validationReview({ ...userData, [name]: value })
         console.log(fieldErrors);
         setErrors((prevErrors) => ({
           ...prevErrors,
@@ -41,7 +41,14 @@ export const CreateReview = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         try {
-            navigate("/");
+          dispatch(postReview(userData))
+          alert("review creada")
+          setUserData({
+            title:"",
+            description:"",
+            points:"",
+          })
+          navigate("/");
         } catch (error) {
             console.error('Error submitting the form:', error)
       alert('Error submitting the form. Please try again later.', error.message)
@@ -117,7 +124,7 @@ export const CreateReview = () => {
             </CardBody>
             <CardFooter className="pt-0 mt-1">
                <Button onClick={handleSubmit} 
-            //    disabled={!isFormValid}
+               disabled={!isFormValid}
                 className="text-white bg-pink-500" variant="gradient" fullWidth> 
                 Crear review
               </Button>

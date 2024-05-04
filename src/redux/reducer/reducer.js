@@ -47,6 +47,7 @@ import {
   //order
   GET_ORDERS,
   GET_ORDERID,
+  GET_ORDERS_ID,
   // CHANGE_PAGE,
 } from "../actions/actions-types";
 
@@ -329,11 +330,11 @@ const rootReducer = (state = initialState, action) => {
         user: action.payload,
       };
 
-    // case GET_ORDERS_ID:
-    //   return {
-    //     ...state,
-    //     ordersUser: action.payload,
-    //   };
+    case GET_ORDERS_ID:
+      return {
+        ...state,
+        ordersUser: action.payload,
+      };
 
     //actualiza el estado para indicar que el usuario cerro sesión
     case LOGOUT_USER:

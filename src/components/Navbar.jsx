@@ -114,7 +114,7 @@ const Navbar = () => {
                         <span>
                             Logueado como: {customer.userName}
                             <button onClick={handleLogout}>Logout</button>
-                            <button onClick={handleMisCompras}>Mis compras</button>
+                            {/* <button onClick={handleMisCompras}>Mis compras</button> */}
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}

@@ -52,5 +52,6 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 //orders
 export const GET_ORDERS = "GET_ORDERS";
 export const GET_ORDERID = "GET_ORDERID";
+export const GET_ORDERS_ID = "GET_ORDERS_ID";
 //error
 export const ERROR = "ERROR";
