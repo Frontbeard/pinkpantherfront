@@ -6,7 +6,6 @@ import { getAllProducts } from "../redux/actions/Product/getAllProducts";
 import getAllOrders from "../redux/actions/Order/getOrders";
 import { Button, CardFooter } from "@material-tailwind/react";
 import {  useNavigate } from "react-router-dom";
-import postOrder from "../redux/actions/Order/postOrder";
 
 export const Compras = () => {
   const [filteredItems, setFilteredItems] = useState([]);
@@ -18,7 +17,7 @@ export const Compras = () => {
   const orders = useSelector((state) => state.allOrders)
   const products = useSelector((state) => state.allproducts);
   const customer = useSelector(state => state.userData);
-  const postorders = useSelector((state) => state.a)
+  const postorders = useSelector((state) => state.use)
   console.log(customer);
   // console.log(products);
 
@@ -50,7 +49,6 @@ export const Compras = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    // dispatch(postOrder(input))
     navigate("/create-review");
   }
 

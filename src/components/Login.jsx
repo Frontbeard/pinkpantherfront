@@ -80,7 +80,7 @@ function Login() {
       
       localStorage.setItem('firebaseUid', firebaseUid);
       const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
-      console.log(data)
+      //console.log(data)
       dispatch(login(data));
       
       navigate("/");
@@ -231,9 +231,7 @@ function Login() {
             </div>
           </CardBody>
           <CardFooter className="pt-0 mt-1">
-            <Button onClick={handleSubmit} 
-            // disabled={!isFormValid} 
-            className="text-white bg-pink-500" variant="gradient" fullWidth>
+            <Button onClick={handleSubmit} disabled={!isFormValid} className="text-white bg-pink-500" variant="gradient" fullWidth>
               Ingresar
             </Button>
           </CardFooter>
