@@ -1,4 +1,4 @@
-import { 
+import {
   //products
   GET_ALL_PRODUCTS,
   GET_PRODUCT_BY_NAME,
@@ -44,19 +44,18 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
 
-    //order
-    GET_ORDERS,
-    GET_ORDERID,
-   // CHANGE_PAGE,
-
-} from '../actions/actions-types';
+  //order
+  GET_ORDERS,
+  GET_ORDERID,
+  // CHANGE_PAGE,
+} from "../actions/actions-types";
 
 const initialState = {
   //products
   product: [],
   allproducts: [],
-  allProductsAdmin:[],
-  allUsers:[],
+  allProductsAdmin: [],
+  allUsers: [],
   details: [],
   name: null,
   saveProducts: [],
@@ -72,16 +71,16 @@ const initialState = {
   saveFilters: {
     category: [],
     selectSize: "",
-    selectPrice:"",
+    selectPrice: "",
     selectCategory: "",
     selectOrdered: "",
   },
   //cart
   cart: [],
   //orders
-  allOrders:[],
-  ordersUser:[],
-  favorites:[],
+  allOrders: [],
+  ordersUser: [],
+  favorites: [],
   shippingType: null,
   shippingCost: null,
 };
@@ -94,7 +93,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         allproducts: payload,
-        allProductsAdmin: action.payload
+        allProductsAdmin: action.payload,
       };
     case GET_PRODUCT_BY_ID:
       return {
@@ -105,10 +104,10 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         product: [...state.product, action.payload],
-        allproducts: [...state.allproducts, action.payload]
+        allproducts: [...state.allproducts, action.payload],
       };
     case UPDATE_PRODUCT:
-      const updatedProduct = state.product.map(prod => {
+      const updatedProduct = state.product.map((prod) => {
         if (prod.id === payload.id) {
           return payload;
         } else {
@@ -118,7 +117,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         product: updatedProduct,
-        allproducts: updatedProduct
+        allproducts: updatedProduct,
       };
     case GET_PRODUCT_BY_NAME:
       if (payload.length === 0) {
@@ -139,50 +138,36 @@ const rootReducer = (state = initialState, action) => {
     case DELETE_FAV:
       return {
         ...state,
-        favorites: state.favorites.filter(fav => fav.id !== action.payload.id)
+        favorites: state.favorites.filter(
+          (fav) => fav.id !== action.payload.id
+        ),
       };
     case GET_FAVORITES_BY_ID:
       return {
         ...state,
-        favorites: action.payload
+        favorites: action.payload,
       };
-      //cart
-  case GET_CART:
-    return {
-      ...state,
-      cart: action.payload
-    };
-  case CLEAR_CART:
-    return {
-      ...state,
-      cart: [],
-    };
-  case CHECKOUT:
-    return {
-      ...state,
-      cart: action.payload
-    };
-  case ADD_TO_CART:
-    if (!state.cart.length) {
+    //cart
+    case GET_CART:
       return {
         ...state,
-        cart: [action.payload],
+        cart: action.payload,
       };
-    } else {
-      let productDontMatch = [];
-      productDontMatch = state.cart.filter(
-        (prod) =>
-          prod.name !== action.payload.name ||
-          prod.size !== action.payload.size
-      );
-
-      if (
-        productDontMatch.length &&
-        productDontMatch.length === state.cart.length
-      ) {
+    case CLEAR_CART:
+      return {
+        ...state,
+        cart: [],
+      };
+    case CHECKOUT:
+      return {
+        ...state,
+        cart: action.payload,
+      };
+    case ADD_TO_CART:
+      if (!state.cart.length) {
         return {
           ...state,
-          cart: [...state.cart, action.payload],
+          cart: [action.payload],
         };
       } else {
         let productDontMatch = [];
@@ -196,44 +181,61 @@ const rootReducer = (state = initialState, action) => {
           productDontMatch.length &&
           productDontMatch.length === state.cart.length
         ) {
-          
           return {
             ...state,
             cart: [...state.cart, action.payload],
           };
         } else {
-          let productFound = state.cart.find(
+          let productDontMatch = [];
+          productDontMatch = state.cart.filter(
             (prod) =>
-              prod.name === action.payload.name &&
-              prod.size === action.payload.size
+              prod.name !== action.payload.name ||
+              prod.size !== action.payload.size
           );
-          productFound.quantity += action.payload.quantity;
-          product: updatedProduct;
-          allproducts: updatedProduct;
+
+          if (
+            productDontMatch.length &&
+            productDontMatch.length === state.cart.length
+          ) {
+            return {
+              ...state,
+              cart: [...state.cart, action.payload],
+            };
+          } else {
+            let productFound = state.cart.find(
+              (prod) =>
+                prod.name === action.payload.name &&
+                prod.size === action.payload.size
+            );
+            productFound.quantity += action.payload.quantity;
+            product: updatedProduct;
+            allproducts: updatedProduct;
+          }
         }
       }
-    }
-  case REMOVE_FROM_CART:
-    let productRemoved = state.cart[action.payload];
-    return {
-      ...state,
-      cart: state.cart.filter((prod) => prod !== productRemoved)
-    };11
-  case INCREMENT_QUANTITY:
-    let product = state.cart[action.payload];
-    if(product.quantity > 1){
-      product.quantity = product.quantity -1;
+    case REMOVE_FROM_CART:
+      let productRemoved = state.cart[action.payload];
       return {
         ...state,
-        cart: [...state.cart]
+        cart: state.cart.filter((prod) => prod !== productRemoved),
       };
-    } else {
+      11;
+    case INCREMENT_QUANTITY:
       let product = state.cart[action.payload];
-      return{
-        ...state,
-        cart: state.cart.filter((prod) => prod !== product)
-      };
-    }
+      if (product.quantity > 1) {
+        product.quantity = product.quantity - 1;
+        return {
+          ...state,
+          cart: [...state.cart],
+        };
+      } else {
+        let product = state.cart[action.payload];
+        return {
+          ...state,
+          cart: state.cart.filter((prod) => prod !== product),
+        };
+      }
+
     //category
     case GET_CATEGORIES:
       return {
@@ -243,8 +245,8 @@ const rootReducer = (state = initialState, action) => {
     case POST_CATEGORIES:
       return {
         ...state,
-        allCategories: [...state.allCategories, action.payload]
-      }; 
+        allCategories: [...state.allCategories, action.payload],
+      };
     case EDIT_CATEGORY:
       const updatedCategory = state.allCategories.map((category) => {
         if (category.id === payload.id) {
@@ -257,52 +259,61 @@ const rootReducer = (state = initialState, action) => {
         allCategories: updatedCategory,
       };
 
-
-      case GET_CATEGORIES_BY_ID:
-        return {
-          ...state,
-          allCategories: payload,
-        };
-        case SELECT_CATEGORY:
-          const selectedCategoryId = action.payload;
-          const selectedCategory = state.allCategories.find(category => category.id === selectedCategoryId);
-          const filteredProducts = selectedCategory ? selectedCategory.products : [];
-          return {
-            ...state,
-            selectedCategory: selectedCategoryId,
-            filteredProducts: filteredProducts,
-          };
+    case GET_CATEGORIES_BY_ID:
+      return {
+        ...state,
+        allCategories: payload,
+      };
+    case SELECT_CATEGORY:
+      const selectedCategoryId = action.payload;
+      const selectedCategory = state.allCategories.find(
+        (category) => category.id === selectedCategoryId
+      );
+      const filteredProducts = selectedCategory
+        ? selectedCategory.products
+        : [];
+      return {
+        ...state,
+        selectedCategory: selectedCategoryId,
+        filteredProducts: filteredProducts,
+      };
 
     // Paginación
-   // case CHANGE_PAGE:
-   //   return {
+    // case CHANGE_PAGE:
+    //   return {
     //    ...state,
     //    currentPage: action.payload,
-   //   };
+    //   };
 
-   // Filtrar por categoría
-   case FILT_BY_CATEGORY:
-    const filteredByCategory = state.allproducts.filter(product => product.category === payload);
-    return {
-      ...state,
-      allproducts: filteredByCategory,
-    };
+    // Filtrar por categoría
+    case FILT_BY_CATEGORY:
+      const filteredByCategory = state.allproducts.filter(
+        (product) => product.category === payload
+      );
+      return {
+        ...state,
+        allproducts: filteredByCategory,
+      };
 
-  // Filtrar por precio
-  case FILT_BY_PRICE:
-    const filteredByPrice = state.allproducts.filter(product => product.price <= payload);
-    return {
-      ...state,
-      allproducts: filteredByPrice,
-    };
+    // Filtrar por precio
+    case FILT_BY_PRICE:
+      const filteredByPrice = state.allproducts.filter(
+        (product) => product.price <= payload
+      );
+      return {
+        ...state,
+        allproducts: filteredByPrice,
+      };
 
-  // Filtrar por tamaño
-  case FILT_BY_SIZE:
-    const filteredBySize = state.allproducts.filter(product => product.size === payload);
-    return {
-      ...state,
-      allproducts: filteredBySize,
-    };
+    // Filtrar por tamaño
+    case FILT_BY_SIZE:
+      const filteredBySize = state.allproducts.filter(
+        (product) => product.size === payload
+      );
+      return {
+        ...state,
+        allproducts: filteredBySize,
+      };
 
     case GET_ORDERS:
       return {
@@ -317,25 +328,35 @@ const rootReducer = (state = initialState, action) => {
         accessToken: action.accessToken,
         user: action.payload,
       };
-      case GET_ALL_USERS:
-        return {
-          ...state,
-          allUsers: action.payload,
-        };
-      //actualiza el estado para indicar que el usuario cerro sesión
-      case LOGOUT_USER:
-        return {
-          ...state,
-          isLoggedIn: false,
-          userId: null, // o cualquier otro valor predeterminado que quieras establecer
-          accessToken: null, // También podría ser necesario eliminar el token de acceso
-          user: null, // Restablecer el usuario a null
-        };
 
+    // case GET_ORDERS_ID:
+    //   return {
+    //     ...state,
+    //     ordersUser: action.payload,
+    //   };
+
+    //actualiza el estado para indicar que el usuario cerro sesión
+    case LOGOUT_USER:
+      return {
+        ...state,
+        isLoggedIn: false,
+        userId: null, // o cualquier otro valor predeterminado que quieras establecer
+        accessToken: null, // También podría ser necesario eliminar el token de acceso
+        user: null, // Restablecer el usuario a null
+      };
+
+    case GET_ALL_USERS:
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+    //actualiza el estado para indicar que el usuario cerro sesión
+
+    // },
     case SAVE_EMAIL:
       return {
         ...state,
-        email: action.payload
+        email: action.payload,
       };
 
     case LOGIN_SUCCESS:
@@ -344,23 +365,23 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: true,
         // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
-        userData: payload
-        };
+        userData: payload,
+      };
 
     case LOGOUT_SUCCESS:
       console.log("User data:", payload);
       return {
-          ...state,
-          isLoggedIn: false,
-          // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
-          userData: null,
-          };  
+        ...state,
+        isLoggedIn: false,
+        // userId: payload.idfirebase, // o cualquier otro valor predeterminado que quieras establecer
+        userData: null,
+      };
 
     case ERROR:
       return {
-          ...state,
-          errors: payload
-        }
+        ...state,
+        errors: payload,
+      };
     default:
       return state;
   }
