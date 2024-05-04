@@ -37,7 +37,7 @@ import login from '../redux/actions/Customer/login.js'
 
 const isAuthenticated = (dispatch) => {
   const auth = getAuth();
-  // const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   onAuthStateChanged(auth, async (user, error) => {
     if (user) {
       // User is signed in

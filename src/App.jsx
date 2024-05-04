@@ -4,13 +4,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
 import isAuthenticated from "./Firebase/checkAuth";
-import { useDispatch } from "react-redux";
 
 function App() {
-  const dispatch = useDispatch()
-
   useEffect(() => {
-    isAuthenticated(dispatch); // Check authentication on component mount
+    isAuthenticated(); // Check authentication on component mount
   }, []);
   
   return (

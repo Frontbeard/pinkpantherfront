@@ -487,9 +487,10 @@ function CreateAccount({ onDataChange }) {
             </div>
           </CardBody>
           <CardFooter className="pt-0 mt-5">
-            <Button onClick={handleSubmit} disabled={!isFormValid} className="text-white bg-pink-500" variant="gradient" fullWidth>
+            <Button onClick={handleSubmit} className="text-white bg-pink-500" variant="gradient" fullWidth>
               Registrarse
             </Button>
+            <p onClick={() => console.log(isFormValid)}>aa</p>
           </CardFooter>
           <div>
             <Typography variant="h1" color="black" className="mb-4 grid h-15 place-items-center text-sm mt-0">
