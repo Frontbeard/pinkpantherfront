@@ -39,7 +39,7 @@ import UsersTable from "./components/Dashboard/UsersTable/UsersTable.jsx";
 import SearchResult from "./components/SearchResult.jsx";
 import TermsAndConditions from "./components/TermsAndConditions.jsx";
 
-import TermsAndConditions from "./components/TermsAndConditions.jsx";
+
 
 
 
