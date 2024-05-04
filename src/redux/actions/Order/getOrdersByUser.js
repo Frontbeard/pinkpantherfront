@@ -1,7 +1,7 @@
 import axios from "axios";
-import { GET_ORDERID } from "../actionTypes";
-const API_URL_BASE = import.meta.env.VITE_VERCEL_API_URL_BASE;
-const endpoint = `${API_URL_BASE}/order/user/`;
+import { GET_ORDERID } from "../actions-types";
+import { URL_LINK } from "../../../URL";
+
 const getOrdersByUser = ({userId, accessToken}) => {
     // console.log(userId);
     return async (dispatch) => {
@@ -12,7 +12,7 @@ const getOrdersByUser = ({userId, accessToken}) => {
                 }
               }
             
-            const { data } = await axios.get(endpoint + userId, config);
+            const { data } = await axios.get(`${URL_LINK}/order/user` + userId, config);
             // console.log(data);
             return dispatch({
                 type: GET_ORDERID,

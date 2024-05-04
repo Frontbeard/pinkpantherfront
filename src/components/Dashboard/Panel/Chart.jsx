@@ -1,10 +1,35 @@
 import React from "react";
 import { Bar, Line } from "react-chartjs-2";
-import { useSelector } from "react-redux";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  LinearScale,
+  CategoryScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  LineElement,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  ArcElement,
+  LinearScale,
+  CategoryScale,
+  PointElement,
+  BarElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Chart = ({ months }) => {
-  const allProducts = useSelector((state) => state.allProducts);
-  const allCategories = useSelector((state) => state.allCategories);
+  const options = {
+    maintainsAspectRatio: false,
+    responsive: true,
+  };
 
   const monthsSales = months.map((month) =>
     month.sales.reduce((acc, order) => acc + Number(order.totalAmount), 0)
@@ -52,13 +77,11 @@ const Chart = ({ months }) => {
       "Nov",
       "Dic",
     ],
-
     datasets: [
       {
         label: "Cantidad de ordenes",
         tension: 0.3,
         fill: true,
-
         backgroundColor: "rgba(186, 51, 138, 1)",
         borderColor: "rgba(224, 179, 211,1)",
         pointRadius: 5,
@@ -68,17 +91,12 @@ const Chart = ({ months }) => {
     ],
   };
 
-  const options = {
-    maintainsAspectRatio: false,
-    responsive: true,
-  };
-
   return (
-    <div className="chartContainer">
-      <div className="chart w-1/2">
+    <div className="min-h-20 w-full flex justify-center items-center space-x-4 mt-20 gap-20">
+      <div className="w-96">
         <Bar data={data} options={options} />
       </div>
-      <div className="chart w-1/2">
+      <div className="w-96">
         <Line data={data2} options={options} />
       </div>
     </div>

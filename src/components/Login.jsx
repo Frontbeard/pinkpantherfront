@@ -110,51 +110,31 @@ function Login() {
       }
       //const user = userCredential.user;
       const firebaseUid = userCredential.user.uid.toString();
-      const gmail = user.email
+      //const gmail = user.email
       console.log(firebaseUid)
-      console.log(gmail)
+      //console.log(gmail)
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
 
       localStorage.setItem('firebaseUid', firebaseUid);
       
-      const response = await axios.post(`${URL_LINK}/customer`, {
-        idfirebase: firebaseUid,
-        enable: userData.enable,
-        userName: userData.firstName, 
-        role: userData.role, 
-        DNI: userData.DNI, 
-        birthdate: userData.birthdate, 
-        firstName: userData.firstName, 
-        lastName: userData.lastName, 
-        email: gmail, 
-        telephone: userData.telephone, 
-        country: userData.country, 
-        city: userData.city, 
-        street: userData.street, 
-        streetNumber: userData.streetNumber, 
-        apartmentNumber: userData.apartmentNumber, 
-        postalCode: userData.postalCode
-      });
-      
-      console.log(response)
       const data = await axios.get(`${URL_LINK}/customer/${firebaseUid}`);
       //console.log(data)
       dispatch(login(data));
 
       //setSuccessMessage
-      if (response.data.created === true) {
-        alert('Account created successfully!')
-        onDataChange && onDataChange(response.data.userData) // Call the callback function to update state
-        setUserData({
-          name: '',
-          email: '',
-          password: ''
-        })
-        // Clear the errors state
-        setErrors({})
-      } else if (response.data.created === false) {
-        alert('Username already exists in the DataBase!')
-      }
+      // if (response.data.created === true) {
+      //   alert('Account created successfully!')
+      //   onDataChange && onDataChange(response.data.userData) // Call the callback function to update state
+      //   setUserData({
+      //     name: '',
+      //     email: '',
+      //     password: ''
+      //   })
+      //   // Clear the errors state
+      //   setErrors({})
+      // } else if (response.data.created === false) {
+      //   alert('Username already exists in the DataBase!')
+      // }
 
       navigate("/");
       

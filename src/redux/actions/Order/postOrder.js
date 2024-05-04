@@ -1,7 +1,10 @@
 import axios from "axios";
+import { URL_LINK } from "../../../URL";
+
 
 const API_URL_BASE = import.meta.env.VITE_VERCEL_API_URL_BASE;
 const endpoint = `${API_URL_BASE}/order/`;
+
 
 const postOrder = ({
   userId,
@@ -20,12 +23,10 @@ const postOrder = ({
         },
       };
       const { data } = await axios.post(
-        endpoint,
+        `${URL_LINK}/order/create` ,
         {
           userId,
           products,
-          mpId,
-          totalAmount,
           shippingCost,
           shippingType,
         },

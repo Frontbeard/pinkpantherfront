@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GET_ORDERS } from "../actions-types";
+import { URL_LINK } from '../../../URL.js'
 
 const getAllOrders = () => {
   return async (dispatch) => {
@@ -16,3 +17,4 @@ const getAllOrders = () => {
 };
 
 export default getAllOrders;
+
