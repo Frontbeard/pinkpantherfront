@@ -14,6 +14,7 @@ const SingleProduct = () => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1); // Estado para la cantidad de productos
   const userData = useSelector((state) => state.userData)
+  // const userCart = useSelector((state) => state.cart)
   const userCart = useSelector((state) => state.cart)
 
   useEffect(() => {
@@ -27,34 +28,28 @@ const SingleProduct = () => {
 
   const { photo, name, size, priceEfectivo, priceCuotas, color, quantity: availableQuantity, Categories } = productDetails;
 
-  // Funciones para incrementar y decrementar la cantidad de productos
-  // const incrementQuantity = () => {
-  //   if (quantity < availableQuantity) {
-  //     setQuantity(prevQuantity => prevQuantity + 1);
-  //   }
-  // };
-
-  // const decrementQuantity = () => {
-  //   if (quantity > 1) {
-  //     setQuantity(prevQuantity => prevQuantity - 1);
-  //   }
-  // };
-
   const handleOnClick = () => {
-    //dispatch(addToCart(customerId, productId, productQuantity, totalPrice, discounts)) asi entra en el reducer
-    console.log('id firebase:', userData.idfirebase)
-    console.log('product id:', id)
-    console.log('cantidad', quantity)
     console.log(userCart)
     if (!userCart) { 
-      dispatch(createCart(userData.id, id, quantity ))
+      dispatch(createCart( id, quantity ))
     } else {
-      dispatch(addCart(userCart.id, id, quantity ))
+      dispatch(addCart( id, quantity ))
     }
-
     alert("Producto agregado al carrito")
     //navigate("/")
   };
+
+  // const handleOnClick = () => {
+  //   //dispatch(addToCart(customerId, productId, productQuantity, totalPrice, discounts)) asi entra en el reducer
+  //   console.log(userCart)
+  //   if (!userCart) { 
+  //     dispatch(createCart(userData.id, id, quantity ))
+  //   } else {
+  //     dispatch(addCart(userCart.id, id, quantity ))
+  //   }
+  //   alert("Producto agregado al carrito")
+  //   //navigate("/")
+  // };
 
   const handleOnRedireccion = () => {
     navigate("/login")
@@ -145,7 +140,7 @@ const SingleProduct = () => {
                         </div>
                         
                         <div className="w-full text-left my-4">
-                        {!localStorage.getItem('firebaseUid') && (userData.role === "" || "GUEST") && (
+                        {!localStorage.getItem('firebaseUid') && (
                           <button
                             className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
                             title="Agregar al Carrito"
