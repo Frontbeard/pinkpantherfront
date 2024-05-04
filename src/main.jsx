@@ -42,7 +42,6 @@ import TermsAndConditions from "./components/TermsAndConditions.jsx";
 
 
 
-
 // import dotenv from 'dotenv'
 // dotenv.config();
 
