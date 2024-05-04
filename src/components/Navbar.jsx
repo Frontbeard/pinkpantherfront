@@ -72,7 +72,8 @@ const Navbar = () => {
     const handleMisCompras = () => {
         console.log('Has hecho click');
         alert('Has hecho click');
-        navigate("/miscompras")
+        //navigate("/miscompras") // ???
+        navigate("/compras") // ???
     };
 
     const handleMiPerfil = () => {
@@ -139,10 +140,12 @@ const Navbar = () => {
                     <a href="/cart" className="flex items-center gap-2 container">
                         <FaShoppingBag />
                     </a>
-                    
-                    <a href="/compras" className="flex items-center gap-2">
-                        Mis compras
-                    </a>
+                    {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
+                        <span>
+                            Cantidad Carrito: {}
+                        </span>
+                    )}
+
                 </div>
                 <div className="sm:hidden">
                     <button onClick={toggleMenu}>
