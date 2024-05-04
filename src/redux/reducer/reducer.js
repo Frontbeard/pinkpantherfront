@@ -105,17 +105,11 @@ const rootReducer = (state = initialState, action) => {
         allproducts: [...state.allproducts, action.payload],
       };
     case UPDATE_PRODUCT:
-      const updatedProduct = state.product.map((prod) => {
-        if (prod.id === payload.id) {
-          return payload;
-        } else {
-          return prod;
-        }
-      });
       return {
         ...state,
-        product: updatedProduct,
-        allproducts: updatedProduct,
+        product: {},
+        allproducts: [],
+        allProductsAdmin: []
       };
     case GET_PRODUCT_BY_NAME:
       if (payload.length === 0) {

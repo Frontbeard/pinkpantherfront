@@ -8,11 +8,10 @@ export const updateProduct = (productId,newData)=>{
       try {
         const response = await axios.put(`${URL_LINK}/product/${productId}`, newData)
         //const response = await axios.put(`${URL}/${productId}`, newData)
-        const updatedProduct=response.data.product
-
+        console.log("RESPONSE.DATA.PRODUCT", response.data.product)
         dispatch({
             type: UPDATE_PRODUCT,
-            payload: updatedProduct
+            payload: response.data.product
         })
         
       } catch (error) {
