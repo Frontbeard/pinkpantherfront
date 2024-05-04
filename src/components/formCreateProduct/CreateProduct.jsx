@@ -6,9 +6,8 @@ import validation from './validation';
 
 // const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
  const URL_PRODUCT = "http://localhost:3001/product" 
-const URL_CATEGORIES = "https://pinkpanther-backend-ip0f.onrender.com/categories";
-/* const URL_CATEGORIES="http://localhost:3001/categories" */
-
+/* const URL_CATEGORIES = "https://pinkpanther-backend-ip0f.onrender.com/categories"; */
+const URL_CATEGORIES="http://localhost:3001/categories"
 
 const CreateProduct =({ initialValues })=>{
     const [productData, setProductData] = useState(() => {
@@ -22,7 +21,7 @@ const CreateProduct =({ initialValues })=>{
                 quantity: 0,
                 photo: "",
                 supplier: "",
-                enable: false,
+                enable: true,
                 Categories: []
             };
         } else {
@@ -54,18 +53,7 @@ const CreateProduct =({ initialValues })=>{
     }, []);
 
     const handleChange = (event) => {
-        const fieldName = event.target.name;
-        const fieldValue = event.target.value;
-    
-        setProductData(prevData => ({
-            ...prevData,
-            [fieldName]: fieldValue 
-        }));
-
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            [fieldName]: validation({ ...productData, [fieldName]: fieldValue })[fieldName]
-        }));
+        setProductData({...productData, [event.target.name]:event.target.value });
     }
 
     const handleCategoriesChange = (event) => {
@@ -88,20 +76,6 @@ const CreateProduct =({ initialValues })=>{
             }));
         }
     }
-    
-
-    const handleEnableChange = (event) => {
-        const fieldValue = event.target.checked;
-        setProductData(prevData => ({
-            ...prevData,
-            enable: fieldValue
-        }));
-
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            enable: validation({ ...productData, enable: fieldValue }).enable
-        }));
-    }
 
     const handleNumberChange = (event) => {
         const fieldName = event.target.name;
@@ -120,10 +94,10 @@ const CreateProduct =({ initialValues })=>{
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        console.log("product data", productData)
         const validationErrors = validation(productData);
         setErrors(validationErrors);
-
+        console.log(Object.keys(validationErrors))
         if (Object.keys(validationErrors).length === 0) {
             try {
                 const response = await axios.post(URL_PRODUCT, productData);
@@ -138,7 +112,7 @@ const CreateProduct =({ initialValues })=>{
                         quantity: 0,
                         photo: "",
                         supplier: "",
-                        enable: false,
+                        enable: true,
                         Categories: []
                     });
                 } else {
@@ -197,11 +171,6 @@ const CreateProduct =({ initialValues })=>{
                     {errors.supplier && <span>{errors.supplier}</span>}
                 </label>
                 <br />
-               {/*  <label>
-                    Habilitar producto:
-                    <input type='checkbox' id='enable' name='enable' checked={productData.enable} onChange={handleEnableChange}/>
-                </label>
-                <br /> */}
                 <label>
                     Categorías:
                     <select size="5" multiple value={productData.Categories} onChange={handleCategoriesChange}>
@@ -214,7 +183,6 @@ const CreateProduct =({ initialValues })=>{
                 <br />
                 <label>
                     Categorías seleccionadas:
-                    {console.log("CATEGORÍAS SELECCIONADAS", productData.Categories)}
                     <input type="text" readOnly value={productData.Categories && productData.Categories.map(c => {
                     return c ? c.name : ''; 
                     }).join(', ')} />
