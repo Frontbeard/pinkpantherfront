@@ -352,10 +352,6 @@ const rootReducer = (state = initialState, action) => {
           allUsers: action.payload,
         };
       //actualiza el estado para indicar que el usuario cerro sesión
-     
-        };
-
-
     case SAVE_EMAIL:
       return {
         ...state,
