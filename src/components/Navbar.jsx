@@ -108,9 +108,13 @@ const Navbar = () => {
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
                     </a>
+                    {(!localStorage.getItem('firebaseUid'))  && (
+                        <span>
+                            ¡Inicie sesión!
+                        </span>
+                    )}
 
-
-                    {customer.role === "CUSTOMER" && localStorage.getItem('firebaseUid') && (
+                    {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
                         <span>
                             Logueado como: {customer.userName}
                             <button onClick={handleLogout}>Logout</button>
@@ -119,7 +123,7 @@ const Navbar = () => {
                         </span>
                     )}
 
-                    {customer.role === "ADMIN" && localStorage.getItem('firebaseUid') && (
+                    {localStorage.getItem('firebaseUid') && customer.role === "ADMIN" && (
                         <span>
                             Logueado como: {customer.userName}
 
@@ -128,6 +132,7 @@ const Navbar = () => {
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
+                    
                     <a href="/favorites" className="flex items-center gap-2 ">
                         <FaStar />
                     </a>
