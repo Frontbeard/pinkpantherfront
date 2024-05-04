@@ -4,25 +4,43 @@ import axios from "axios";
 import { useState, useEffect } from 'react';
 import validation from './validation';
 
-const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
-/* const URL_PRODUCT = "http://localhost:3001/product" */
+// const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
+ const URL_PRODUCT = "http://localhost:3001/product" 
 const URL_CATEGORIES = "https://pinkpanther-backend-ip0f.onrender.com/categories";
+/* const URL_CATEGORIES="http://localhost:3001/categories" */
 
 
-const CreateProduct =()=>{
+const CreateProduct =({ initialValues })=>{
+    const [productData, setProductData] = useState(() => {
+        if (!initialValues) {
+            return {
+                name: "",
+                color: "",
+                priceEfectivo: 0,
+                priceCuotas: 0,
+                size: "",
+                quantity: 0,
+                photo: "",
+                supplier: "",
+                enable: false,
+                Categories: []
+            };
+        } else {
+            return {
+                name: initialValues.name,
+                color: initialValues.color,
+                priceEfectivo: initialValues.priceEfectivo,
+                priceCuotas: initialValues.priceCuotas,
+                size: initialValues.size,
+                quantity: initialValues.quantity,
+                photo: initialValues.photo,
+                enable: initialValues.enable,
+                Categories: initialValues.category || []
+            };
+        }
+    });
 
-    const [productData, setProductData] = useState({
-        name: "",
-        color: "",
-        priceEfectivo: 0,
-        priceCuotas: 0,
-        size: "",
-        quantity: 0,
-        photo: "",
-        supplier: "",
-        enable: false,
-        Categories: []
-    })
+
 
     const [Categories, setCategories] = useState([]);
     const [errors, setErrors] = useState({});
@@ -51,17 +69,26 @@ const CreateProduct =()=>{
     }
 
     const handleCategoriesChange = (event) => {
-        const selectedCategories = Array.from(event.target.selectedOptions, option => option.value);
-        setProductData(prevData => ({
-            ...prevData,
-            Categories: selectedCategories
-        }));
-
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            Categories: validation({ ...productData, Categories: selectedCategories }).Categories
-        }));
+        const categoryId = event.target.value;
+    
+        const categoryIndex = productData.Categories.findIndex(c => c.id === categoryId);
+    
+        if (categoryIndex !== -1) {
+            const updatedCategories = [...productData.Categories];
+            updatedCategories.splice(categoryIndex, 1);
+            setProductData(prevData => ({
+                ...prevData,
+                Categories: updatedCategories
+            }));
+        } else {
+            const category = Categories.find(c => c.id === categoryId);
+            setProductData(prevData => ({
+                ...prevData,
+                Categories: [...prevData.Categories, category]
+            }));
+        }
     }
+    
 
     const handleEnableChange = (event) => {
         const fieldValue = event.target.checked;
@@ -170,13 +197,13 @@ const CreateProduct =()=>{
                     {errors.supplier && <span>{errors.supplier}</span>}
                 </label>
                 <br />
-                <label>
+               {/*  <label>
                     Habilitar producto:
                     <input type='checkbox' id='enable' name='enable' checked={productData.enable} onChange={handleEnableChange}/>
                 </label>
-                <br />
+                <br /> */}
                 <label>
-                    Categorías a las que pertenece:
+                    Categorías:
                     <select size="5" multiple value={productData.Categories} onChange={handleCategoriesChange}>
                         {Categories.map((c) => {
                             return <option key={c.id} value={c.id}>{c.name}</option>
@@ -186,15 +213,24 @@ const CreateProduct =()=>{
                 </label>
                 <br />
                 <label>
+                    Categorías seleccionadas:
+                    {console.log("CATEGORÍAS SELECCIONADAS", productData.Categories)}
+                    <input type="text" readOnly value={productData.Categories && productData.Categories.map(c => {
+                    return c ? c.name : ''; 
+                    }).join(', ')} />
+                </label>
+                <br />
+                <label>
                     Imagen del producto:
                     <AddingImages setProduct={setProductData} productData={productData} />
                     {errors.photo && <span>{errors.photo}</span>}
                 </label>
-                
-                <button type="submit">Crear Producto</button>
+                <button type="submit">
+                    {initialValues && Object.keys(initialValues).length !== 0 ? 'Editar Producto' : 'Crear Producto'}
+                </button>                                                                                                                                                                     
             </form>
-        </div>
+        </div>                                                                                                                                                                                                      
     )
-}
+}                                                                                                                                                                                                                                                                                       
 
 export default CreateProduct;

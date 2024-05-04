@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-icons/fa";
 import logo2 from "/logo2.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,9 +17,9 @@ const Navbar = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredProducts, setFilteredProducts] = useState([]);
     const allCategories = useSelector(state => state.allCategories);
-
     const customer = useSelector(state => state.userData);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showFilterModal, setShowFilterModal] = useState(false);
 
     useEffect(() => {
@@ -42,25 +42,49 @@ const Navbar = () => {
             const selectedCategoryObj = allCategories.find(category => category.id === categoryId);
             const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
             setFilteredProducts(filtered);
+        } else {
+            setShowFilterModal(false); // Agregamos esta línea para cerrar el modal al hacer clic en "about us"
+            setFilteredProducts([]); // Limpiamos los productos filtrados
         }
     };
 
     const handleCloseModal = () => {
         setShowFilterModal(false);
-        handleCategoryClick(selectedCategory);
+        setSelectedCategory(null);
+        setFilteredProducts([]); // Limpiar productos filtrados al cerrar el modal
     };
 
     const handleSearch = (query) => {
         setSearchQuery(query);
         setSelectedCategory(null);
+        setFilteredProducts([]); // Limpiar productos filtrados al realizar una nueva búsqueda
+        navigate(`/search/${query}`);
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('firebaseUid')
-        dispatch(logout())
-        console.log('You have logged out');
+        localStorage.removeItem('firebaseUid');
+        localStorage.removeItem('gmail');
+        dispatch(logout());
+        console.log('Has cerrado sesión');
         alert('Has cerrado sesión');
+    };
 
+    const handleMisCompras = () => {
+        console.log('Has hecho click');
+        alert('Has hecho click');
+        navigate("/miscompras")
+    };
+
+    const handleMiPerfil = () => {
+        console.log('Has hecho click');
+        //alert('Has hecho click');
+        navigate("/perfil")
+    };
+
+    const handleDashboard = () => {
+        console.log('Has hecho click');
+        //alert('Has hecho click');
+        navigate("/admin")
     };
 
     const navItems = allCategories.map(({ id, name, products }) => ({
@@ -78,15 +102,30 @@ const Navbar = () => {
             <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
                 <SearchBar onSearch={handleSearch} />
                 <a href="/" className="ml-24 w-64">
-                <img src={logo2} alt="" />
+                    <img src={logo2} alt="" />
                 </a>
                 <div className="text-lg text-Black sm:flex items-center gap-4 hidden truncate">
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
                     </a>
-                    {customer && localStorage.getItem('firebaseUid') && (
-                        <span>Logueado como: {customer.userName}
+
+
+                    {customer.role === "CUSTOMER" && localStorage.getItem('firebaseUid') && (
+                        <span>
+                            Logueado como: {customer.userName}
                             <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleMisCompras}>Mis compras</button>
+                            <button onClick={handleMiPerfil}>Mi perfil</button>
+                        </span>
+                    )}
+
+                    {customer.role === "ADMIN" && localStorage.getItem('firebaseUid') && (
+                        <span>
+                            Logueado como: {customer.userName}
+
+                            <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleDashboard}>Dashboard</button>
+                            <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
                     <a href="/favorites" className="flex items-center gap-2 ">
@@ -134,7 +173,7 @@ const Navbar = () => {
                     onUpdateFilteredProducts={handleUpdateFilteredProducts}
                 />
             )}
-            {filteredProducts.length > 0 && (
+           {filteredProducts && filteredProducts.length > 0 && (
                 <ProductFilter products={filteredProducts} />
             )}
         </header>
