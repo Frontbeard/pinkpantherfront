@@ -62,8 +62,10 @@ const Products = () => {
 
     // Filtrar por nombre del producto
     if (selectedCriterion !== "") {
+      // Convertir términos en plural a singular
+      const singularCriterion = selectedCriterion.endsWith("s") ? selectedCriterion.slice(0, -1) : selectedCriterion;
       filteredProducts = filteredProducts.filter(product =>
-        product.name.toLowerCase().includes(selectedCriterion.toLowerCase())
+        product.name.toLowerCase().includes(singularCriterion.toLowerCase())
       );
     }
 
@@ -77,7 +79,7 @@ const Products = () => {
       const minPrice = parseFloat(priceRange.min);
       const maxPrice = parseFloat(priceRange.max);
       if (isNaN(minPrice) || isNaN(maxPrice) || minPrice < 0 || maxPrice < 0 || minPrice >= maxPrice) {
-        setError("Por favor, ingrese un rango de precios válido.");
+        setError("El precio máximo debe ser superior al mínimo.");
         return;
       }
       setError("");
@@ -179,7 +181,7 @@ const Products = () => {
         <button onClick={applyFilters}>Filtrar</button>
         <button onClick={clearFilters}>Limpiar</button>
       </div>
-      {error && <div className="text-red-500">{error}</div>}
+      {error && <div className="text-red-500 text-center">{error}</div>}
       <div className="flex justify-between items-center mb-4">
         <div>
           <label htmlFor="sortOptions">Ordenar por:</label>
@@ -197,9 +199,13 @@ const Products = () => {
         </div>
       </div>
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-        {paginatedItems.map((product) => (
-          <Card key={product.id} filteredItems={product} />
-        ))}
+        {paginatedItems.length > 0 ? (
+          paginatedItems.map((product) => (
+            <Card key={product.id} filteredItems={product} />
+          ))
+        ) : (
+          <div className="text-red-500 text-center font-semibold">Producto no disponible</div>
+        )}
       </div>
       {!error && filteredItems.length > 0 && (
         <Pagination
