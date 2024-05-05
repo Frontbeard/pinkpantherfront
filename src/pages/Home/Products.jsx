@@ -62,8 +62,10 @@ const Products = () => {
 
     // Filtrar por nombre del producto
     if (selectedCriterion !== "") {
+      // Convertir términos en plural a singular
+      const singularCriterion = selectedCriterion.endsWith("s") ? selectedCriterion.slice(0, -1) : selectedCriterion;
       filteredProducts = filteredProducts.filter(product =>
-        product.name.toLowerCase().includes(selectedCriterion.toLowerCase())
+        product.name.toLowerCase().includes(singularCriterion.toLowerCase())
       );
     }
 
@@ -217,4 +219,3 @@ const Products = () => {
 };
 
 export default Products;
-
