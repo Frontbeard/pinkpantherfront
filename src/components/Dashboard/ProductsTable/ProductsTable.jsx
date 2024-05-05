@@ -30,8 +30,6 @@ const ProductsTable = () => {
           }
         )
       );
-
-      dispatch(getAllProducts());
     } catch (error) {
       console.log(error);
     }

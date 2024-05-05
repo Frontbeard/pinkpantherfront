@@ -105,11 +105,13 @@ const rootReducer = (state = initialState, action) => {
         allproducts: [...state.allproducts, action.payload],
       };
     case UPDATE_PRODUCT:
+     const filteredProds = [...state.allproducts.filter(
+        (product) => product.id !== payload.id
+      )]
       return {
         ...state,
-        product: {},
-        allproducts: [],
-        allProductsAdmin: []
+        allproducts: [...filteredProds, payload],
+        allProductsAdmin: [...filteredProds, payload]
       };
     case GET_PRODUCT_BY_NAME:
       if (payload.length === 0) {
@@ -275,7 +277,6 @@ const rootReducer = (state = initialState, action) => {
         allOrders: action.payload,
       };
     case GET_ORDERID:
-      // console.log(action.payload);
       return {
         ...state,
         isLoggedIn: true,
@@ -304,9 +305,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allUsers: action.payload,
       };
-    //actualiza el estado para indicar que el usuario cerro sesión
-
-    // },
     case SAVE_EMAIL:
       return {
         ...state,

@@ -1,15 +1,11 @@
 import axios from "axios";
 import { GET_ALL_PRODUCTS } from "../actions-types";
 import { URL_LINK } from '../../../URL.js'
-//const URL = 'https://pinkpanther-backend-ip0f.onrender.com/product'
 
 export const getAllProducts = () => {
-    console.log("ADENTRO DE GET ALL PRODUCT")
     return async function (dispatch) {
      try {
         let response = await axios.get(`${URL_LINK}/product`);
-        //let response = await axios.get(`${URL}`);
-        console.log("RESPONSE DATA", response.data)
         return dispatch({
             type: GET_ALL_PRODUCTS,
             payload: response.data
