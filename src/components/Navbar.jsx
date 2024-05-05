@@ -99,12 +99,12 @@ const Navbar = () => {
     };
 
     return (
-        <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
-            <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
-                <SearchBar onSearch={handleSearch} />
-                <a href="/" className="ml-24 w-64">
-                    <img src={logo2} alt="" />
-                </a>
+<header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
+    <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
+        <SearchBar onSearch={handleSearch} />
+        <a href="/" className="ml-24 w-64 relative overflow-hidden">
+            <img src={logo2} alt="" className="w-full h-auto transition duration-300 transform hover:brightness-75" />
+        </a>
                 <div className="text-lg text-Black sm:flex items-center gap-4 hidden truncate">
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
@@ -119,7 +119,7 @@ const Navbar = () => {
                         <span>
                             Logueado como: {customer.userName}
                             <button onClick={handleLogout}>Logout</button>
-                            <button onClick={handleMisCompras}>Mis compras</button>
+                            {/* <button onClick={handleMisCompras}>Mis compras</button> */}
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
@@ -139,6 +139,10 @@ const Navbar = () => {
                     </a>
                     <a href="/cart" className="flex items-center gap-2 container">
                         <FaShoppingBag />
+                    </a>
+
+                    <a href="/compras" className="flex items-center gap-2">
+                        Mis compras
                     </a>
                     {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
                         <span>

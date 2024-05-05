@@ -120,7 +120,7 @@ function CreateAccount({ onDataChange }) {
         alert('Username already exists in the DataBase!')
       }
 
-      //navigate("/");
+      navigate("/");
 
     } catch (error) {
       console.error('Error submitting the form:', error)
@@ -229,7 +229,7 @@ function CreateAccount({ onDataChange }) {
               <Typography variant="p" color="black" className="mb-1">
                 Confirmar contraseña
               </Typography>
-              <div classname="flex flex-col">
+              <div className="flex flex-col">
                 <div className='flex flex-row items-center relative'>
                 <input
                 className={errors.confirmPassword ? "input-box border-2 rounded-lg border-red-400 px-4 py-2 block w-full" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2 block w-full" }
@@ -450,7 +450,9 @@ function CreateAccount({ onDataChange }) {
             </div>
           </CardBody>
           <CardFooter className="pt-0 mt-5">
-            <Button onClick={handleSubmit} disabled={!isFormValid} className="text-white bg-pink-500" variant="gradient" fullWidth>
+            <Button onClick={handleSubmit}
+            //  disabled={!isFormValid}  
+             className="text-white bg-pink-500" variant="gradient" fullWidth>
               Registrarse
             </Button>
           </CardFooter>

@@ -16,21 +16,17 @@ export const AUTH_USER = "AUTH_USER";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const SAVE_EMAIL = "SAVE_EMAIL";
 //cart
-export const ADDING_PRODUCT = "ADDING_PRODUCT";
-export const ADD_TO_CART = "ADD_TO_CART";
-export const CLEAN_CART = "CLEAN_CART";
-export const GET_CART = "GET_CART";
-export const CHECKOUT = "CHECKOUT";
+export const CREATE_CART = "CREATE_CART";
 export const CLEAR_CART = "CLEAR_CART";
+export const GET_CART = "GET_CART";
+export const ADD_CART = "ADD_CART";
+export const REMOVE_CART = "REMOVE_CART";
+
 export const DECREMENT_QUANTITY = "DECREMENT_QUANTITY";
 export const INCREMENT_QUANTITY = "INCREMENT_QUANTITY";
 export const REMOVING_PRODUCT = "REMOVING_PRODUCT";
-export const FETCH_CART_FAILURE = "FETCH_CART_FAILURE";
-export const CLEAN_CART_REDUCER = "CLEAN_CART_REDUCER";
-export const FETCH_CART_LOADING = "FETCH_CART_LOADING";
-export const FETCH_CART_SUCCESS = "FETCH_CART_SUCCESS";
-export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
-export const UPDATE_CART_ITEM = "UPDATE_CART_ITEM";
+export const ADDING_PRODUCT = "ADDING_PRODUCT";
+
 
 //category
 export const GET_CATEGORIES = "GET_CATEGORIES";
@@ -52,5 +48,6 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 //orders
 export const GET_ORDERS = "GET_ORDERS";
 export const GET_ORDERID = "GET_ORDERID";
+export const GET_ORDERS_ID = "GET_ORDERS_ID";
 //error
 export const ERROR = "ERROR";

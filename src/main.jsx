@@ -93,6 +93,10 @@ const router = createBrowserRouter([
         path: "/compras",
         element: <Compras/>
       },
+      {
+        path: "/create-review",
+        element: <CreateReview/>
+      },
       // {
       //   path: "/dashboard",
       //   element: <ProtectedAdmin user={user}><Dashboard /></ProtectedAdmin>,
@@ -101,10 +105,6 @@ const router = createBrowserRouter([
       //   path: "/profile",
       //   element: <ProtectedRoute user={user}><><NavBarProfile/><PanelUser/><Footer/></></ProtectedRoute>,
       // }, rutas dashboard del admin y perfil protegidas
-      {
-        path: "/create-review",
-        element: <CreateReview/>
-      },
       {
         path: "*",
         element: <NotFound />, // Ruta para la página 404
