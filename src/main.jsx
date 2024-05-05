@@ -95,7 +95,7 @@ const router = createBrowserRouter([
         element: <Compras/>
       },
       {
-        path: "/create-review",
+        path: "/create-review/:id",
         element: <CreateReview/>
       },
       {

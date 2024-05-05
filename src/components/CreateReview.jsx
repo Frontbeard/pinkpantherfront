@@ -1,26 +1,35 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
 import { Card, Button, CardBody, CardFooter, CardHeader, Typography } from "@material-tailwind/react"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import validationReview from "./ValidationReview";
 import postReview from "../redux/actions/Review/postReview";
 
 export const CreateReview = () => {
 
-    const [userData, setUserData] = useState({
-        title:"",
-        description:"",
-        points:"",
-      })
-    const dispatch = useDispatch()
-    const navigate = useNavigate();
-    const [errors, setErrors] = useState({})
-    const [isFormValid, setIsFormValid] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({})
+  const [isFormValid, setIsFormValid] = useState(false)
+  const customer = useSelector(state => state.userData);
+  const customerId = customer.id
+  const { id } = useParams();
+  const [userData, setUserData] = useState({
+      title:"",
+      comment:"",
+      review:"",
+      customerId: customerId,
+      productId: id,
+    })
+    console.log("customerrrrrid",customerId);
+    console.log("userdata",userData);
+  
+    
 
     useEffect(() => {
         const errorsArray = Object.values(errors) // objeto con mensajes de error
-        setIsFormValid(userData.title && userData.description && userData.points > 0 && errorsArray.every(error => !error)) // verifica que los campos tengan valor, verifica que no haya errores
+        setIsFormValid(userData.title && userData.comment && userData.review > 0 && errorsArray.every(error => !error)) // verifica que los campos tengan valor, verifica que no haya errores
     }, [userData, errors])
 
     const handleChange = (event) => {
@@ -31,7 +40,7 @@ export const CreateReview = () => {
         }));
         // Update the error state for the current field only
         const fieldErrors = validationReview({ ...userData, [name]: value })
-        console.log(fieldErrors);
+
         setErrors((prevErrors) => ({
           ...prevErrors,
           [name]: fieldErrors[name] || '', // Clear the error if validation passes
@@ -46,8 +55,8 @@ export const CreateReview = () => {
           alert("review creada")
           setUserData({
             title:"",
-            description:"",
-            points:"",
+            comment:"",
+            review:"",
           })
           navigate("/");
         } catch (error) {
@@ -66,7 +75,7 @@ export const CreateReview = () => {
             </CardHeader>
             <CardBody className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
-                <Typography variant="p" color="black" className="mb-1 ">
+                <Typography variant="h1" color="black" className="mb-1 ">
                   Titulo
                 </Typography>
                 </div>
@@ -84,21 +93,21 @@ export const CreateReview = () => {
               </p>
                 </div>
               <div className="flex flex-col gap-1">
-                <Typography variant="p" color="black" className="mb-1">
-                  Descripción
+                <Typography variant="h1" color="black" className="mb-1">
+                  Comentario
                 </Typography>
                 </div>
                 <div className="flex flex-col">
                     <input 
-                    className={errors.description ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box  border-2 rounded-lg border-gray-400 px-4 py-2" }
+                    className={errors.comment ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box  border-2 rounded-lg border-gray-400 px-4 py-2" }
                      type="text" 
-                     name="description"
-                     value={userData.description}
+                     name="comment"
+                     value={userData.comment}
                     onChange={handleChange}
                      placeholder="Cuentanos mas..." 
                      />
                      <p className="text-red-500">
-                {errors.description}
+                {errors.comment}
               </p>
                 </div>
                 <div>
@@ -107,17 +116,17 @@ export const CreateReview = () => {
                 </Typography>
                 <div className="flex flex-col">
                     <input 
-                    className={errors.points ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box  border-2 rounded-lg border-gray-400 px-4 py-2" }
+                    className={errors.review ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box  border-2 rounded-lg border-gray-400 px-4 py-2" }
                      type="number"
                      min={1}
                      max={5} 
-                     name="points"
-                     value={userData.points}
+                     name="review"
+                     value={userData.review}
                     onChange={handleChange}
                      placeholder="" 
                      />
                      <p className="text-red-500">
-                {errors.points}
+                {errors.review}
               </p>
                 </div>
                 <div></div>
