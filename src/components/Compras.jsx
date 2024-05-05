@@ -51,8 +51,12 @@ export const Compras = () => {
       <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-      {paginatedItems.map((order) => (
-          <CardOrder key={order.id} filteredItems={order} />
+      {paginatedItems.map((order, card) => (
+        <div key={card}>
+          <CardOrder filteredItems={order} />
+          <p className="font-semibold">{order.status}</p>
+          <p className="font-semibold">{order.orderDate}</p>
+        </div>
         ))}
       </div>
       <Pagination
