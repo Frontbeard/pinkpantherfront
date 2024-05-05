@@ -88,7 +88,7 @@ const rootReducer = (state = initialState, action) => {
   switch (type) {
     //products
     case GET_ALL_PRODUCTS:
-      const activeProducts = payload.filter(
+      const activeProducts = payload && payload.filter(
         (product) => product.enable === true
       )
       return {
