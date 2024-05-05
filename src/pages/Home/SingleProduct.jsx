@@ -5,17 +5,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { productbyID } from "../../redux/actions/Product/productById";
 import { createCart } from "../../redux/actions/Cart/createCart";
 import { addCart } from "../../redux/actions/Cart/addCart";
+import getProductReview from "../../redux/actions/Review/getProductReview";
+import Pagination from "../../components/Pagination";
+import CardReview from "../../components/CardReview";
+
 
 const SingleProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const productDetails = useSelector(state => state.details);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1); // Estado para la cantidad de productos
+  const productDetails = useSelector(state => state.details);
   const userData = useSelector((state) => state.userData)
-  // const userCart = useSelector((state) => state.cart)
   const userCart = useSelector((state) => state.cart)
+  const productReview = useSelector((state) => state.productReview)
+
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // Current page
+  const [totalPages, setTotalPages] = useState(1); // Total pages
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -24,6 +32,9 @@ const SingleProduct = () => {
     dispatch(productbyID(id))
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
+      if(id){
+        dispatch(getProductReview(id))
+      }
   }, [dispatch, id]);
 
   const { photo, name, size, priceEfectivo, priceCuotas, color, quantity: availableQuantity, Categories } = productDetails;
@@ -54,6 +65,27 @@ const SingleProduct = () => {
   const handleOnRedireccion = () => {
     navigate("/login")
   };
+
+  useEffect(() => {
+    if (productReview.length > 0) {
+      setFilteredItems(productReview);
+      setTotalPages(Math.ceil(productReview.length / itemsPerPage));
+    }
+  }, [productReview]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const itemsPerPage = 4;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedItems = filteredItems.slice(startIndex, endIndex);
+
+ 
+  if (!Array.isArray(paginatedItems)) {
+    return null; // o maneja el error de manera adecuada
+  }
 
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 bg-gray-100">
@@ -110,6 +142,7 @@ const SingleProduct = () => {
                           Cantidad disponible: {availableQuantity}
                         </span>
                         <br />
+                        
                       </div>
                      
                       <div className=" ">
@@ -160,7 +193,18 @@ const SingleProduct = () => {
                             <FaArrowAltCircleRight />
                           </button>
                         )}
-
+                              <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
+                                {paginatedItems.map((review) => (
+                                <CardReview key={review.id} filteredItem={review} />
+                                ))}
+                              </div>
+                              <Pagination
+                              currentPage={currentPage}
+                              totalPages={totalPages}
+                              onPageChange={handlePageChange}
+                              />
+                          <br />
+                          <p onClick={() => console.log(productReview)}>getProductReview</p>
                         </div>
                       </div>
                     </div>
