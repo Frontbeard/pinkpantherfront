@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import validation from './validation';
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
+import { Link } from 'react-router-dom'
 
 // const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
  const URL_PRODUCT = "http://localhost:3001/product" 
@@ -148,8 +149,6 @@ const CreateProduct =({ initialValues })=>{
         }
     }
 
-    
-
     return( 
         <div className="grid grid-cols-1 items-center justify-items-center min-h-full mt-8">
             <Card className="w-full max-w-md">
@@ -216,7 +215,9 @@ const CreateProduct =({ initialValues })=>{
                     Categorías:
                     <select size="5" multiple value={productData.Categories} onChange={handleCategoriesChange}>
                         {Categories.map((c) => {
-                            return <option key={c.id} value={c.id}>{c.name}</option>
+                            if (c.name !== "about us") {
+                                return <option key={c.id} value={c.id}>{c.name}</option>
+                            }
                         })}
                     </select>
                     {errors.Categories && <span>{errors.Categories}</span>}
@@ -235,11 +236,19 @@ const CreateProduct =({ initialValues })=>{
                     {errors.photo && <span>{errors.photo}</span>}
                 </label>
                 <CardFooter className="pt-0 mt-5">
+                <div style={{ display: 'flex', gap: '10px' }}>
                 <Button type="submit"
-                className="text-white bg-pink-500" variant="gradient" fullWidth>
+                className="text-white bg-pink-500" variant="gradient">
                     {initialValues && Object.keys(initialValues).length !== 0 ? 'Actualizar Producto' : 'Crear Producto'}
                 </Button>
-                </CardFooter>                                                                                                                                                                     
+                <br />
+                <Link to='/admin'>
+                    <Button className="text-white bg-pink-500" variant="gradient">
+                    Volver
+                    </Button>
+                </Link>
+                </div>
+                </CardFooter>                                                                                                                                                                                   
             </form>
             </Card>
         </div>                                                                                                                                                                                                      

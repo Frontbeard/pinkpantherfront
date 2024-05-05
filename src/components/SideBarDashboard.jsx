@@ -40,7 +40,7 @@ const SideBarDashboard = () => {
         key: '4',
         icon: '➕',
         label: 'Crear producto',
-        onClick: () => navigate('/admin/createProduct'), // Redirigir al hacer clic en "Crear producto"
+        onClick: () => navigate('/admin/create-product'), // Redirigir al hacer clic en "Crear producto"
         element: <CreateProduct/>
       },
       {

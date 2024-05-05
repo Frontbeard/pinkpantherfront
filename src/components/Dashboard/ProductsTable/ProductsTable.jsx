@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PencilAltIcon } from '@heroicons/react/outline';
-import EditProductModal from '../../EditProductModal/EditProductModal';
+import EditProduct from '../../EditProduct/EditProduct';
 import  { getAllProducts } from "../../../redux/actions/Product/getAllProducts"
 import { updateProduct } from '../../../redux/actions/Product/updateProduct';
+import { Link } from 'react-router-dom'
 
 const ProductsTable = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.allProductsAdmin);
   const accessToken = useSelector((state) => state.accessToken);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [productUpdate, setProductUpdate] = useState({});
 
    useEffect(() => {
@@ -38,13 +38,6 @@ const ProductsTable = () => {
 
   return (
     <div>
-      {productUpdate && showEditModal && (
-        <EditProductModal
-          visible={showEditModal}
-          onClose={() => setShowEditModal(false)}
-          product={productUpdate}
-        />
-      )}
       {sortedProducts.map((product, index) => (
         <div key={index} className="border-b-2 border-gray-200 py-4 flex items-center">
           <img src={product.photo} className="w-16 h-16 mr-4" alt="Product" />
@@ -53,14 +46,13 @@ const ProductsTable = () => {
             <p className="text-sm">Unidades Vendidas: {product.unitsSold}</p>
           </div>
           <div className="flex items-center">
+            <Link to={`/admin/edit-product/${product.id}`}>
             <button
               className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md mr-2"
-              onClick={() => {
-                setShowEditModal(true), setProductUpdate(product);
-              }}
             >
               <PencilAltIcon className="h-4 w-4" />
             </button>
+            </Link>
             <label htmlFor={`toggle-${product.id}`} className="flex items-center cursor-pointer">
               <input
                 id={`toggle-${product.id}`}
