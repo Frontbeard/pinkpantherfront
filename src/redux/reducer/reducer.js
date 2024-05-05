@@ -175,15 +175,21 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         cart: newCartAdd,
       };
+    // case REMOVE_CART:
+    //   const newCartRemove = state.cart.filter(item => !payload.includes(item));
+    //   localStorage.setItem('cart', JSON.stringify(newCartRemove));
+    //   return {
+    //     ...state,
+    //     cart: newCartRemove,
+    //   };
     case REMOVE_CART:
-      const newCartRemove = state.cart.filter(
-        (item) => !payload.includes(item)
-      );
-      localStorage.setItem("cart", JSON.stringify(newCartRemove));
-      return {
-        ...state,
-        cart: newCartRemove,
-      };
+  const newCartRemove = state.cart.filter(item => item !== payload);
+  localStorage.setItem('cart', JSON.stringify(newCartRemove));
+  return {
+    ...state,
+    cart: newCartRemove,
+  };
+
     case INCREMENT_QUANTITY:
       let product = state.cart[action.payload];
       if (product.quantity > 1) {

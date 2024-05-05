@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 //import axios from 'axios';
 import { productbyID } from '../redux/actions/Product/productById'
 import { clearCart } from '../redux/actions/Cart/clearCart'
-
+import { removeCart } from '../redux/actions/Cart/removeCart'
 
 const Cart = () => {
   // const [cart, setCart] = useState([]);
@@ -25,14 +25,14 @@ const Cart = () => {
     const newCartProducts = [];
     for ( let n = 0; n < cartArray.length; n++) {
       try {
-        const id = cartArray[n]
+        const idp = cartArray[n]
         //console.log(id)
-        const response = await dispatch(productbyID(id));
+        const response = await dispatch(productbyID(idp));
         const product = response.payload; // Assuming the product data is in response.payload
         newCartProducts.push(product);
         //console.log(newCartProducts)
       } catch (error) {
-        console.error(`Error fetching product with ID ${id}:`, error);
+        console.error(`Error fetching product with ID ${idp}:`, error);
       }
     }
     setCartProducts(newCartProducts);
@@ -44,15 +44,19 @@ const Cart = () => {
   }, [cartArray, dispatch]);
   
 
-  const clearCart = () => {
+  const handleClearCart = () => {
     //localstore.removeitem('cart') //dispatch ya se encarga de sacarla del carrito en el localstore tambien
     dispatch(clearCart())
     navigate('/')
   };
 
-  const removeItem = (id, qty) => {
+  const handleRemoveItem = (itemId) => {
     //localstore.removeitem() //dispatch ya se encarga de sacarla del carrito en el localstore tambien
-    dispatch(removeCart(id, qty))
+    //const newCartRemove = state.cart.filter(item => item !== payload);
+    //localStorage.setItem('cart', JSON.stringify(newCartRemove));
+    console.log('ID desde removeItem Function:', itemId)
+    dispatch(removeCart(itemId))
+    navigate('/cart')
   };
   
   const handle = async (productId, quantity) => {
@@ -100,7 +104,7 @@ const Cart = () => {
                           </a>
                         </h4>
                         <p className="ml-4 text-sm font-medium text-gray-900">{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(item.priceCuotas)}</p>
-                      <button onClick={() => removeItem(item.id, item.quantity)}>X</button>
+                        <button data-item-id={item.id} onClick={() => handleRemoveItem(item.id)}>X</button>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">Color: {item.color.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>
                       <p className="mt-1 text-sm text-gray-500"> Talle: {item.size}</p>
@@ -145,7 +149,7 @@ const Cart = () => {
             <div className="mt-10">
               <button
                 type="button"
-                onClick={clearCart}
+                onClick={handleClearCart}
                 className="w-full rounded-md border border-transparent bg-white-600 px-4 py-3 text-base font-medium text-gray shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
                 Vaciar Carrito y volver a comprar
