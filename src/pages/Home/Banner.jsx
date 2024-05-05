@@ -14,10 +14,10 @@ const Banner = ({ onVerAhoraClick }) => {
           <div className="md:w-1/2 w-full">
             <h1 className="text-9xl font-light mb-5 text-center text-pink-400 ">Colección 2024</h1>
             <p className="text-xl mb-7 text-center text-pink-400">
-              ¡Potencia tu estilo, libera tu fuerza! Descubrí nuestra colección de indumentaria deportiva para brillar en cada movimiento.
+              ¡Potencia tu estilo y libera tu fuerza! Descubrí nuestra colección de indumentaria deportiva para brillar en cada movimiento.
             </p>
             <button className="bg-black hover:bg-pink-400 px-6 py-2 text-white font-semibold flex gap-2 items-center rounded-sm mx-auto" onClick={onVerAhoraClick}>
-              <FaShoppingBag className="inline-flex" /> Destacados
+              <FaShoppingBag className="inline-flex" /> Productos destacados
             </button>
           </div>
         </div>
