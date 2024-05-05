@@ -27,7 +27,6 @@ export const INCREMENT_QUANTITY = "INCREMENT_QUANTITY";
 export const REMOVING_PRODUCT = "REMOVING_PRODUCT";
 export const ADDING_PRODUCT = "ADDING_PRODUCT";
 
-
 //category
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const POST_CATEGORIES = "POST_CATEGORIES";
@@ -51,3 +50,5 @@ export const GET_ORDERID = "GET_ORDERID";
 export const GET_ORDERS_ID = "GET_ORDERS_ID";
 //error
 export const ERROR = "ERROR";
+// review
+export const GET_PRODUCT_REVIEW = "GET_PRODUCT_REVIEW";
