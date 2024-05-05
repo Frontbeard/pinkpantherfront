@@ -22,7 +22,6 @@ import {
   GET_CART,
   ADD_CART,
   REMOVE_CART,
-
   INCREMENT_QUANTITY,
   //category
   GET_CATEGORIES,
@@ -40,7 +39,8 @@ import {
   ERROR,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-
+  // Review
+  GET_PRODUCT_REVIEW,
   //order
   GET_ORDERS,
   GET_ORDERID,
@@ -81,6 +81,8 @@ const initialState = {
   favorites: [],
   shippingType: null,
   shippingCost: null,
+  // review
+  productReview: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -88,9 +90,8 @@ const rootReducer = (state = initialState, action) => {
   switch (type) {
     //products
     case GET_ALL_PRODUCTS:
-      const activeProducts = payload && payload.filter(
-        (product) => product.enable === true
-      )
+      const activeProducts =
+        payload && payload.filter((product) => product.enable === true);
       return {
         ...state,
         allproducts: activeProducts,
@@ -108,13 +109,15 @@ const rootReducer = (state = initialState, action) => {
         allproducts: [...state.allproducts, action.payload],
       };
     case UPDATE_PRODUCT:
-     const filteredProds = [...state.allProductsAdmin.filter(
-        (product) => product.id !== payload.id
-      )]
+      const filteredProds = [
+        ...state.allProductsAdmin.filter(
+          (product) => product.id !== payload.id
+        ),
+      ];
       return {
         ...state,
         allproducts: [...state.allproducts],
-        allProductsAdmin: [...filteredProds, payload]
+        allProductsAdmin: [...filteredProds, payload],
       };
     case GET_PRODUCT_BY_NAME:
       if (payload.length === 0) {
@@ -146,20 +149,20 @@ const rootReducer = (state = initialState, action) => {
       };
     //cart
     case CREATE_CART:
-      const newCart = payload
-      localStorage.setItem('cart', JSON.stringify(newCart));
+      const newCart = payload;
+      localStorage.setItem("cart", JSON.stringify(newCart));
       return {
         ...state,
         cart: newCart,
       };
-      case CLEAR_CART:
-        localStorage.removeItem('cart');
-        return {
-          ...state,
-          cart: null,
-        };
+    case CLEAR_CART:
+      localStorage.removeItem("cart");
+      return {
+        ...state,
+        cart: null,
+      };
     case GET_CART:
-      const getCart = JSON.parse(localStorage.getItem('cart'))
+      const getCart = JSON.parse(localStorage.getItem("cart"));
       return {
         ...state,
         cart: getCart,
@@ -167,14 +170,16 @@ const rootReducer = (state = initialState, action) => {
     case ADD_CART:
       //const newCartAdd = [...state.cart, ...payload];
       const newCartAdd = state.cart.concat(payload);
-      localStorage.setItem('cart', JSON.stringify(newCartAdd));
+      localStorage.setItem("cart", JSON.stringify(newCartAdd));
       return {
         ...state,
         cart: newCartAdd,
       };
     case REMOVE_CART:
-      const newCartRemove = state.cart.filter(item => !payload.includes(item));
-      localStorage.setItem('cart', JSON.stringify(newCartRemove));
+      const newCartRemove = state.cart.filter(
+        (item) => !payload.includes(item)
+      );
+      localStorage.setItem("cart", JSON.stringify(newCartRemove));
       return {
         ...state,
         cart: newCartRemove,
@@ -293,6 +298,12 @@ const rootReducer = (state = initialState, action) => {
         ordersUser: action.payload,
       };
 
+    case GET_PRODUCT_REVIEW:
+      return {
+        ...state,
+        productReview: action.payload,
+      };
+
     //actualiza el estado para indicar que el usuario cerro sesión
     case LOGOUT_USER:
       return {
@@ -325,7 +336,7 @@ const rootReducer = (state = initialState, action) => {
 
     case LOGOUT_SUCCESS:
       console.log("User data:", payload);
-      localStorage.removeItem('cart');
+      localStorage.removeItem("cart");
       return {
         ...state,
         isLoggedIn: false,

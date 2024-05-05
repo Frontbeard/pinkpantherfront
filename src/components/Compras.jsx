@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import CardOrder from "./CardOrder";
 import Pagination from "./Pagination";
 import getAllOrdersById from "../redux/actions/Order/getOrdersById";
-import { Button, CardFooter } from "@material-tailwind/react";
-
 
 export const Compras = () => {
   const [filteredItems, setFilteredItems] = useState([]);
