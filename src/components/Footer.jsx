@@ -29,7 +29,7 @@ const Footer = () => {
             <FaInstagram size={24} />
           </a>
           {/* Enlace al correo de Gmail */}
-          <a href="Pink27854@gmail.com" className="text-gray-500 hover:text-gray-700">
+          <a href="mailto:pink27854@gmail.com" className="text-gray-500 hover:text-gray-700">
             <FaGoogle size={24} />
           </a>
         </div>
