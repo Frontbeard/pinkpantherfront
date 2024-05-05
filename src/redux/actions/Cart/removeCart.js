@@ -6,7 +6,7 @@ export const removeCart = (productId, productQuantity) => {
   const payload = Array.from({ length: productQuantity }, () => productId);
   console.log(payload)
   return {
-    type: ADD_CART,
+    type: REMOVE_CART,
     //payload: 
     payload: payload,
   };
