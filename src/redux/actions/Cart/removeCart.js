@@ -2,13 +2,13 @@ import axios from "axios";
 import { REMOVE_CART } from "../actions-types";
 import { URL_LINK } from '../../../URL.js';
 
-export const removeCart = (productId, productQuantity) => {
-  const payload = Array.from({ length: productQuantity }, () => productId);
-  console.log(payload)
+export const removeCart = (productId) => {
+  //const payload = Array.from({ length: productQuantity }, () => productId);
+  //console.log(payload)
   return {
     type: REMOVE_CART,
-    //payload: 
-    payload: payload,
+    payload: productId,
+    //payload: payload,
   };
 };
 
