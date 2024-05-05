@@ -3,6 +3,8 @@ import AddingImages from './AddingImages';
 import axios from "axios";
 import { useState, useEffect } from 'react';
 import validation from './validation';
+import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 
 // const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
  const URL_PRODUCT = "http://localhost:3001/product" 
@@ -148,14 +150,31 @@ const CreateProduct =({ initialValues })=>{
 
     
 
-    return(
-        <div>
-            <form  onSubmit={initialValues && Object.keys(initialValues).length !== 0 ? handlePut : handlePost} >
-                <label>
-                    Nombre:
-                    <input type='text' placeholder='Ingrese el nombre del producto' id='name' name='name' value={productData.name} onChange={handleChange}/> 
+    return( 
+        <div className="grid grid-cols-1 items-center justify-items-center min-h-full mt-8">
+            <Card className="w-full max-w-md">
+            <form onSubmit={initialValues && Object.keys(initialValues).length !== 0 ? handlePut : handlePost} >
+                <CardHeader variant="gradient" color="pink" className="mb-4 grid h-28 place-items-center">
+                <Typography variant="h3" color="black">
+                Producto
+                </Typography>
+                </CardHeader>
+                <CardBody className="flex flex-col gap-4"></CardBody>
+                <div className="flex flex-col gap-1">
+                <Typography variant="p" color="black" className="mb-1">
+                    <b>Nombre:</b>
+                </Typography>
+                <div className="flex flex-col">
+                    <input className={errors.email ? "input-box border-2 rounded-lg border-red-400 px-4 py-2" : "input-box border-2 rounded-lg border-gray-400 px-4 py-2" }
+                    type='text' 
+                    placeholder='Ingrese el nombre del producto' 
+                    id='name' 
+                    name='name' 
+                    value={productData.name} 
+                    onChange={handleChange}/> 
                     {errors.name && <span>{errors.name}</span>}
-                </label>
+                    </div>
+                    </div>
                 <br />
                 <label>
                     Color:
@@ -215,10 +234,14 @@ const CreateProduct =({ initialValues })=>{
                     <AddingImages setProduct={setProductData} productData={productData} />
                     {errors.photo && <span>{errors.photo}</span>}
                 </label>
-                <button type="submit">
+                <CardFooter className="pt-0 mt-5">
+                <Button type="submit"
+                className="text-white bg-pink-500" variant="gradient" fullWidth>
                     {initialValues && Object.keys(initialValues).length !== 0 ? 'Actualizar Producto' : 'Crear Producto'}
-                </button>                                                                                                                                                                     
+                </Button>
+                </CardFooter>                                                                                                                                                                     
             </form>
+            </Card>
         </div>                                                                                                                                                                                                      
     )
 }                                                                                                                                                                                                                                                                                       
