@@ -30,6 +30,7 @@ const ProductsTable = () => {
           }
         )
       );
+      dispatch(getAllProducts(accessToken));
     } catch (error) {
       console.log(error);
     }
