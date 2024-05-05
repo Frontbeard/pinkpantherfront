@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Card from "./Card";
+import CardOrder from "./CardOrder";
 import Pagination from "./Pagination";
 import getAllOrdersById from "../redux/actions/Order/getOrdersById";
 import { Button, CardFooter } from "@material-tailwind/react";
@@ -58,8 +58,9 @@ export const Compras = () => {
       <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-      {paginatedItems.map((product) => (
-          <Card key={product.id} filteredItems={product} />
+      {paginatedItems.map((order) => (
+        console.log("ordennnnn",order),
+          <CardOrder key={order.id} filteredItems={order} />
         ))}
       </div>
       <Pagination
