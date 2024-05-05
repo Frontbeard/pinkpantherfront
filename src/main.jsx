@@ -40,6 +40,7 @@ import UsersTable from "./components/Dashboard/UsersTable/UsersTable.jsx";
 import SearchResult from "./components/SearchResult.jsx";
 import TermsAndConditions from "./components/TermsAndConditions.jsx";
 import Panel from "./components/Dashboard/Panel/Panel.jsx";
+import EditProduct from "./components/EditProduct/EditProduct.jsx";
 
 
 
@@ -66,10 +67,22 @@ const router = createBrowserRouter([
         path: "/about",
         element: <AboutUs />,
       },
-      { path: "/login", element: <Login /> },
-      { path: "/create-account", element: <CreateAccount /> },
-      { path: "/create-account-google", element: <CreateAccountGoogle /> },
-      { path: "/create-product", element: <CreateProduct /> },
+      { 
+        path: "/login", 
+        element: <Login /> 
+      },
+      { 
+        path: "/create-account", 
+        element: <CreateAccount /> 
+      },
+      { 
+        path: "/create-account-google", 
+        element: <CreateAccountGoogle /> 
+      },
+      { 
+        path: "/create-product", 
+        element: <CreateProduct /> 
+      },
       {
         path: "/cart",
         element: <Carrito />,
@@ -103,7 +116,7 @@ const router = createBrowserRouter([
         element: <SearchResult/>
       },
       {
-        path:'/Privacy', 
+        path:'Privacy', 
         element: <TermsAndConditions/>
       },
 
@@ -131,9 +144,13 @@ const router = createBrowserRouter([
       },
       {
       
-        path:"createProduct",
+        path:"create-product",
         element: <CreateProduct />
 
+      },
+      {
+        path:"edit-product/:id",
+        element: <EditProduct/>
       },
       {
         path:'resumen',
