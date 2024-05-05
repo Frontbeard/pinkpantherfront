@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Banner from './Banner';
+import Carousel from './Carousel';
 import Category from './Category';
 import Products from './Products';
 import Newsletter from '../NewsLetter';
@@ -26,9 +26,9 @@ const Home = () => {
     <div className='bg-gray-100'>
       {showBanner ? (
         <>
-          <Banner onVerAhoraClick={handleVerAhoraClick} />
+          <Carousel/>
           <Products />
-          <Videobanner/>
+          <Videobanner onVerAhoraClick={handleVerAhoraClick} />
         </>
       ) : (
         <Category onBackToBannerClick={handleBackToBannerClick} />
