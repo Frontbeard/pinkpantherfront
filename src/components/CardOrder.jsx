@@ -4,12 +4,19 @@ import { Link } from "react-router-dom";
 import {  useNavigate } from "react-router-dom";
 
 const CardOrder = ({ filteredItems }) => {
-
+  let productId;
+if (filteredItems.products && filteredItems.products.length > 0) {
+  productId = filteredItems.products[0].id;
+} else {
+  // Manejar el caso en el que no hay productos en la orden
+  console.error("La orden no tiene productos o el array de productos está vacío");
+}
+  console.log("a", productId);
+  // console.log(filteredItems);
   const navigate = useNavigate()
+  const handleSubmit = async () => {
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    navigate("/create-review");
+    navigate(`/create-review/${productId}`);
   }
     return (
         <div className="max-w-xs mx-auto">
@@ -30,7 +37,8 @@ const CardOrder = ({ filteredItems }) => {
                 </div>
               </div>
               <CardFooter className="pt-0 mt-1">
-            <Button onClick={handleSubmit} className="text-white bg-pink-500" variant="gradient" fullWidth>
+                
+            <Button onClick={() =>handleSubmit()} className="text-white bg-pink-500" variant="gradient" fullWidth>
               Calificar
             </Button>
           </CardFooter>

@@ -36,7 +36,7 @@ const Footer = () => {
       </div>
 
       <div className="sm:mx-auto gap-10 text-center pt-2 text-white text-sm pb-2 bg-pink-400">
-        <span class="block text-sm text-white sm:text-center dark:text-white">© 2024 <a href="https://www.instagram.com/pink.pantherindumentaria" target="_blank" class="hover:underline">PinkPanther™</a>. Todos los derechos reservados.</span>
+        <span className="block text-sm text-white sm:text-center dark:text-white">© 2024 <a href="https://www.instagram.com/pink.pantherindumentaria" target="_blank" className="hover:underline">PinkPanther™</a>. Todos los derechos reservados.</span>
       </div>
     </footer>
   );
