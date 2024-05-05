@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { Card, Button, CardBody, CardFooter, CardHeader, Typography } from "@material-tailwind/react"
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import validation from "./validation";
+import validationReview from "./ValidationReview";
+import postReview from "../redux/actions/Review/postReview";
 
 export const CreateReview = () => {
 
