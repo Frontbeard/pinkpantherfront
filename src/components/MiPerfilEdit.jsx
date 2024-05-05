@@ -39,7 +39,7 @@ const MiPerfilEdit = () => {
 
   useEffect(() => {
     const errorsArray = Object.values(errors)
-    setIsFormValid(userData.email > 0 && errorsArray.every(error => !error))
+    setIsFormValid(userData.DNI && userData.birthdate && userData.firstName && userData.lastName && userData.telephone && userData.city && userData.street && userData.streetNumber > 0 && errorsArray.every(error => !error))
   }, [userData, errors])
 
   const handleChange = (event) => {
@@ -77,13 +77,34 @@ const MiPerfilEdit = () => {
       apartmentNumber: userData.apartmentNumber, 
       postalCode: userData.postalCode
     });
-
+    console.log(response)
+    
     navigate("/")
 };
 
-const handleBaja = () => {
+const handleBaja = async () => {
   console.log('Has hecho click');
-  alert('Has hecho click');
+
+  const response = await axios.put(`${URL_LINK}/customer/${userData.idfirebase}`, {
+    //idfirebase: firebaseUid,
+    enable: false,
+    userName: userData.email, 
+    role: userData.role, 
+    DNI: userData.DNI, 
+    birthdate: userData.birthdate, 
+    firstName: userData.firstName, 
+    lastName: userData.lastName, 
+    email: userData.email, 
+    telephone: userData.telephone, 
+    //country: userData.country, 
+    city: userData.city, 
+    street: userData.street, 
+    streetNumber: userData.streetNumber, 
+    apartmentNumber: userData.apartmentNumber, 
+    postalCode: userData.postalCode
+  });
+
+  alert('Perfil dado de baja');
   navigate("/")
 };
 
