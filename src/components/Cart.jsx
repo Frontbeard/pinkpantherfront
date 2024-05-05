@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 //import isAuthenticated from '../Firebase/checkAuth';
 //import axios from 'axios';
 import { productbyID } from '../redux/actions/Product/productById'
+import { clearCart } from '../redux/actions/Cart/clearCart'
 
 
 const Cart = () => {
@@ -11,11 +13,14 @@ const Cart = () => {
   // const userData = useSelector((state) => state.userData)
   
   const [cartProducts, setCartProducts] = useState([]);
+  const [totalCarrito, setTotalCarrito] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartArray = useSelector((state) => state.cart);
   const userData = useSelector((state) => state.userData);
   //console.log(cartArray)
   
+  useEffect(() => {
   const getCartProducts = async () => {
     const newCartProducts = [];
     for ( let n = 0; n < cartArray.length; n++) {
@@ -31,13 +36,26 @@ const Cart = () => {
       }
     }
     setCartProducts(newCartProducts);
+    const totalPrice = newCartProducts.reduce((total, product) => total + product.priceCuotas, 0);
+    setTotalCarrito(totalPrice);
   };
   getCartProducts();
   //console.log('cart products:', cartProducts)
+  }, [cartArray, dispatch]);
   
 
-  const updateCartItem = async (productId, quantity) => {
- 
+  const clearCart = () => {
+    //localstore.removeitem('cart') //dispatch ya se encarga de sacarla del carrito en el localstore tambien
+    dispatch(clearCart())
+    navigate('/')
+  };
+
+  const removeItem = (id, qty) => {
+    //localstore.removeitem() //dispatch ya se encarga de sacarla del carrito en el localstore tambien
+    dispatch(removeCart(id, qty))
+  };
+  
+  const handle = async (productId, quantity) => {
   };
 
   const handleCheckout = async () => {
@@ -78,13 +96,15 @@ const Cart = () => {
                       <div className="flex justify-between">
                         <h4 className="text-sm">
                           <a href={item.href} className="font-medium text-gray-700 hover:text-gray-800">
-                            {item.name}
+                            {item.name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                           </a>
                         </h4>
-                        <p className="ml-4 text-sm font-medium text-gray-900">{item.priceCuotas}</p>
+                        <p className="ml-4 text-sm font-medium text-gray-900">{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(item.priceCuotas)}</p>
+                      <button onClick={() => removeItem(item.id, item.quantity)}>X</button>
                       </div>
-                      <p className="mt-1 text-sm text-gray-500">{item.color}</p>
-                      <p className="mt-1 text-sm text-gray-500">{item.size}</p>
+                      <p className="mt-1 text-sm text-gray-500">Color: {item.color.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>
+                      <p className="mt-1 text-sm text-gray-500"> Talle: {item.size}</p>
+                      <p className="mt-1 text-sm text-gray-500"> Cantidad: {item.quantity}</p>
                     </div>
 {/*
                     <div className="mt-4 flex flex-1 items-end justify-between">
@@ -111,22 +131,32 @@ const Cart = () => {
           <section aria-labelledby="summary-heading" className="mt-10">
 
             <h3 id="summary-heading" className="sr-only">Resumen del pedido</h3>
-{/*
+
             <div>
               <dl className="space-y-4">
                 <div className="flex items-center justify-between">
                   <dt className="text-base font-medium text-gray-900">Total de la Compra:</dt>
-                  <dd className="ml-4 text-base font-medium text-gray-900">${cart.reduce((acc, item) => acc + (parseFloat(item.price.replace('$', '')) * item.quantity), 0).toFixed(2)}</dd>
+                  <dd className="ml-4 text-base font-medium text-gray-900">{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(totalCarrito)}</dd>
                 </div>
               </dl>
               <p className="mt-1 text-sm text-gray-500"></p>
             </div>
- */}
+ 
+            <div className="mt-10">
+              <button
+                type="button"
+                onClick={clearCart}
+                className="w-full rounded-md border border-transparent bg-white-600 px-4 py-3 text-base font-medium text-gray shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+              >
+                Vaciar Carrito y volver a comprar
+              </button>
+            </div>
+            
             <div className="mt-10">
               <button
                 type="button"
                 onClick={handleCheckout}
-                className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                className="w-full rounded-md border border-transparent bg-pink-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
                 Pagar
               </button>
@@ -135,7 +165,7 @@ const Cart = () => {
             <div className="mt-6 text-center text-sm">
               <p>
                 o{' '}
-                <a href="/" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="/" className="font-medium text-pink-600 hover:text-indigo-500">
                   Continuar comprando
                   <span aria-hidden="true"> &rarr;</span>
                 </a>
