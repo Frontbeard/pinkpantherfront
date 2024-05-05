@@ -41,7 +41,10 @@ const Navbar = () => {
             dispatch(selectCategory(categoryId));
             const selectedCategoryObj = allCategories.find(category => category.id === categoryId);
             const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
-            setFilteredProducts(filtered);
+            const enabledProducts = filtered.filter(
+                (product) => product.enable === true
+              )
+            setFilteredProducts(enabledProducts);
         } else {
             setShowFilterModal(false); // Agregamos esta línea para cerrar el modal al hacer clic en "about us"
             setFilteredProducts([]); // Limpiamos los productos filtrados

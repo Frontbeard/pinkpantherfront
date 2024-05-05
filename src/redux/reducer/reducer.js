@@ -88,9 +88,12 @@ const rootReducer = (state = initialState, action) => {
   switch (type) {
     //products
     case GET_ALL_PRODUCTS:
+      const activeProducts = payload.filter(
+        (product) => product.enable === true
+      )
       return {
         ...state,
-        allproducts: payload,
+        allproducts: activeProducts,
         allProductsAdmin: action.payload,
       };
     case GET_PRODUCT_BY_ID:
@@ -105,12 +108,12 @@ const rootReducer = (state = initialState, action) => {
         allproducts: [...state.allproducts, action.payload],
       };
     case UPDATE_PRODUCT:
-     const filteredProds = [...state.allproducts.filter(
+     const filteredProds = [...state.allProductsAdmin.filter(
         (product) => product.id !== payload.id
       )]
       return {
         ...state,
-        allproducts: [...filteredProds, payload],
+        allproducts: [...state.allproducts],
         allProductsAdmin: [...filteredProds, payload]
       };
     case GET_PRODUCT_BY_NAME:
