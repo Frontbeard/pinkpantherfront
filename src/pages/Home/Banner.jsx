@@ -17,7 +17,7 @@ const Banner = ({ onVerAhoraClick }) => {
               ¡Potencia tu estilo, libera tu fuerza! Descubrí nuestra colección de indumentaria deportiva para brillar en cada movimiento.
             </p>
             <button className="bg-black hover:bg-pink-400 px-6 py-2 text-white font-semibold flex gap-2 items-center rounded-sm mx-auto" onClick={onVerAhoraClick}>
-              <FaShoppingBag className="inline-flex" /> Productos destacados
+              <FaShoppingBag className="inline-flex" /> Destacados
             </button>
           </div>
         </div>
