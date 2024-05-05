@@ -1,60 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import isAuthenticated from '../Firebase/checkAuth';
-import axios from 'axios';
+//import isAuthenticated from '../Firebase/checkAuth';
+//import axios from 'axios';
+import { productbyID } from '../redux/actions/Product/productById'
+
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
+  // const [cart, setCart] = useState([]);
+  //const firebaseUid = useSelector(state => state.auth.firebaseUid);
+  // const userData = useSelector((state) => state.userData)
+  
+  const [cartProducts, setCartProducts] = useState([]);
   const dispatch = useDispatch();
-  const firebaseUid = useSelector(state => state.auth.firebaseUid);
-  const userCart = useSelector((state) => state.Cart) 
-  const userData = useSelector((state) => state.userData)
-
-  const fetchCart = async () => {
-    try {
-      const response = await axios.get(`/cart/${firebaseUid}`);
-      setCart(response.data);
-    } catch (error) {
-      console.error('Error al obtener el carrito del usuario:', error);
+  const cartArray = useSelector((state) => state.cart);
+  const userData = useSelector((state) => state.userData);
+  //console.log(cartArray)
+  
+  const getCartProducts = async () => {
+    const newCartProducts = [];
+    for ( let n = 0; n < cartArray.length; n++) {
+      try {
+        const id = cartArray[n]
+        //console.log(id)
+        const response = await dispatch(productbyID(id));
+        const product = response.payload; // Assuming the product data is in response.payload
+        newCartProducts.push(product);
+        //console.log(newCartProducts)
+      } catch (error) {
+        console.error(`Error fetching product with ID ${id}:`, error);
+      }
     }
+    setCartProducts(newCartProducts);
   };
-
-  const addToCart = async (productId) => {
-    try {
-      await axios.post('/cart/create', { customerId: firebaseUid, productId });
-      fetchCart();
-    } catch (error) {
-      console.error('Error al agregar el producto al carrito:', error);
-    }
-  };
-
-  const removeFromCart = async (productId) => {
-    try {
-      await axios.delete(`/cart/${firebaseUid}/remove/${productId}`);
-      fetchCart();
-    } catch (error) {
-      console.error('Error al eliminar el producto del carrito:', error);
-    }
-  };
+  getCartProducts();
+  //console.log('cart products:', cartProducts)
+  
 
   const updateCartItem = async (productId, quantity) => {
-    try {
-      await axios.put('/cart/update', { customerId: firebaseUid, productId, quantity });
-      fetchCart();
-    } catch (error) {
-      console.error('Error al actualizar la cantidad del producto en el carrito:', error);
-    }
+ 
   };
-
-  useEffect(() => {
-    isAuthenticated(dispatch);
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (firebaseUid) {
-      fetchCart();
-    }
-  }, [firebaseUid]);
 
   const handleCheckout = async () => {
     try {
@@ -63,7 +47,7 @@ const Cart = () => {
         return;
       }
 
-      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?customerId=${firebaseUid}`;
+     // window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?customerId=${firebaseUid}`;
     } catch (error) {
       console.error('Error realizando el pago:', error);
     }
@@ -79,12 +63,12 @@ const Cart = () => {
             <h3 id="cart-heading" className="sr-only">Items en tu carrito de compras</h3>
 
             <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
-              {cart.map((item) => (
+              {cartProducts.map((item) => (
                 <li key={item.id} className="flex py-6">
                   <div className="flex-shrink-0">
                     <img
-                      src={item.imageSrc}
-                      alt={item.imageAlt}
+                      src={item.photo}
+                      alt={item.id}
                       className="h-24 w-24 rounded-md object-cover object-center sm:h-32 sm:w-32"
                     />
                   </div>
@@ -97,12 +81,12 @@ const Cart = () => {
                             {item.name}
                           </a>
                         </h4>
-                        <p className="ml-4 text-sm font-medium text-gray-900">{item.price}</p>
+                        <p className="ml-4 text-sm font-medium text-gray-900">{item.priceCuotas}</p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">{item.color}</p>
                       <p className="mt-1 text-sm text-gray-500">{item.size}</p>
                     </div>
-
+{/*
                     <div className="mt-4 flex flex-1 items-end justify-between">
                       <div className="flex items-center space-x-2">
                         <button type="button" onClick={() => updateCartItem(item.id, item.quantity + 1)} className="text-sm font-medium text-indigo-600 hover:text-indigo-500" disabled={!item.inStock}>
@@ -117,6 +101,7 @@ const Cart = () => {
                         <span>Eliminar</span>
                       </button>
                     </div>
+                  */}
                   </div>
                 </li>
               ))}
@@ -124,18 +109,19 @@ const Cart = () => {
           </section>
 
           <section aria-labelledby="summary-heading" className="mt-10">
-            <h3 id="summary-heading" className="sr-only">Resumen del pedido</h3>
 
+            <h3 id="summary-heading" className="sr-only">Resumen del pedido</h3>
+{/*
             <div>
               <dl className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <dt className="text-base font-medium text-gray-900">Subtotal</dt>
+                  <dt className="text-base font-medium text-gray-900">Total de la Compra:</dt>
                   <dd className="ml-4 text-base font-medium text-gray-900">${cart.reduce((acc, item) => acc + (parseFloat(item.price.replace('$', '')) * item.quantity), 0).toFixed(2)}</dd>
                 </div>
               </dl>
-              <p className="mt-1 text-sm text-gray-500">Los gastos de envío y los impuestos se calcularán en el momento de pagar.</p>
+              <p className="mt-1 text-sm text-gray-500"></p>
             </div>
-
+ */}
             <div className="mt-10">
               <button
                 type="button"
@@ -149,7 +135,7 @@ const Cart = () => {
             <div className="mt-6 text-center text-sm">
               <p>
                 o{' '}
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="/" className="font-medium text-indigo-600 hover:text-indigo-500">
                   Continuar comprando
                   <span aria-hidden="true"> &rarr;</span>
                 </a>

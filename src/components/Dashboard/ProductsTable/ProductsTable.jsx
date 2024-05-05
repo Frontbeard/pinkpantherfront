@@ -12,33 +12,24 @@ const ProductsTable = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [productUpdate, setProductUpdate] = useState({});
 
-  useEffect(() => {
+   useEffect(() => {
     dispatch(getAllProducts(accessToken));
-  }, [dispatch, accessToken]);
+  }, []); 
 
 
   const sortedProducts = products?.sort((a, b) => a.name.localeCompare(b.name));
 
-  const handleActive = async (value, product) => {
+  const handleActive = (value, product) => {
+    value = !product.enable
     try {
-      const response = await dispatch(
+      const response = dispatch(
         updateProduct(
+          product.id,
           {
-            id: product.id,
-            name: product.name,
-            priceEfectivo: product.priceEfectivo,
-            priceCuotas: product.priceCuotas || product.priceEfectivo,
-            photo: product.photo,
-            category: product.category,
-            stock: product.stock,
-            estado: value,
-          },
-          accessToken
+            enable: value,
+          }
         )
       );
-      if (response && response.message === 'Producto editado correctamente') {
-        dispatch(getAllProducts(accessToken));
-      }
     } catch (error) {
       console.log(error);
     }
@@ -55,7 +46,7 @@ const ProductsTable = () => {
       )}
       {sortedProducts.map((product, index) => (
         <div key={index} className="border-b-2 border-gray-200 py-4 flex items-center">
-          <img src={product.image} className="w-16 h-16 mr-4" alt="Product" />
+          <img src={product.photo} className="w-16 h-16 mr-4" alt="Product" />
           <div className="flex flex-col flex-grow">
             <p className="font-bold text-lg mb-1">{product.name}</p>
             <p className="text-sm">Unidades Vendidas: {product.unitsSold}</p>
@@ -74,13 +65,13 @@ const ProductsTable = () => {
                 id={`toggle-${product.id}`}
                 type="checkbox"
                 className="hidden"
-                checked={product.active}
-                onChange={() => handleActive(!product.active, product)}
+                checked={product.enable}
+                onClick={() => handleActive(!product.enable, product)}
               />
-              <span className={`relative inline-block w-10 h-6 rounded-full ${product.active ? 'bg-green-500' : 'bg-gray-400'}`}>
+              <span className={`relative inline-block w-10 h-6 rounded-full ${product.enable ? 'bg-green-500' : 'bg-gray-400'}`}>
                 <span
                   className={`absolute inset-0 w-4 h-4 m-1 rounded-full transition-transform duration-300 ${
-                    product.active ? 'transform translate-x-full bg-white' : 'bg-white translate-x-0'
+                    product.enable ? 'transform translate-x-full bg-white' : 'bg-white translate-x-0'
                   }`}
                 ></span>
               </span>
