@@ -9,6 +9,7 @@ export const productbyID = (id) => {
      try {
          let response = await axios.get(`${URL_LINK}/product/${id}`)
          //let response = await axios.get(`${URL}/${id}`)
+         console.log(response.data)
          return dispatch ({
              type: GET_PRODUCT_BY_ID,
              payload: response.data
