@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+
 import getProductByName from "../redux/actions/Product/getProductByName";
 
 const SearchBar = () => {
@@ -14,6 +15,7 @@ const SearchBar = () => {
     let inputValue = event.target.value;
     // Eliminar espacios en blanco y filtrar caracteres no deseados, convertir a minúsculas
     const filteredValue = inputValue.replace(/[^a-zA-Z]/g, "").toLowerCase();
+
     setSearchTerm(filteredValue);
   };
 
@@ -30,6 +32,7 @@ const SearchBar = () => {
       // Convierte la palabra en plural a singular
       if (filteredTerm.endsWith("s")) {
         filteredTerm = filteredTerm.slice(0, -1);
+
       }
       dispatch(getProductByName(filteredTerm));
       navigate(`/search/${filteredTerm}`);

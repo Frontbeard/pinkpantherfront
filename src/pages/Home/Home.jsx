@@ -3,6 +3,7 @@ import Banner from './Banner';
 import Category from './Category';
 import Products from './Products';
 import Newsletter from '../NewsLetter';
+import Videobanner from './Videobanner';
 
 const Home = () => {
   const [showBanner, setShowBanner] = useState(true);
@@ -27,6 +28,7 @@ const Home = () => {
         <>
           <Banner onVerAhoraClick={handleVerAhoraClick} />
           <Products />
+          <Videobanner/>
         </>
       ) : (
         <Category onBackToBannerClick={handleBackToBannerClick} />
