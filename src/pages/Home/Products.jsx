@@ -17,6 +17,7 @@ const Products = () => {
   const [sortOption, setSortOption] = useState("default"); // Default sorting option
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
+  const [error, setError] = useState(""); // Error message
 
   const dispatch = useDispatch();
   const products = useSelector((state) => state.allproducts);
@@ -37,6 +38,11 @@ const Products = () => {
       setTotalPages(Math.ceil(products.length / itemsPerPage));
     }
   }, [products]);
+
+  useEffect(() => {
+    // Cuando cambia el criterio de ordenamiento, aplicar el filtro nuevamente
+    applyFilters();
+  }, [sortOption]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -66,36 +72,21 @@ const Products = () => {
       filteredProducts = filteredProducts.filter(product => product.size === selectedSize);
     }
 
-    // Filtrar por rango de precio
+    // Validar precios
     if (priceRange.min !== "" && priceRange.max !== "") {
-      filteredProducts = filteredProducts.filter(product => product.priceEfectivo >= parseInt(priceRange.min) && product.priceEfectivo <= parseInt(priceRange.max));
+      const minPrice = parseFloat(priceRange.min);
+      const maxPrice = parseFloat(priceRange.max);
+      if (isNaN(minPrice) || isNaN(maxPrice) || minPrice < 0 || maxPrice < 0 || minPrice >= maxPrice) {
+        setError("Por favor, ingrese un rango de precios válido.");
+        return;
+      }
+      setError("");
+      filteredProducts = filteredProducts.filter(product => product.priceEfectivo >= minPrice && product.priceEfectivo <= maxPrice);
     }
 
-    setFilteredItems(filteredProducts);
-    setCurrentPage(1);
-    setTotalPages(Math.ceil(filteredProducts.length / itemsPerPage));
-  };
-
-  const clearFilters = () => {
-    setSelectedCriterion("");
-    setSelectedSize("all");
-    setPriceRange({ min: "", max: "" });
-    setSortOption("default"); // Establecer la opción de ordenamiento de nuevo a "Por defecto"
-    setFilteredItems(products);
-    setCurrentPage(1);
-    setTotalPages(Math.ceil(products.length / itemsPerPage));
-  };
-
-  const handleSortChange = (option) => {
-    setSelectedCriterion("");
-    setSelectedSize("all");
-    setPriceRange({ min: "", max: "" });
-
-    setSortOption(option);
-
-    let sortedItems = [...products];
-
-    switch (option) {
+    // Ordenar productos
+    let sortedItems = [...filteredProducts];
+    switch (sortOption) {
       case "A-Z":
         sortedItems.sort((a, b) => a.name.localeCompare(b.name));
         break;
@@ -114,6 +105,19 @@ const Products = () => {
     }
 
     setFilteredItems(sortedItems);
+    setCurrentPage(1);
+    setTotalPages(Math.ceil(sortedItems.length / itemsPerPage));
+  };
+
+  const clearFilters = () => {
+    setSelectedCriterion("");
+    setSelectedSize("all");
+    setPriceRange({ min: "", max: "" });
+    setSortOption("default"); // Establecer la opción de ordenamiento de nuevo a "Por defecto"
+    setFilteredItems(products);
+    setCurrentPage(1);
+    setTotalPages(Math.ceil(products.length / itemsPerPage));
+    setError("");
   };
 
   return (
@@ -130,7 +134,7 @@ const Products = () => {
             id="criterionFilter"
             placeholder="Ingrese el producto"
             value={selectedCriterion}
-            onChange={(e) => setSelectedCriterion(e.target.value)}
+            onChange={(e) => setSelectedCriterion(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
           />
         </div>
         <div>
@@ -153,35 +157,36 @@ const Products = () => {
         <div>
           <label htmlFor="minPrice">Precio Mínimo:</label>
           <input
-            type="number"
+            type="text"
             id="minPrice"
             value={priceRange.min}
             onChange={(e) =>
-              setPriceRange({ ...priceRange, min: e.target.value })
+              setPriceRange({ ...priceRange, min: e.target.value.replace(/[^0-9]/g, '') })
             }
           />
         </div>
         <div>
           <label htmlFor="maxPrice">Precio Máximo:</label>
           <input
-            type="number"
+            type="text"
             id="maxPrice"
             value={priceRange.max}
             onChange={(e) =>
-              setPriceRange({ ...priceRange, max: e.target.value })
+              setPriceRange({ ...priceRange, max: e.target.value.replace(/[^0-9]/g, '') })
             }
           />
         </div>
         <button onClick={applyFilters}>Filtrar</button>
         <button onClick={clearFilters}>Limpiar</button>
       </div>
+      {error && <div className="text-red-500">{error}</div>}
       <div className="flex justify-between items-center mb-4">
         <div>
           <label htmlFor="sortOptions">Ordenar por:</label>
           <select
             id="sortOptions"
             value={sortOption}
-            onChange={(e) => handleSortChange(e.target.value)}
+            onChange={(e) => setSortOption(e.target.value)}
           >
             <option value="default">Por defecto</option>
             <option value="A-Z">A-Z</option>
@@ -196,11 +201,13 @@ const Products = () => {
           <Card key={product.id} filteredItems={product} />
         ))}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {!error && filteredItems.length > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 };
