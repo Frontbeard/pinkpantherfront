@@ -72,7 +72,7 @@ const Cart = () => {
   const createPreference = async () => {
     try{
       //const idempotencykey = uuidv5(`${URL_LINK}/createPreference`, uuidv5.URL)
-      const idempotencykey = '123'
+      const idempotencykey = '126'
       const response = await axios.post(`${URL_LINK}/payment/createPreference`, {
         title: `Carrito: ${userData.id}`,
         quantity: 1,
@@ -87,9 +87,10 @@ const Cart = () => {
               // Add more headers as needed
           }
       })
-      const { idPref } = response.data
+      const { id } = response.data
+    
       //console.log(idPref)
-      return idPref;
+      return id;
     } catch (error) {
       console.log(error)
       throw error
@@ -164,7 +165,7 @@ const Cart = () => {
                         <span>Eliminar</span>
                       </button>
                     </div>
-                  */}
+*/}
                   </div>
                 </li>
               ))}
@@ -203,7 +204,19 @@ const Cart = () => {
               >
                 Pagar
               </button>
+
               {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}} />}
+{/*  */}     
+          
+  
+             {/*
+             {preferenceId && (
+  <button onClick={() => window.location.href = preferenceId}>
+    Pagar con MercadoPago
+  </button>
+)}*/}
+
+
             </div>
             <div className="mt-6 text-center text-sm">
               <p>
