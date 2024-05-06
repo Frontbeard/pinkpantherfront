@@ -65,7 +65,7 @@ const SingleProduct = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  const itemsPerPage = 4;
+  const itemsPerPage = 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
@@ -99,11 +99,7 @@ const SingleProduct = () => {
                         <h1 className="text-3xl text-black-500 font-semibold sm:text-4xl">
                           {name}
                         </h1>
-                        <span className="my-3 text-xl text-yellow-600 flex items-center gap-1 sm:my-4">
-                          {Array.from({ length: 3 }).map((_, index) => (
-                            <FaStar key={index} />
-                          ))}
-                        </span>
+                        <br />
                         <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
                           Precio Efectivo: ${priceEfectivo}
                         </span>
@@ -118,10 +114,6 @@ const SingleProduct = () => {
                         <br />
                         <span>
                           Talle: {size}
-                        </span>
-                        <br />
-                        <span>
-                          Cantidad disponible: {availableQuantity}
                         </span>
                         <br />
                       </div>
@@ -170,6 +162,13 @@ const SingleProduct = () => {
                             <FaArrowAltCircleRight />
                           </button>
                         )}
+                          {/* <p onClick={() => console.log(productReview)}>getProductReview</p> */}
+                        </div>
+                      </div>
+                      <div>
+                      </div>
+                    </div>
+                    <br />
                         {filteredItems.length > 0 && (
                             <div className="flex flex-col flex-wrap md:justify-between items-center space-y-3 mb-8">
                               <div className="flex flex-col w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
@@ -179,18 +178,14 @@ const SingleProduct = () => {
                                   </div>
                                 ))}
                               </div>
-                                <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={handlePageChange}
-                                />
+                              <br /><br />
+                              <Pagination
+                              currentPage={currentPage}
+                              totalPages={totalPages}
+                              onPageChange={handlePageChange}
+                              />
                             </div>
                               )}
-                              <br />
-                          <p onClick={() => console.log(productReview)}>getProductReview</p>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

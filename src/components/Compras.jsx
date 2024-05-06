@@ -34,7 +34,7 @@ export const Compras = ( {redirecTo="/login"}) => {
     setCurrentPage(page);
   };
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 2;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
@@ -51,18 +51,20 @@ export const Compras = ( {redirecTo="/login"}) => {
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
         Tus compras
       </h2>
-{/*       <p onClick={() => console.log(ordersById)}>ordersById</p> */}
+        { /* <p onClick={() => console.log(ordersById)}>ordersById</p> */}
       <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
       {filteredItems.length > 0 && (
-      <div className="flex flex-col flex-wrap md:justify-between space-y-3 mb-6">
-        <div className="p-5 w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
+      <div className="flex flex-row flex-wrap md:justify-between space-y-3 mb-6">
+        <div className="p-5 w-full bg-white border border-b-0 border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
         {paginatedItems.map((order, index) => (
-          <div className="flex flex-col justify-evenly text-xl text-center pb-5" key={index}>
-            <p className="font-semibold">Status:{order.status}</p>
-            <p className="font-semibold">Fecha de orden:{order.orderDate}</p>
+          <article className="flex flex-col text-xl pb-6 bg-white border border-b-0 border-gray-200 rounded-2xl shadow dark:bg-pink-100 dark:border-pink-100" key={index}>
+            <div className="flex flex-col font-semibold m-2 ">
+            <p>Fecha de orden:{order.orderDate}</p>
+            <p>Status:{order.status}</p>
+            </div>
             <CardOrder filteredItems={order} orderId={order.id}/>
-          </div>
+          </article>
           ))}
         </div>
         <Pagination
