@@ -65,7 +65,7 @@ const SingleProduct = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  const itemsPerPage = 4;
+  const itemsPerPage = 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
@@ -162,6 +162,13 @@ const SingleProduct = () => {
                             <FaArrowAltCircleRight />
                           </button>
                         )}
+                          {/* <p onClick={() => console.log(productReview)}>getProductReview</p> */}
+                        </div>
+                      </div>
+                      <div>
+                      </div>
+                    </div>
+                    <br />
                         {filteredItems.length > 0 && (
                             <div className="flex flex-col flex-wrap md:justify-between items-center space-y-3 mb-8">
                               <div className="flex flex-col w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
@@ -171,18 +178,14 @@ const SingleProduct = () => {
                                   </div>
                                 ))}
                               </div>
-                                <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={handlePageChange}
-                                />
+                              <br /><br />
+                              <Pagination
+                              currentPage={currentPage}
+                              totalPages={totalPages}
+                              onPageChange={handlePageChange}
+                              />
                             </div>
                               )}
-                              <br />
-                          <p onClick={() => console.log(productReview)}>getProductReview</p>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
