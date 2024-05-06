@@ -22,8 +22,8 @@ export const CreateReview = () => {
       customerId: customerId,
       productId: id,
     })
-    console.log("customerrrrrid",customerId);
-    console.log("userdata",userData);
+    // console.log("customerrrrrid",customerId);
+    // console.log("userdata",userData);
   
     
 
