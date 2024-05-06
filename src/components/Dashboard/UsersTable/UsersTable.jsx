@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import getAllUsers from "../../../redux/actions/User/getAllUsers";
+//import getAllUsers from "../../../redux/actions/User/getAllUsers";
 import { Switch } from "@headlessui/react";
 // import { EditIcon } from '@heroicons/react/solid';
 import CreateAccount from "../../CreateAccount";
-import userBan from "../../../redux/actions/User/userBan";
+//import userBan from "../../../redux/actions/User/userBan";
 
 //es una tabla que muestra una lista de usuarios y proporciona la funcionalidad de editar y cambiar el estado de bloqueo de un usuario
 const UsersTable = () => {

@@ -1,7 +1,8 @@
 export const PRODUCTS = [
   { name: "Cuenta", link: "/login" },
-  { name: "Favorito", link: "/favorites" },
   { name: "Mi carrito", link: "/cart" },
+  { name: "About Us", link: "/about" }
+
 ];
 export const RESOURCES = [
   { name: "Sobre nosotros", link: "/about" },
