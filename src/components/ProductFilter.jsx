@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Card from "./Card";
 import Pagination from "./Pagination";
@@ -25,6 +25,10 @@ class ErrorBoundary extends React.Component {
 const ProductFilter = ({ products }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2;
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset currentPage when products change
+  }, [products]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -68,4 +72,3 @@ const ProductFilter = ({ products }) => {
 };
 
 export default ProductFilter;
-
