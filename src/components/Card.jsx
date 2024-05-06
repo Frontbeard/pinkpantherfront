@@ -1,23 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { createCart } from "../redux/actions/Cart/createCart";
 import { addCart } from "../redux/actions/Cart/addCart";
 import { useDispatch, useSelector } from "react-redux";
 import { FaArrowAltCircleRight} from "react-icons/fa";
+import productbyID from "../redux/actions/Product/productById";
 
 const Card = ({ filteredItems }) => {
 
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(1); // Estado para la cantidad de productos
+  const [quantity, setQuantity] = useState(1); // Estado para la  cantidad de productos
   const userCart = useSelector((state) => state.cart)
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Fetch product details by ID
+    dispatch(productbyID(id))
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
+  }, [dispatch, id]);
+
   const handleOnClick = () => {
-    console.log(userCart)
+    // console.log("userCart",userCart)
     if (!userCart) {
-      dispatch(createCart( id, quantity ))
+      dispatch(createCart( filteredItems.id, quantity ))
     } else {
-      dispatch(addCart( id, quantity ))
+      dispatch(addCart( filteredItems.id, quantity ))
     }
     alert("Producto agregado al carrito")
     //navigate("/")
@@ -34,6 +43,7 @@ const Card = ({ filteredItems }) => {
       </Link>
       <div className="px-5 pb-5">
         <Link to={`/shop/${filteredItems.id}`}>
+          {/* <h5>id producto?   {filteredItems.id}</h5> */}
           <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-black">{filteredItems.name}</h5>
         </Link>
         <div className="flex items-center mt-2.5 mb-5">
@@ -45,7 +55,7 @@ const Card = ({ filteredItems }) => {
           title="Agregar al Carrito"
           onClick={handleOnClick}
           >
-            <span>Agregar al Carritox</span>
+            <span>Agregar al Carrito</span>
             <FaArrowAltCircleRight />
             </button>
         </div>

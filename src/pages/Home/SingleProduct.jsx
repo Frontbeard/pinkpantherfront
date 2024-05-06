@@ -8,6 +8,7 @@ import { addCart } from "../../redux/actions/Cart/addCart";
 import getProductReview from "../../redux/actions/Review/getProductReview";
 import Pagination from "../../components/Pagination";
 import CardReview from "../../components/CardReview";
+
 const SingleProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const SingleProduct = () => {
 
   const { photo, name, size, priceEfectivo, priceCuotas, color, quantity: availableQuantity, Categories } = productDetails;
   const handleOnClick = () => {
-    console.log(userCart)
+    //userCart tiene array con productos del cart
     if (!userCart) {
       dispatch(createCart( id, quantity ))
     } else {

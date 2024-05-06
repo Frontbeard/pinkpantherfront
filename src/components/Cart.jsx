@@ -6,7 +6,7 @@ import axios from 'axios';
 import { productbyID } from '../redux/actions/Product/productById'
 import { clearCart } from '../redux/actions/Cart/clearCart'
 import { removeCart } from '../redux/actions/Cart/removeCart'
-// import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { URL_LINK } from '../URL.js'
 import { v5 as uuidv5 } from 'uuid'
 
@@ -15,7 +15,8 @@ const Cart = () => {
   //const firebaseUid = useSelector(state => state.auth.firebaseUid);
   // const userData = useSelector((state) => state.userData)
   
-  // initMercadoPago('TEST-6bff2c30-6b89-4e50-b40e-8560d878a7d7', {locale: "es-AR"} );
+  initMercadoPago('TEST-8652b262-1637-48f5-9a78-7d596a2f9aa9', {locale: "es-AR"} );
+  //initMercadoPago('TESTUSER1808861430', {locale: "es-AR"} );
   const [cartProducts, setCartProducts] = useState([]);
   const [totalCarrito, setTotalCarrito] = useState([]);
   const [preferenceId, setPreferenceId] = useState(null);
@@ -118,7 +119,6 @@ const Cart = () => {
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0">
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mi carrito de compras</h2>
-
         <form className="mt-12">
           <section aria-labelledby="cart-heading">
             <h3 id="cart-heading" className="sr-only">Items en tu carrito de compras</h3>
@@ -204,10 +204,7 @@ const Cart = () => {
                 Pagar
               </button>
               {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}} />}
-              
-
             </div>
-
             <div className="mt-6 text-center text-sm">
               <p>
                 o{' '}
