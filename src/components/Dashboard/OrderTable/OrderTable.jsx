@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import OrderExpandedRow from "./OrderExpandedRow";
 import UpdateOrderModal from "./UpdateOrderModal";
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { PencilAltIcon, PlusIcon } from '@heroicons/react/outline';
+import getAllOrders from "../../../redux/actions/Order/getOrders";
+import { useDispatch } from "react-redux";
 
 //se encarga de mostrar una tabla de pedidos
 const OrdersTable = () => {
@@ -17,6 +19,23 @@ const OrdersTable = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [order, setOrder] = useState({});
 
+  const dispatch =useDispatch()
+  const onChange = async ( order) => {
+    try {
+      const response = await dispatch( order);
+      if (response) {
+        dispatch(getAllOrders());
+        message.success("Orden actualizado correctamente", [2], onClose());
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getAllOrders());
+  }, []);
+
   return (
     <div>
       {order && showEditModal && (
@@ -28,7 +47,7 @@ const OrdersTable = () => {
       )}
       {isMobile ? (
         tableOrders.map((order, index) => (
-          <div key={index} className="border-b-2 border-gray-200">
+          <div key={index}  className="border-b-2 border-gray-200">
             <div className="p-4">
               <h3 className="text-lg font-medium text-gray-800">Pedido de {order.User?.name} {order.User?.surname}</h3>
               <p>ID: {order.id}</p>
