@@ -42,8 +42,6 @@ export const Compras = () => {
     return null; // o maneja el error de manera adecuada
   }
 
-  
-
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
@@ -53,9 +51,12 @@ export const Compras = () => {
       <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
       <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-      {paginatedItems.map((order) => (
-        console.log("ordennnnn",order),
-          <CardOrder key={order.id} filteredItems={order} />
+      {paginatedItems.map((order, index) => (
+        <div key={index}>
+          <CardOrder filteredItems={order} orderId={order.id}/>
+          <p className="font-semibold">{order.status}</p>
+          <p className="font-semibold">{order.orderDate}</p>
+        </div>
         ))}
       </div>
       <Pagination

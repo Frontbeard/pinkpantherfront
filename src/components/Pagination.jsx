@@ -48,50 +48,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           Siguiente <FaChevronRight />
         </button>
       )}
-
-      {/* Botón para ir a la primera página */}
-     {/*} <button
-        onClick={() => handlePageChange(1)}
-        className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
-      >
-        <FaAngleDoubleLeft />
-      </button>*/}
-
-      {/* Botón para ir a la última página */}
-    {/*  <button
-        onClick={() => handlePageChange(totalPages)}
-        className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
-      >
-        <FaAngleDoubleRight />
-      </button>*/}
-
-      {/* Mostrar una elipsis */}
-    {/*  <span className="mx-2">
-        <FaEllipsisH />
-    </span>*/}
-
-      {/* Botón para recargar la página actual */}
-      {/*<button
-        onClick={() => handlePageChange(currentPage)}
-        className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
-      >
-        <FaSync />
-  </button>*/}
-
-      {/* Botones para navegación rápida */}
-      {/*<button
-        onClick={() => handlePageChange(currentPage - 5)} // Retroceder 5 páginas
-        className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
-      >
-        <FaStepBackward />
-      </button>
-
-      <button
-        onClick={() => handlePageChange(currentPage + 5)} // Avanzar 5 páginas
-        className="px-8 py-3 text-lg text-pink-400 hover:underline hover:bg-pink-600 hover:text-white duration-300 rounded-md mr-2"
-      >
-        <FaStepForward />
-      </button>*/}
     </div>
   );
 };

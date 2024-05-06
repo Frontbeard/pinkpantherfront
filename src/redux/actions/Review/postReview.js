@@ -6,7 +6,8 @@ const postReview = (payload) => {
     try {
       const response = await axios.post(`${URL_LINK}/review`, payload);
       return {
-        message: "Compra realizada correctamente",
+        response,
+        message: "Review realizada correctamente",
       };
     } catch (error) {
       if (error.response) {

@@ -54,7 +54,7 @@ const initialState = {
   allproducts: [],
   allProductsAdmin: [],
   allUsers: [],
-  details: [],
+  details: {},
   name: null,
   saveProducts: [],
   allCategories: [],
@@ -98,10 +98,14 @@ const rootReducer = (state = initialState, action) => {
         allProductsAdmin: action.payload,
       };
     case GET_PRODUCT_BY_ID:
+      console.log("sate.detail", state.details)
+      console.log("payload", payload)
+      console.log("state.datail", state.details)
       return {
         ...state,
-        details: payload,
+        details: payload
       };
+      
     case ADD_PRODUCT:
       return {
         ...state,

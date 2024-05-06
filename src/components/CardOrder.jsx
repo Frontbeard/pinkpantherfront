@@ -3,13 +3,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {  useNavigate } from "react-router-dom";
 
-const CardOrder = ({ filteredItems }) => {
-
+const CardOrder = ({ filteredItems, orderId }) => {
   const navigate = useNavigate()
+  const handleSubmit = async (orderId) => {
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    navigate("/create-review");
+    navigate(`/create-review/${orderId}`);
   }
     return (
         <div className="max-w-xs mx-auto">
@@ -30,7 +28,7 @@ const CardOrder = ({ filteredItems }) => {
                 </div>
               </div>
               <CardFooter className="pt-0 mt-1">
-            <Button onClick={handleSubmit} className="text-white bg-pink-500" variant="gradient" fullWidth>
+            <Button onClick={() =>handleSubmit(orderId)} className="text-white bg-pink-500" variant="gradient" fullWidth>
               Calificar
             </Button>
           </CardFooter>
