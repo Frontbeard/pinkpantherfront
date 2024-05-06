@@ -15,7 +15,8 @@ const Cart = () => {
   //const firebaseUid = useSelector(state => state.auth.firebaseUid);
   // const userData = useSelector((state) => state.userData)
   
-  initMercadoPago('TEST-6bff2c30-6b89-4e50-b40e-8560d878a7d7', {locale: "es-AR"} );
+  initMercadoPago('TEST-8652b262-1637-48f5-9a78-7d596a2f9aa9', {locale: "es-AR"} );
+  //initMercadoPago('TESTUSER1808861430', {locale: "es-AR"} );
   const [cartProducts, setCartProducts] = useState([]);
   const [totalCarrito, setTotalCarrito] = useState([]);
   const [preferenceId, setPreferenceId] = useState(null);
@@ -71,7 +72,7 @@ const Cart = () => {
   const createPreference = async () => {
     try{
       //const idempotencykey = uuidv5(`${URL_LINK}/createPreference`, uuidv5.URL)
-      const idempotencykey = '123'
+      const idempotencykey = '126'
       const response = await axios.post(`${URL_LINK}/payment/createPreference`, {
         title: `Carrito: ${userData.id}`,
         quantity: 1,
@@ -87,6 +88,7 @@ const Cart = () => {
           }
       })
       const { idPref } = response.data
+    
       //console.log(idPref)
       return idPref;
     } catch (error) {
@@ -164,7 +166,7 @@ const Cart = () => {
                         <span>Eliminar</span>
                       </button>
                     </div>
-                  */}
+*/}
                   </div>
                 </li>
               ))}
@@ -203,8 +205,15 @@ const Cart = () => {
               >
                 Pagar
               </button>
-              {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}} />}
-              
+{/*  */}     
+             {preferenceId && (<Wallet initialization={{  preferenceId: `${preferenceId}`  }} customization={{ texts:{ valueProp: 'smart_option'}}} />)} 
+             
+             {/*
+             {preferenceId && (
+  <button onClick={() => window.location.href = preferenceId}>
+    Pagar con MercadoPago
+  </button>
+)}*/}
 
             </div>
 
