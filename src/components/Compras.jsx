@@ -54,20 +54,24 @@ export const Compras = ( {redirecTo="/login"}) => {
       <p onClick={() => console.log(ordersById)}>ordersById</p>
       <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
-      <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-      {paginatedItems.map((order, index) => (
-        <div key={index}>
-          <CardOrder filteredItems={order} orderId={order.id}/>
-          <p className="font-semibold">{order.status}</p>
-          <p className="font-semibold">{order.orderDate}</p>
+      {filteredItems.length > 0 && (
+      <div>
+        <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
+        {paginatedItems.map((order, index) => (
+          <div key={index}>
+            <p className="font-semibold">{order.status}</p>
+            <p className="font-semibold">{order.orderDate}</p>
+            <CardOrder filteredItems={order} orderId={order.id}/>
+          </div>
+          ))}
         </div>
-        ))}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      )}
     </div>
   );
 };
