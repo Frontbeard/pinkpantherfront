@@ -137,13 +137,13 @@ const Navbar = () => {
                         </span>
                     )}
                     
-                    <a href="/favorites" className="flex items-center gap-2 ">
+                    {/* <a href="/favorites" className="flex items-center gap-2 ">
                         <FaStar />
-                    </a>
+                    </a> */}
                     <a href="/cart" className="flex items-center gap-2 container">
                         <FaShoppingBag />
                     </a>
-
+                    
                     <a href="/compras" className="flex items-center gap-2">
                         Mis compras
                     </a>
