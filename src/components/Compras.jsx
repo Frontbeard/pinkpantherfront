@@ -3,17 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import CardOrder from "./CardOrder";
 import Pagination from "./Pagination";
 import getAllOrdersById from "../redux/actions/Order/getOrdersById";
+import { Navigate } from "react-router-dom";
 
-export const Compras = () => {
+export const Compras = ( {redirecTo="/login"}) => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
-
   const dispatch = useDispatch();
-  
   const ordersById = useSelector((state) => state.ordersUser)
-  // const products = useSelector((state) => state.allproducts);
   const customer = useSelector(state => state.userData);
+
+  if(!localStorage.getItem('firebaseUid')) {
+    return <Navigate to={redirecTo} />
+}
 
   useEffect(() => {
     if(customer.id){
@@ -41,6 +43,8 @@ export const Compras = () => {
   if (!Array.isArray(paginatedItems)) {
     return null; // o maneja el error de manera adecuada
   }
+
+  
 
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">

@@ -7,7 +7,7 @@ import validation from "./validation.js";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
-import { FaFacebook, FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaFacebook, FaGoogle, FaRegEye, FaRegEyeSlash  } from 'react-icons/fa';
 import { URL_LINK } from '../URL.js'
 //const URL_LINK = 'http://localhost:3001'
 //const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com'
@@ -188,15 +188,15 @@ function Login() {
                 placeholder="Ingresa tu contraseña"
               />
               {viewPassword ? (
-                <FaEye
+                <FaRegEye
                   onClick={togglePasswordVisibility}
-                  color='white'
+                  color='black'
                   className='cursor-pointer absolute right-3 top-3.5'
                 />
               ) : (
-                <FaEyeSlash
+                <FaRegEyeSlash
                   onClick={togglePasswordVisibility}
-                  color='white'
+                  color='black'
                   className='cursor-pointer absolute right-3 top-3.5'
                 />
               )}
