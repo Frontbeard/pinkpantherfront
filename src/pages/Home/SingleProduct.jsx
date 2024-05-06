@@ -171,8 +171,8 @@ const SingleProduct = () => {
                           </button>
                         )}
                         {filteredItems.length > 0 && (
-                            <div>
-                              <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
+                            <div className="flex flex-col flex-wrap md:justify-between items-center space-y-3 mb-8">
+                              <div className="flex flex-col w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
                                 {paginatedItems.map((review, index) => (
                                   <div key={index}>
                                     <CardReview filteredItem={review} />
@@ -187,7 +187,7 @@ const SingleProduct = () => {
                             </div>
                               )}
                               <br />
-                          {/* <p onClick={() => console.log(productReview)}>getProductReview</p> */}
+                          <p onClick={() => console.log(productReview)}>getProductReview</p>
                         </div>
                       </div>
                     </div>

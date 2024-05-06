@@ -10,20 +10,20 @@ const CardOrder = ({ filteredItems, orderId }) => {
     navigate(`/create-review/${orderId}`);
   }
     return (
-        <div className="max-w-xs mx-auto">
+        <div className="flex flex-row w-full justify-around bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
           {filteredItems.products.map((product) => (
             <div key={product.id}>
               <Link to={`/shop/${product.id}`}>
                 <img
                   src={product.photo} 
                   alt={product.name} 
-                  className="w-full h-64 object-cover hover:scale-105 transition-all duration-300"
+                  className="p-1 w-full h-72 object-cover hover:scale-105 transition-all duration-300"
                 />
               </Link>
-              <div className="mt-4 px-4">
+              <div className="flex flex-row mt-4 px-4">
                 <h4 className="text-base font-semibold mb-2">{product.name}</h4>
-                <div className="flex justify-between">
-                  <p className="text-black/50">{product.quantity}</p>
+                <div className="flex items-center mt-2.5 mb-5">
+                  <p className="text-black/50">Cantidad:{product.quantity}</p>
                   <p className="font-semibold">${product.priceEfectivo}</p>
                 </div>
               </div>
