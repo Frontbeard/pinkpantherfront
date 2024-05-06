@@ -64,12 +64,12 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
-      if (cart.length === 0) {
+      if (cartArray.length === 0) {
         console.error('No puedes realizar el pago porque tu carrito está vacío.');
         return;
       }
 
-     // window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?customerId=${firebaseUid}`;
+      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?customerId=${44}`;
     } catch (error) {
       console.error('Error realizando el pago:', error);
     }
