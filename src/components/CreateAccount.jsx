@@ -12,7 +12,7 @@ import { URL_LINK } from '../URL.js'
 //const URL_LINK = 'http://localhost:3001'
 //const URL_LINK = 'https://pinkpanther-backend-ip0f.onrender.com'
 
-import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaGoogle, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 
 function CreateAccount({ onDataChange }) {
@@ -207,15 +207,15 @@ function CreateAccount({ onDataChange }) {
                 placeholder="Ingresa tu contraseña"
                 />
                 {viewPassword ? (
-                <FaEye
+                <FaRegEye
                   onClick={togglePasswordVisibility}
-                  color='white'
+                  color='black'
                   className='cursor-pointer absolute right-3 top-3.5'
                 />
               ) : (
-                <FaEyeSlash
+                <FaRegEyeSlash
                   onClick={togglePasswordVisibility}
-                  color='white'
+                  color='black'
                   className='cursor-pointer absolute right-3 top-3.5'
                 />
               )}
@@ -240,15 +240,15 @@ function CreateAccount({ onDataChange }) {
                 placeholder="Confirma tu contraseña"
               />
               {viewPassword ? (
-                <FaEye
+                <FaRegEye
                   onClick={togglePasswordVisibility}
-                  color='white'
+                  color='black'
                   className='cursor-pointer absolute right-3 top-3.5'
                 />
               ) : (
-                <FaEyeSlash
+                <FaRegEyeSlash
                   onClick={togglePasswordVisibility}
-                  color='white'
+                  color='black'
                   className='cursor-pointer absolute right-3 top-3.5'
                 />
               )}
