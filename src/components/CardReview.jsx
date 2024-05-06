@@ -3,11 +3,12 @@ import React from "react";
 
 const CardReview = ({ filteredItem }) => {
     return (
-        <div className="max-w-xs mx-auto">
+        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
           <div>
-            <p>User: {filteredItem.customer.userName}</p>
-            <p>Comment: {filteredItem.comment}</p>
-            <p>Rating: {filteredItem.review}</p>
+            <p>{filteredItem.customer.userName}</p>
+            <p>{filteredItem.comment}</p>
+            <p>{filteredItem.comment}</p>
+            <p>Puntuacion: {filteredItem.review}</p>
             </div>
         </div>
       );

@@ -41,6 +41,7 @@ import SearchResult from "./components/SearchResult.jsx";
 import TermsAndConditions from "./components/TermsAndConditions.jsx";
 import Panel from "./components/Dashboard/Panel/Panel.jsx";
 import EditProduct from "./components/EditProduct/EditProduct.jsx";
+import Destacados from "./pages/Home/Destacados.jsx";
 
 
 
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
       {
         path:'Privacy', 
         element: <TermsAndConditions/>
+      },
+      {
+        path:'Destacados', 
+        element: <Destacados/>
       },
 
     ],

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom"; // Importar useNavigate y useLocation desde react-router-dom
+import { useNavigate, useLocation } from "react-router-dom";
+
 import getProductByName from "../redux/actions/Product/getProductByName";
 
 const SearchBar = () => {
@@ -11,24 +12,27 @@ const SearchBar = () => {
   const location = useLocation();
 
   const handleInputChange = (event) => {
-    const inputValue = event.target.value;
-    const filteredValue = inputValue.replace(/\s/g, ""); // Eliminar espacios en blanco
+    let inputValue = event.target.value;
+    // Eliminar espacios en blanco y filtrar caracteres no deseados, convertir a minúsculas
+    const filteredValue = inputValue.replace(/[^a-zA-Z]/g, "").toLowerCase();
+
     setSearchTerm(filteredValue);
   };
 
   const handleClearSearch = () => {
     setSearchTerm("");
-    navigate("/"); // Redirigir al usuario al inicio cuando hace clic en el botón de limpieza
+    navigate("/");
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const trimmedTerm = searchTerm.trim();
     if (trimmedTerm.length >= 3) {
-      let filteredTerm = trimmedTerm.toLowerCase();
-      // Convertir términos en plural a singular
+      let filteredTerm = trimmedTerm;
+      // Convierte la palabra en plural a singular
       if (filteredTerm.endsWith("s")) {
-        filteredTerm = filteredTerm.slice(0, -1); // Eliminar la 's' al final
+        filteredTerm = filteredTerm.slice(0, -1);
+
       }
       dispatch(getProductByName(filteredTerm));
       navigate(`/search/${filteredTerm}`);
@@ -65,3 +69,4 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
+

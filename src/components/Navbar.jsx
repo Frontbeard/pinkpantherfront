@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaBars, FaSearch, FaShoppingBag, FaTimes, FaUser, FaStar } from "react-icons/fa";
 import logo2 from "/logo2.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import FilterModal from "./FilterModal";
 import SearchBar from "./Searchbar";
 import { useSelector, useDispatch } from "react-redux";
@@ -43,7 +43,7 @@ const Navbar = () => {
             const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
             const enabledProducts = filtered.filter(
                 (product) => product.enable === true
-              )
+            );
             setFilteredProducts(enabledProducts);
         } else {
             setShowFilterModal(false); // Agregamos esta línea para cerrar el modal al hacer clic en "about us"
@@ -75,39 +75,49 @@ const Navbar = () => {
     const handleMisCompras = () => {
         console.log('Has hecho click');
         alert('Has hecho click');
-        //navigate("/miscompras") // ???
-        navigate("/compras") // ???
-    };
+           //navigate("/miscompras") // ???
+           navigate("/compras") // ???
+        };
+    
 
     const handleMiPerfil = () => {
         console.log('Has hecho click');
-        //alert('Has hecho click');
-        navigate("/perfil")
-    };
+         //alert('Has hecho click');
+         navigate("/perfil")
+        };
+    
 
     const handleDashboard = () => {
         console.log('Has hecho click');
-        //alert('Has hecho click');
-        navigate("/admin")
-    };
+         //alert('Has hecho click');
+         navigate("/admin")
+        };
 
-    const navItems = allCategories.map(({ id, name, products }) => ({
-        id,
-        name,
-        path: name === "about us" ? "/about" : `/categories/${id}`,
-    }));
+    // Ordenar las categorías según tu preferencia
+    const orderedCategories = [
+      "New In",
+      "Calzas",
+      "Tops",
+      "Remeras",
+      "Falda Pantalon",
+      "Conjuntos",
+      "Sale",
+    ];
 
+    const orderedFilteredCategories = orderedCategories.map(categoryName =>
+        allCategories.find(category => category.name.toLowerCase() === categoryName.toLowerCase())
+    );
     const handleUpdateFilteredProducts = (filteredProducts) => {
         setFilteredProducts(filteredProducts);
     };
 
     return (
-<header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
-    <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
-        <SearchBar onSearch={handleSearch} />
-        <a href="/" className="ml-24 w-64 relative overflow-hidden">
-            <img src={logo2} alt="" className="w-full h-auto transition duration-300 transform hover:brightness-75" />
-        </a>
+        <header className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
+            <nav className="flex justify-between items-center container md:py-4 pt-6 pb-3">
+                <SearchBar onSearch={handleSearch} />
+                <a href="/" className="ml-24 w-64 relative overflow-hidden">
+                    <img src={logo2} alt="" className="w-full h-auto transition duration-300 transform hover:brightness-75" />
+                </a>
                 <div className="text-lg text-Black sm:flex items-center gap-4 hidden truncate">
                     <a href="/login" className="flex items-center gap-2 ">
                         <FaUser />
@@ -122,7 +132,6 @@ const Navbar = () => {
                         <span>
                             Logueado como: {customer.userName}
                             <button onClick={handleLogout}>Logout</button>
-                            {/* <button onClick={handleMisCompras}>Mis compras</button> */}
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
@@ -130,20 +139,16 @@ const Navbar = () => {
                     {localStorage.getItem('firebaseUid') && customer.role === "ADMIN" && (
                         <span>
                             Logueado como: {customer.userName}
-
                             <button onClick={handleLogout}>Logout</button>
                             <button onClick={handleDashboard}>Dashboard</button>
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
-                    
-                    {/* <a href="/favorites" className="flex items-center gap-2 ">
-                        <FaStar />
-                    </a> */}
+
                     <a href="/cart" className="flex items-center gap-2 container">
                         <FaShoppingBag />
                     </a>
-                    
+
                     <a href="/compras" className="flex items-center gap-2">
                         Mis compras
                     </a>
@@ -152,7 +157,6 @@ const Navbar = () => {
                             Cantidad Carrito: {}
                         </span>
                     )}
-
                 </div>
                 <div className="sm:hidden">
                     <button onClick={toggleMenu}>
@@ -161,21 +165,23 @@ const Navbar = () => {
                 </div>
             </nav>
             <hr />
-            {searchQuery ? null : (
+            {!searchQuery && (
                 <div className="pt-4">
                     <ul className="lg:flex items-center justify-evenly text-black hidden">
-                        {navItems.map(({ id, name, path }) => (
-                            <li key={id} className="relative">
-                                <div onClick={() => handleCategoryClick(id, name)}>
-                                    <NavLink
-                                        to={path}
-                                        className={selectedCategory === id ? "active" : ""}
-                                        style={{ color: selectedCategory === id ? "blue" : "black" }}
-                                    >
-                                        {name}
-                                    </NavLink>
-                                </div>
-                            </li>
+                        {orderedFilteredCategories.map(category => (
+                            category && (
+                                <li key={category.id} className="relative">
+                                    <div onClick={() => handleCategoryClick(category.id, category.name)}>
+                                        <NavLink
+                                            to={`/categories/${category.id}`}
+                                            className={selectedCategory === category.id ? "active" : ""}
+                                            style={{ color: selectedCategory === category.id ? "blue" : "black" }}
+                                        >
+                                            {category.name}
+                                        </NavLink>
+                                    </div>
+                                </li>
+                            )
                         ))}
                     </ul>
                 </div>
@@ -188,7 +194,7 @@ const Navbar = () => {
                     onUpdateFilteredProducts={handleUpdateFilteredProducts}
                 />
             )}
-           {filteredProducts && filteredProducts.length > 0 && (
+          {filteredProducts && filteredProducts.length > 0 && (
                 <ProductFilter products={filteredProducts} />
             )}
         </header>

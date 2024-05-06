@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 //import isAuthenticated from '../Firebase/checkAuth';
-//import axios from 'axios';
+import axios from 'axios';
 import { productbyID } from '../redux/actions/Product/productById'
 import { clearCart } from '../redux/actions/Cart/clearCart'
 import { removeCart } from '../redux/actions/Cart/removeCart'
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import { URL_LINK } from '../URL.js'
+import { v5 as uuidv5 } from 'uuid'
 
 const Cart = () => {
   // const [cart, setCart] = useState([]);
   //const firebaseUid = useSelector(state => state.auth.firebaseUid);
   // const userData = useSelector((state) => state.userData)
   
+  initMercadoPago('TEST-6bff2c30-6b89-4e50-b40e-8560d878a7d7', {locale: "es-AR"} );
   const [cartProducts, setCartProducts] = useState([]);
   const [totalCarrito, setTotalCarrito] = useState([]);
+  const [preferenceId, setPreferenceId] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartArray = useSelector((state) => state.cart);
@@ -62,19 +67,53 @@ const Cart = () => {
   const handle = async (productId, quantity) => {
   };
 
+  
+  const createPreference = async () => {
+    try{
+      //const idempotencykey = uuidv5(`${URL_LINK}/createPreference`, uuidv5.URL)
+      const idempotencykey = '123'
+      const response = await axios.post(`${URL_LINK}/payment/createPreference`, {
+        title: `Carrito: ${userData.id}`,
+        quantity: 1,
+        price: totalCarrito,
+        //currency_id: "ARS"
+        }, {
+          headers: {
+              // Specify your headers here
+              //'Content-Type': 'application/json',
+              //'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+              'X-Idempotency-key': idempotencykey,
+              // Add more headers as needed
+          }
+      })
+      const { idPref } = response.data
+      //console.log(idPref)
+      return idPref;
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
   const handleCheckout = async () => {
     try {
-      if (cart.length === 0) {
-        console.error('No puedes realizar el pago porque tu carrito está vacío.');
-        return;
+      // if (cartArray.length === 0) {
+      //   console.error('No puedes realizar el pago porque tu carrito está vacío.');
+      //   alert('No puedes realizar el pago porque tu carrito está vacío.');
+      //   return;
+      // }
+      //window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?customerId=${44}`;
+      const idPref = await createPreference();
+      console.log('idPref:', idPref)
+      if (idPref) {
+        setPreferenceId(idPref)
       }
-
-     // window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?customerId=${firebaseUid}`;
     } catch (error) {
       console.error('Error realizando el pago:', error);
     }
   };
-
+  
+  
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0">
@@ -164,6 +203,9 @@ const Cart = () => {
               >
                 Pagar
               </button>
+              {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}} />}
+              
+
             </div>
 
             <div className="mt-6 text-center text-sm">

@@ -34,7 +34,7 @@ export const Compras = ( {redirecTo="/login"}) => {
     setCurrentPage(page);
   };
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 2;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
@@ -51,23 +51,29 @@ export const Compras = ( {redirecTo="/login"}) => {
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
         Tus compras
       </h2>
-      <p onClick={() => console.log(ordersById)}>ordersById</p>
+        { /* <p onClick={() => console.log(ordersById)}>ordersById</p> */}
       <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
-      <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-      {paginatedItems.map((order, index) => (
-        <div key={index}>
-          <CardOrder filteredItems={order} orderId={order.id}/>
-          <p className="font-semibold">{order.status}</p>
-          <p className="font-semibold">{order.orderDate}</p>
+      {filteredItems.length > 0 && (
+      <div className="flex flex-row flex-wrap md:justify-between space-y-3 mb-6">
+        <div className="p-5 w-full bg-white border border-b-0 border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
+        {paginatedItems.map((order, index) => (
+          <article className="flex flex-col text-xl pb-6 bg-white border border-b-0 border-gray-200 rounded-2xl shadow dark:bg-pink-100 dark:border-pink-100" key={index}>
+            <div className="flex flex-col font-semibold m-2 ">
+            <p>Fecha de orden:{order.orderDate}</p>
+            <p>Status:{order.status}</p>
+            </div>
+            <CardOrder filteredItems={order} orderId={order.id}/>
+          </article>
+          ))}
         </div>
-        ))}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      )}
     </div>
   );
 };
