@@ -46,9 +46,9 @@ const UsersTable = () => {
           <div key={index} className="bg-white shadow-md rounded-md p-6 mb-6">
             <h2 className="text-lg font-semibold mb-2">{`Usuario ${user.firstName} ${user.lastName}`}</h2>
             <p className="font-medium">Email: {user.email}</p>
-            <p className="font-medium">Telefono: {user.phone || "No definido"}</p>
-            <p className="font-medium">Rol: {user.typeUser}</p>
-            <p className="font-medium">Dirección: {`${user?.address?.calle} ${user?.address?.numero} ${user?.address?.dpto} ${user?.address?.entreCalles} ${user?.address?.localidad} ${user?.address?.provincia} ${user?.address?.codigoPostal}` || "No especificada"}</p>
+            <p className="font-medium">Telefono: {user.telephone || "No definido"}</p>
+            <p className="font-medium">Rol: {user.role}</p>
+            <p className="font-medium">Dirección: {`${user?.street} ${user?.streetNumber} ${user?.apartmentNumber}  ${user?.city} ${user?.country} ${user?.postalCode}` || "No especificada"}</p>
 
             <div className="flex items-center mt-4">
               <Switch
@@ -64,7 +64,7 @@ const UsersTable = () => {
                   } inline-block w-4 h-4 transform bg-white rounded-full`}
                 />
               </Switch>
-              <button
+              {/* <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
                 onClick={() => {
                   setShowEditModal(true);
@@ -72,7 +72,7 @@ const UsersTable = () => {
                 }}
               >
                 Editar
-              </button>
+              </button> */}
             </div>
           </div>
         ))}

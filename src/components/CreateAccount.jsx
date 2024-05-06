@@ -79,7 +79,7 @@ function CreateAccount({ onDataChange }) {
         alert('¡Cuenta creada exitosamente! Se ha enviado un correo electrónico de confirmación.');
       } else {
         // Mostrar un mensaje de error si el correo electrónico no se pudo enviar
-        alert('¡Cuenta creada exitosamente! No se pudo enviar el correo electrónico de confirmación.');
+        alert('¡Cuenta creada exitosamente!');
       }
     } catch (error) {
       // Manejar cualquier error que ocurra durante el envío del correo electrónico
