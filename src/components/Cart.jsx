@@ -87,10 +87,10 @@ const Cart = () => {
               // Add more headers as needed
           }
       })
-      const { idPref } = response.data
+      const { id } = response.data
     
       //console.log(idPref)
-      return idPref;
+      return id;
     } catch (error) {
       console.log(error)
       throw error
