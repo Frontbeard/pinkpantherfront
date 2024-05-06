@@ -21,6 +21,7 @@ const SingleProduct = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // Fetch product details by ID
@@ -31,6 +32,7 @@ const SingleProduct = () => {
         dispatch(getProductReview(id))
       }
   }, [dispatch, id]);
+
   const { photo, name, size, priceEfectivo, priceCuotas, color, quantity: availableQuantity, Categories } = productDetails;
   const handleOnClick = () => {
     console.log(userCart)
@@ -158,7 +160,7 @@ const SingleProduct = () => {
                             title="Agregar al Carrito"
                             onClick={handleOnClick}
                           >
-                            <span>Agregar al Carritox</span>
+                            <span>Agregar al Carrito andando</span>
                             <FaArrowAltCircleRight />
                           </button>
                         )}

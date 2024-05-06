@@ -41,13 +41,13 @@ const Card = ({ filteredItems }) => {
         <div className="flex items-center justify-between">
           <span className="text-3xl font-bold text-black dark:text-black">${filteredItems.priceEfectivo}</span>
           <button
-                            className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
-                            title="Agregar al Carrito"
-                            onClick={handleOnClick}
-                          >
-                            <span>Agregar al Carritox</span>
-                            <FaArrowAltCircleRight />
-                          </button>
+          className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
+          title="Agregar al Carrito"
+          onClick={handleOnClick}
+          >
+            <span>Agregar al Carritox</span>
+            <FaArrowAltCircleRight />
+            </button>
         </div>
       </div>
     </div>
