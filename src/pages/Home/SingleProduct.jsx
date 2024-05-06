@@ -170,17 +170,23 @@ const SingleProduct = () => {
                             <FaArrowAltCircleRight />
                           </button>
                         )}
-                              <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
-                                {paginatedItems.map((review) => (
-                                <CardReview key={review.id} filteredItem={review} />
+                        {filteredItems.length > 0 && (
+                            <div className="flex flex-col flex-wrap md:justify-between items-center space-y-3 mb-8">
+                              <div className="flex flex-col w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
+                                {paginatedItems.map((review, index) => (
+                                  <div key={index}>
+                                    <CardReview filteredItem={review} />
+                                  </div>
                                 ))}
                               </div>
-                              <Pagination
-                              currentPage={currentPage}
-                              totalPages={totalPages}
-                              onPageChange={handlePageChange}
-                              />
-                          <br />
+                                <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                                />
+                            </div>
+                              )}
+                              <br />
                           <p onClick={() => console.log(productReview)}>getProductReview</p>
                         </div>
                       </div>
