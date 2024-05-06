@@ -143,7 +143,7 @@ const Navbar = () => {
                     <a href="/cart" className="flex items-center gap-2 container">
                         <FaShoppingBag />
                     </a>
-
+                    
                     <a href="/compras" className="flex items-center gap-2">
                         Mis compras
                     </a>
