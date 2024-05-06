@@ -21,7 +21,7 @@ const Videobanner = ({ onVerAhoraClick }) => {
             ¡Potencia tu estilo, libera tu fuerza! Descubrí nuestra colección de indumentaria deportiva para brillar en cada movimiento.
           </p>
           <div className="flex justify-center">
-            <Link to="./Category">
+            <Link to="./Destacados">
               <button className="bg-black hover:bg-pink-400 px-6 py-2 text-white font-semibold flex items-center rounded-sm">
                 <FaShoppingBag className="inline-flex mr-2" /> Productos destacados
               </button>
