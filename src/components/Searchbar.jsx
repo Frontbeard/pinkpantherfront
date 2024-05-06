@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { useNavigate, useLocation, Link } from "react-router-dom"; // Importar Link desde react-router-dom
+import { useNavigate, useLocation } from "react-router-dom"; // Importar useNavigate y useLocation desde react-router-dom
 import getProductByName from "../redux/actions/Product/getProductByName";
 
 const SearchBar = () => {
@@ -11,7 +11,9 @@ const SearchBar = () => {
   const location = useLocation();
 
   const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+    const inputValue = event.target.value;
+    const filteredValue = inputValue.replace(/\s/g, ""); // Eliminar espacios en blanco
+    setSearchTerm(filteredValue);
   };
 
   const handleClearSearch = () => {
@@ -22,8 +24,12 @@ const SearchBar = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const trimmedTerm = searchTerm.trim();
-    const filteredTerm = trimmedTerm.replace(/[^a-zA-Z]/g, "").toLowerCase();
-    if (filteredTerm.length >= 3) {
+    if (trimmedTerm.length >= 3) {
+      let filteredTerm = trimmedTerm.toLowerCase();
+      // Convertir términos en plural a singular
+      if (filteredTerm.endsWith("s")) {
+        filteredTerm = filteredTerm.slice(0, -1); // Eliminar la 's' al final
+      }
       dispatch(getProductByName(filteredTerm));
       navigate(`/search/${filteredTerm}`);
     }

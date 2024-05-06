@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
+import AdminApp from "./AdminApp.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home.jsx";
@@ -38,6 +39,8 @@ import UsersTable from "./components/Dashboard/UsersTable/UsersTable.jsx";
 //import SearchBar from "./components/Searchbar.jsx";
 import SearchResult from "./components/SearchResult.jsx";
 import TermsAndConditions from "./components/TermsAndConditions.jsx";
+import Panel from "./components/Dashboard/Panel/Panel.jsx";
+import EditProduct from "./components/EditProduct/EditProduct.jsx";
 
 
 
@@ -64,11 +67,22 @@ const router = createBrowserRouter([
         path: "/about",
         element: <AboutUs />,
       },
-      { path: "/login", element: <Login /> },
-      { path: "/create-account", element: <CreateAccount /> },
-      { path: "/create-account-google", element: <CreateAccountGoogle /> },
-      // { path: "/dashboard", element: <Dashboard /> },
-      { path: "/create-product", element: <CreateProduct /> },
+      { 
+        path: "/login", 
+        element: <Login /> 
+      },
+      { 
+        path: "/create-account", 
+        element: <CreateAccount /> 
+      },
+      { 
+        path: "/create-account-google", 
+        element: <CreateAccountGoogle /> 
+      },
+      { 
+        path: "/create-product", 
+        element: <CreateProduct /> 
+      },
       {
         path: "/cart",
         element: <Carrito />,
@@ -94,59 +108,60 @@ const router = createBrowserRouter([
         element: <Compras/>
       },
       {
-        path: "/create-review",
+        path: "/create-review/:id",
         element: <CreateReview/>
       },
-      // {
-      //   path: "/dashboard",
-      //   element: <ProtectedAdmin user={user}><Dashboard /></ProtectedAdmin>,
-      // },
-      // {
-      //   path: "/profile",
-      //   element: <ProtectedRoute user={user}><><NavBarProfile/><PanelUser/><Footer/></></ProtectedRoute>,
-      // }, rutas dashboard del admin y perfil protegidas
       {
-        path: "*",
-        element: <NotFound />, // Ruta para la página 404
-      },
-      {
-        path:"/admin",
-        element:<Dashboard/>,
-      },
-      {
-      
-        path:"/admin/createProduct",
-        element: <CreateProduct />
-
-      },
-      {
-        path:'/admin/resumen',
-        element: <Resumen/>
-      },
-
-      {
-        path:'/admin/products',
-        element: <ProductsTable/>
-      },
-      {
-        path: '/admin/orders',
-        element: <OrdersTable/>,
-      },
-      {
-        path: '/admin/user',
-        element: <UsersTable/>,
-      },
-        {
         path:'/search/:query', 
         element: <SearchResult/>
       },
       {
-        path:'/Privacy', 
+        path:'Privacy', 
         element: <TermsAndConditions/>
       },
 
     ],
   },
+  {
+    path: "/admin",
+    element: <AdminApp />,
+    children: [
+      {
+        path: "/admin",
+        element: <Panel />,
+      },
+      {
+        path:"products",
+        element: <ProductsTable/>
+      },
+      {
+        path: 'user',
+        element: <UsersTable/>,
+      },
+      {
+        path: 'orders',
+        element: <OrdersTable/>,
+      },
+      {
+      
+        path:"create-product",
+        element: <CreateProduct />
+
+      },
+      {
+        path:"edit-product/:id",
+        element: <EditProduct/>
+      },
+      {
+        path:'resumen',
+        element: <Resumen/>
+      },
+    ]
+  },
+  {
+    path: "*",
+    element: <NotFound/>,
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById("root")).render(
