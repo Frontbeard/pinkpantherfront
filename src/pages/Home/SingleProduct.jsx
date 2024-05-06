@@ -99,11 +99,7 @@ const SingleProduct = () => {
                         <h1 className="text-3xl text-black-500 font-semibold sm:text-4xl">
                           {name}
                         </h1>
-                        <span className="my-3 text-xl text-yellow-600 flex items-center gap-1 sm:my-4">
-                          {Array.from({ length: 3 }).map((_, index) => (
-                            <FaStar key={index} />
-                          ))}
-                        </span>
+                        <br />
                         <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
                           Precio Efectivo: ${priceEfectivo}
                         </span>
@@ -118,10 +114,6 @@ const SingleProduct = () => {
                         <br />
                         <span>
                           Talle: {size}
-                        </span>
-                        <br />
-                        <span>
-                          Cantidad disponible: {availableQuantity}
                         </span>
                         <br />
                       </div>
