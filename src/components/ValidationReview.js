@@ -1,6 +1,6 @@
-const regexTitle = /^.{3,40}$/;
-const regexComment = /^.{10,100}$/;
-const regexReview = /.+/;
+const regexTitle = /^[a-zA-Z\s\d!@#$%^&*()\-_=+{}\[\]:";'<>?,.\/]{3,40}$/;
+const regexComment = /^[a-zA-Z\s\d!@#$%^&*()\-_=+{}\[\]:";'<>?,.\/]{10,100}$/;
+const regexReview = /^[1-5]$/;
 
 function validationReview(data) {
   const errors = {};
@@ -11,7 +11,7 @@ function validationReview(data) {
     errors.comment =
       "La descripcion debe ser de 10 caracteres minimo y 100 maximo";
   if (!regexReview.test(data.review))
-    errors.review = "La puntuacion no debe estar vacia";
+    errors.review = "La puntuacion es de 1 a 5, no puede estar vacia";
 
   return errors;
 }
