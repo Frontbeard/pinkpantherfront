@@ -41,7 +41,7 @@ function CreateAccount({ onDataChange }) {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
+  const userDataRedux = useSelector(state => state.userData)
   const [viewPassword, setViewPassword] = useState(false)
   
   useEffect(() => {
@@ -64,6 +64,30 @@ function CreateAccount({ onDataChange }) {
     }))
   };
 
+  const sendConfirmationEmail = async (userData) => {
+    const {email, name, idfirebase, enable, userName, role} = userData
+    console.log(userData.userName, userDataRedux.userName)
+    try {
+      // Realiza una solicitud POST al endpoint de tu servidor backend
+      const response = await axios.post(`${URL_LINK}/notification/register`, {
+        email, name : userDataRedux.name, idfirebase : userData.idFirebase || "dasu12h312uh32ugdsah", enable, userName: email, role 
+      });
+  
+      // Verifica la respuesta del servidor
+      if (response.status === 200) {
+        // Mostrar un mensaje de éxito si el correo electrónico se envió correctamente
+        alert('¡Cuenta creada exitosamente! Se ha enviado un correo electrónico de confirmación.');
+      } else {
+        // Mostrar un mensaje de error si el correo electrónico no se pudo enviar
+        alert('¡Cuenta creada exitosamente! No se pudo enviar el correo electrónico de confirmación.');
+      }
+    } catch (error) {
+      // Manejar cualquier error que ocurra durante el envío del correo electrónico
+      console.error('Error sending confirmation email:', error);
+      alert('Error al enviar el correo electrónico de confirmación. Por favor, inténtelo de nuevo más tarde.');
+    }
+  };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -75,6 +99,7 @@ function CreateAccount({ onDataChange }) {
       }
       const user = userCredential.user;
       const firebaseUid = userCredential.user.uid.toString();
+      setUserData({...userData, idfirebase: firebaseUid})
       console.log(firebaseUid)
       //const id = uuidv5(firebaseUid, uuidv5.DNS);
 
@@ -121,6 +146,9 @@ function CreateAccount({ onDataChange }) {
       }
 
       navigate("/");
+
+
+      await sendConfirmationEmail(userData);
 
     } catch (error) {
       console.error('Error submitting the form:', error)
@@ -473,3 +501,4 @@ function CreateAccount({ onDataChange }) {
 };
 
 export default CreateAccount;
+
