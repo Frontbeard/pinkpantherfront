@@ -8,6 +8,7 @@ import { addCart } from "../../redux/actions/Cart/addCart";
 import getProductReview from "../../redux/actions/Review/getProductReview";
 import Pagination from "../../components/Pagination";
 import CardReview from "../../components/CardReview";
+
 const SingleProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const SingleProduct = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // Fetch product details by ID
@@ -31,9 +33,10 @@ const SingleProduct = () => {
         dispatch(getProductReview(id))
       }
   }, [dispatch, id]);
+
   const { photo, name, size, priceEfectivo, priceCuotas, color, quantity: availableQuantity, Categories } = productDetails;
   const handleOnClick = () => {
-    console.log(userCart)
+    //userCart tiene array con productos del cart
     if (!userCart) {
       dispatch(createCart( id, quantity ))
     } else {
@@ -158,7 +161,7 @@ const SingleProduct = () => {
                             title="Agregar al Carrito"
                             onClick={handleOnClick}
                           >
-                            <span>Agregar al Carrito</span>
+                            <span>Agregar al Carrito andando</span>
                             <FaArrowAltCircleRight />
                           </button>
                         )}

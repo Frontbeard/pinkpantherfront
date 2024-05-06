@@ -120,7 +120,6 @@ const Cart = () => {
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0">
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mi carrito de compras</h2>
-
         <form className="mt-12">
           <section aria-labelledby="cart-heading">
             <h3 id="cart-heading" className="sr-only">Items en tu carrito de compras</h3>
@@ -205,9 +204,11 @@ const Cart = () => {
               >
                 Pagar
               </button>
+
+              {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}} />}
 {/*  */}     
-             {preferenceId && (<Wallet initialization={{  preferenceId: `${preferenceId}`  }} customization={{ texts:{ valueProp: 'smart_option'}}} />)} 
-             
+          
+  
              {/*
              {preferenceId && (
   <button onClick={() => window.location.href = preferenceId}>
@@ -215,8 +216,8 @@ const Cart = () => {
   </button>
 )}*/}
 
-            </div>
 
+            </div>
             <div className="mt-6 text-center text-sm">
               <p>
                 o{' '}
