@@ -54,7 +54,6 @@ export const Compras = ( {redirecTo="/login"}) => {
 {/*       <p onClick={() => console.log(ordersById)}>ordersById</p> */}
       <p onClick={() => console.log(customer)}>customers</p>
       <br /><br />
-      <div className="flex flex-col md:flex-row flex-wrap md:justify-between items-center space-y-3 mb-8">
       {filteredItems.length > 0 && (
       <div className="flex flex-col flex-wrap md:justify-between space-y-3 mb-6">
         <div className="p-5 w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
