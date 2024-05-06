@@ -158,7 +158,7 @@ const SingleProduct = () => {
                             title="Agregar al Carrito"
                             onClick={handleOnClick}
                           >
-                            <span>Agregar al Carrito</span>
+                            <span>Agregar al Carritox</span>
                             <FaArrowAltCircleRight />
                           </button>
                         )}

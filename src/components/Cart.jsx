@@ -6,7 +6,7 @@ import axios from 'axios';
 import { productbyID } from '../redux/actions/Product/productById'
 import { clearCart } from '../redux/actions/Cart/clearCart'
 import { removeCart } from '../redux/actions/Cart/removeCart'
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+// import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { URL_LINK } from '../URL.js'
 import { v5 as uuidv5 } from 'uuid'
 
@@ -15,7 +15,7 @@ const Cart = () => {
   //const firebaseUid = useSelector(state => state.auth.firebaseUid);
   // const userData = useSelector((state) => state.userData)
   
-  initMercadoPago('TEST-6bff2c30-6b89-4e50-b40e-8560d878a7d7', {locale: "es-AR"} );
+  // initMercadoPago('TEST-6bff2c30-6b89-4e50-b40e-8560d878a7d7', {locale: "es-AR"} );
   const [cartProducts, setCartProducts] = useState([]);
   const [totalCarrito, setTotalCarrito] = useState([]);
   const [preferenceId, setPreferenceId] = useState(null);
