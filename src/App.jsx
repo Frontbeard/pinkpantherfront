@@ -4,7 +4,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
 import isAuthenticated from "./Firebase/checkAuth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AdminLinks } from "./components/AdminLinks";
 
 function App() {
   const dispatch = useDispatch()
@@ -12,6 +13,8 @@ function App() {
   useEffect(() => {
     isAuthenticated(dispatch); // Check authentication on component mount
   }, []);
+
+  const customer = useSelector(state => state.userData);
   
   return (
     <div>
@@ -22,6 +25,11 @@ function App() {
         </div>
           <Footer />
       </div>
+      {localStorage.getItem('firebaseUid') && customer.role === "ADMIN" && (
+        <div>
+          <AdminLinks/>
+        </div>
+      )}
     </div>
   );  
 }

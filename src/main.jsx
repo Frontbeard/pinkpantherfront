@@ -99,15 +99,6 @@ const router = createBrowserRouter([
         element: <Carrito />,
       },
       {
-        path: "/miscompras",
-        element: <MisCompras />,
-      },
-      // {
-      //   path: "/perfil",
-      //   element: <MiPerfil />,
-      // },
-      
-      {
         path: "/categories/:categoryId",
         element: <ProductFilter/>,
       },
