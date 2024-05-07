@@ -70,7 +70,7 @@ function CreateAccount({ onDataChange }) {
     try {
       // Realiza una solicitud POST al endpoint de tu servidor backend
       const response = await axios.post(`${URL_LINK}/notification/register`, {
-        email, name : userDataRedux.name, idfirebase : userData.idFirebase || "dasu12h312uh32ugdsah", enable, userName: email, role 
+        email, name : userDataRedux.userName, idfirebase : userData.idFirebase || "dasu12h312uh32ugdsah", enable, userName: email, role 
       });
   
       // Verifica la respuesta del servidor
