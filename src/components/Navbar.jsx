@@ -158,11 +158,11 @@ const Navbar = () => {
                     <a href="/compras" className="flex items-center gap-2">
                         Mis compras
                     </a>
-                    {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
+                    {/* {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
                         <span>
                             Cantidad Carrito: {}
                         </span>
-                    )}
+                    )} */}
                 </div>
                 <div className="sm:hidden">
                     <button onClick={toggleMenu}>
