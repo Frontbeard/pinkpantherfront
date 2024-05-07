@@ -4,9 +4,11 @@ import { useMediaQuery } from "react-responsive";
 import OrderExpandedRow from "./OrderExpandedRow";
 import UpdateOrderModal from "./UpdateOrderModal";
 import { ChevronDownIcon } from '@heroicons/react/solid';
-import { PencilAltIcon, PlusIcon } from '@heroicons/react/outline';
+import { PencilAltIcon } from '@heroicons/react/outline';
 import getAllOrders from "../../../redux/actions/Order/getOrders";
 import { useDispatch } from "react-redux";
+import { Button } from "@material-tailwind/react";
+
 
 //se encarga de mostrar una tabla de pedidos
 const OrdersTable = () => {
@@ -20,6 +22,23 @@ const OrdersTable = () => {
   const [order, setOrder] = useState({});
 
   const dispatch =useDispatch()
+
+  const handleActive = (value, order) => {
+    value = !order.enable; // Cambia el valor de activación
+    try {
+      const response = dispatch( // Se despacha la acción para actualizar el producto
+        putOrder(
+          product.id,
+          {
+            enable: value,
+          }
+        )
+      );
+      dispatch(getAllProducts(accessToken)); // Se despacha la acción para obtener todos los productos después de actualizar
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onChange = async ( order) => {
     try {
       const response = await dispatch( order);
@@ -49,11 +68,11 @@ const OrdersTable = () => {
         tableOrders.map((order, index) => (
           <div key={index}  className="border-b-2 border-gray-200">
             <div className="p-4">
-              <h3 className="text-lg font-medium text-gray-800">Pedido de {order.User?.name} {order.User?.surname}</h3>
+              <h3 className="text-lg font-medium text-gray-800">Pedido de {order.firstName} {order.lastName}</h3>
               <p>ID: {order.id}</p>
-              <p>Dirección: {order?.User?.address ? `${order?.User?.address.calle} ${order?.User?.address.numero} ${order?.User?.address.dpto} ${order?.User?.address.entreCalles} ${order?.User?.address.localidad} ${order?.User?.address.provincia} ${order?.User?.address.codigoPostal}` : "No especificada"}</p>
-              <p>Telefono: {order.User?.telephone}</p>
-              <p>Total: ${order.totalAmount}</p>
+              <p>Dirección: {order ? `${order?.street} ${order?.streetNumber} ${order?.apartmentNumber}  ${order?.country} ${order?.city} ${order?.postalCode}` : "No especificada"}</p>
+              <p>Telefono: {order.telephone}</p>
+              <p>Total: ${order.totalPrice}</p>
               <p>Fecha: {order.orderDate}</p>
               <p>Id de pago: {order.mercadopagoTransactionId}</p>
               <p>Estado: {order.status}</p>
@@ -116,10 +135,10 @@ const OrdersTable = () => {
               {tableOrders.map((order, index) => (
                 <tr key={index}>
                   <td>{order.id}</td>
-                  <td>{order.User?.name} {order.User?.surname}</td>
-                  <td>{order?.User?.address ? `${order?.User?.address.calle} ${order?.User?.address.numero} ${order?.User?.address.dpto} ${order?.User?.address.entreCalles} ${order?.User?.address.localidad} ${order?.User?.address.provincia} ${order?.User?.address.codigoPostal}` : "No especificada"}</td>
-                  <td>{order.User?.phone}</td>
-                  <td>${order.totalAmount}</td>
+                  <td>{order.firstName} {order.lastName}</td>
+                  <td>{order?.address ? `${order?.street} ${order?.streetNumber} ${order?.apartmentNumber} ${order?.city} ${order?.country} ${order?.postalCode}` : "No especificada"}</td>
+                  <td>{order.telephone}</td>
+                  <td>${order.totalPrice}</td>
                   <td>{order.orderDate}</td>
                   <td>{order.mercadopagoTransactionId}</td>
                   <td>{order.status}</td>

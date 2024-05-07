@@ -5,10 +5,10 @@ import axios from "axios";
 import getAllOrders from "../../../redux/actions/Order/getOrders";
 import { URL_LINK } from "../../../URL";
 
-//es un modal que permite al usuario cambiar el estado de un pedido seleccionado.
 const UpdateOrderModal = ({ visible, onClose, order }) => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.accessToken);
 
@@ -18,23 +18,24 @@ const UpdateOrderModal = ({ visible, onClose, order }) => {
     { value: "Entregada", label: "Entregada" },
   ];
 
-  const handleUpdateOrder = async (order, status) => {
+  const handleUpdateOrder = async () => {
     setLoading(true);
     try {
       const { data } = await axios.put(
-        `${URL_LINK}/order/:id`,
-        { id: order.id, status: status },
+        `${URL_LINK}/order/${order.id}`,
+        {  status: status },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       if (data) {
-        message.success("Orden actualizada correctamente", [2], onClose());
-        dispatch(getAllOrders(accessToken));
-        setLoading(false);
+        setSuccessMessage("¡Orden actualizada correctamente!");
+        dispatch(getAllOrders()); // Actualiza el estado de las órdenes en Redux
+        onClose();
       }
     } catch (error) {
       console.error("Error updating order:", error);
+    } finally {
+      setLoading(false);
     }
-    onClose();
   };
 
   return (
@@ -58,8 +59,13 @@ const UpdateOrderModal = ({ visible, onClose, order }) => {
               disabled={loading}
               title="Confirmar"
               type="button"
-              onClick={() => handleUpdateOrder(order, status)}
+              onClick={handleUpdateOrder}
             />
+            {successMessage && (
+              <div className="alert alert-success" role="alert">
+                {successMessage}
+              </div>
+            )}
           </div>
         </div>
       </div>

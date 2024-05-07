@@ -31,10 +31,10 @@ const Chart = ({ months }) => {
     responsive: true,
   };
 
-  const monthsSales = months.map((month) =>
-    month.sales.reduce((acc, order) => acc + Number(order.totalAmount), 0)
+  const monthsSales = months?.map((month) =>
+    month.sales.reduce((acc, order) => acc + Number(order.totalPrice), 0)
   );
-  const monthsOrders = months.map((month) => month.sales.length);
+  const monthsOrders = months?.map((month) => month.sales.length);
 
   const data = {
     labels: [
