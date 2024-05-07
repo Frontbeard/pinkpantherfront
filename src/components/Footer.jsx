@@ -17,8 +17,8 @@ const Footer = () => {
           src={logo2}
           alt="logo"
           style={{
-            height: "10rem",
-            width: "10rem"
+            height: "7rem",
+            width: "15rem"
           }}
           className="mr-4"
         />
@@ -29,16 +29,14 @@ const Footer = () => {
             <FaInstagram size={24} />
           </a>
           {/* Enlace al correo de Gmail */}
-          <a href="Pink27854@gmail.com" className="text-gray-500 hover:text-gray-700">
+          <a href="mailto:pink27854@gmail.com" className="text-gray-500 hover:text-gray-700">
             <FaGoogle size={24} />
           </a>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center pt-2 text-white text-sm pb-8 bg-pink-400">
-        <span className="block text-white text-sm mx-auto justify">
-          © 2024 PINKPANTHER. Todos los derechos reservados.
-        </span>
+      <div className="sm:mx-auto gap-10 text-center pt-2 text-white text-sm pb-2 bg-pink-400">
+        <span className="block text-sm text-white sm:text-center dark:text-white">© 2024 <a href="https://www.instagram.com/pink.pantherindumentaria" target="_blank" className="hover:underline">PinkPanther™</a>. Todos los derechos reservados.</span>
       </div>
     </footer>
   );

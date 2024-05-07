@@ -1,166 +1,202 @@
-import React, {useEffect,useState} from "react"
-import { FaArrowAltCircleRight, FaStar } from "react-icons/fa"
-import { useParams } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import { FaArrowAltCircleRight, FaStar } from "react-icons/fa";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { productbyID } from "../../redux/actions/Product/productById";
+import { createCart } from "../../redux/actions/Cart/createCart";
+import { addCart } from "../../redux/actions/Cart/addCart";
+import getProductReview from "../../redux/actions/Review/getProductReview";
+import Pagination from "../../components/Pagination";
+import CardReview from "../../components/CardReview";
 
-const demoText = {
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elited scelerisque turpis posuere. Mauris in felis id eros dapibus tristique. Sed vehicula vestibulum vehicula. Donec vestibulum purus non vestibulum fringilla.",
-  highlights: [
-    "Lorem ipsum dolor sit amet",
-    "Consectetur adipiscing elit",
-    "Sed do eiusmod tempor incididunt",
-    "Ut labore et dolore magna aliqua",
-  ],
-  details:
-    "Lorem ipsum dolor sitnec rutuismod, mauris sit amet rutrum tempor, odio lectus facilisis nisi, a scelerisque sem orci vel nunc. Fusce scelerisque eros a sem fermentum, ac convallis nisi dictum. Vivamus sit amet pretium eros.",
-};
+const SingleProduct = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1); // Estado para la cantidad de productos
+  const productDetails = useSelector(state => state.details);
+  const userData = useSelector((state) => state.userData)
+  const userCart = useSelector((state) => state.cart)
+  const productReview = useSelector((state) => state.productReview)
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // Current page
+  const [totalPages, setTotalPages] = useState(1); // Total pages
 
-  
-  const SingleProduct = () => {
-      const {id} = useParams()
-      const [products, setProducts] = useState([]);
-      useEffect(() => {
-          // Scroll to the top when the component mounts
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, []);
-      useEffect(() => {
-          const fetchData = async () => {
-              try {
-                const response = await fetch("/products.json");
-                const data = await response.json();
-               const product = data.filter((p) => p.id == id)
-              //  console.log(product[0])
-               setProducts(product[0])
-              } catch (error) {
-                console.error("Error fetching data:", error);
-              }
-            };
-        
-            fetchData();
-      }, [id])
-  
-      const {image, title, category, price} = products;
-  
-  
-    return (
-      <div className="  max-w-screen-2xl container mx-auto xl:px-28 px-4 bg-gray-100  ">
-        
-        <div className=" gap-2 pt-8 text-Black/50 ">
-          <a href="/">Home / Shop</a> <a href="/shop" className="font-semibold text-black"></a>
-        </div>
-  
-        <div className="p-3 max-w-7xl m-auto">
-          <div className="mt-6 sm:mt-10">
-            <div>
-            <div>
-              <div className="grid gird-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-6 h-max">
-                {/* Product Image */}
-                <div className="overflow-hidden rounded-xl">
-                  <img
-                    src={image}
-                    alt="Product-Image"
-                    className="w-full"
-                  />
-                </div>
-                {/* Product Details */}
-                <div className="flex flex-col justify-between">
-                  <div>
-                    {/* Product Title */}
-                    <h1 className="text-3xl text-black-500 font-semibold sm:text-4xl">
-                      {title}
-                    </h1>
-                    {/* Product Description */}
-                    <p className="mt-3 text-gray-600 text-md leading-6 text-justify sm:text-left sm:mt-4">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Sed enim ut sem viverra aliquet eget sit. Odio
-                      facilisis mauris sit amet
-                    </p>
-                    {/* Star Ratings */}
-                    <span className="my-3 text-xl text-yellow-600 flex items-center gap-1 sm:my-4">
-                      {Array.from({ length: 3 }).map((_, index) => (
-                        <FaStar key={index} />
-                        
-                      ))}
-                    </span>
-                  
-                    
-                    {/* Product Price */}
-                    <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
-                      ${price}
-                    </span>
-                  </div>
-                  {/* Cantidad Input and Order Button */}
-                  <div className=" ">
-                    <div className="text-left flex flex-col gap-2 w-full">
-                      {/* Cantidad Label */}
-                      <label className="font-semibold">Cantidad</label>
-                      {/* Cantidad Input */}
-                      <input
-                        className="border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-red-500"
-                        type="number"
-                        defaultValue="1"
-                        required
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Fetch product details by ID
+    dispatch(productbyID(id))
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
+      if(id){
+        dispatch(getProductReview(id))
+      }
+  }, [dispatch, id]);
+
+  const { photo, name, size, priceEfectivo, priceCuotas, color, quantity: availableQuantity, Categories } = productDetails;
+  const handleOnClick = () => {
+    //userCart tiene array con productos del cart
+    if (!userCart) {
+      dispatch(createCart( id, quantity ))
+    } else {
+      dispatch(addCart( id, quantity ))
+    }
+    alert("Producto agregado al carrito")
+    //navigate("/")
+  };
+  // const handleOnClick = () => {
+  //   //dispatch(addToCart(customerId, productId, productQuantity, totalPrice, discounts)) asi entra en el reducer
+  //   console.log(userCart)
+  //   if (!userCart) {
+  //     dispatch(createCart(userData.id, id, quantity ))
+  //   } else {
+  //     dispatch(addCart(userCart.id, id, quantity ))
+  //   }
+  //   alert("Producto agregado al carrito")
+  //   //navigate("/")
+  // };
+  const handleOnRedireccion = () => {
+    navigate("/login")
+  };
+  useEffect(() => {
+    if (productReview.length > 0) {
+      setFilteredItems(productReview);
+      setTotalPages(Math.ceil(productReview.length / itemsPerPage));
+    }
+  }, [productReview]);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const itemsPerPage = 1;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedItems = filteredItems.slice(startIndex, endIndex);
+  if (!Array.isArray(paginatedItems)) {
+    return null; // o maneja el error de manera adecuada
+  }
+  return (
+    <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 bg-gray-100">
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {/* Contenido del producto */}
+          <div className="gap-2 pt-8 text-Black/50">
+            {/*<a href="/">Home / Shop</a> <a href="/shop" className="font-semibold text-black"></a> */}
+          </div>
+          <div className="p-3 max-w-7xl m-auto">
+            <div className="mt-6 sm:mt-10">
+              <div>
+                <div>
+                  <div className="grid gird-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-6 h-max">
+                    <div className="overflow-hidden rounded-xl">
+                      <img
+                        src={photo}
+                        alt="Product-Image"
+                        className="w-full"
                       />
                     </div>
-                    {/* Order Button */}
-                    <div className="w-full text-left my-4">
-                      <button
-                        className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
-                        title="Confirm Order"
-                      >
-                        <span>Confirmar Orden</span>
-                        <FaArrowAltCircleRight />
-                      </button>
+                    <div className="flex flex-col justify-between">
+                      <div>
+                        <h1 className="text-3xl text-black-500 font-semibold sm:text-4xl">
+                          {name}
+                        </h1>
+                        <br />
+                        <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
+                          Precio Efectivo: ${priceEfectivo}
+                        </span>
+                        <br />
+                        <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
+                          Precio Cuotas: ${priceCuotas}
+                        </span>
+                        <br />
+                        <span>
+                          Color: {color}
+                        </span>
+                        <br />
+                        <span>
+                          Talle: {size}
+                        </span>
+                        <br />
+                      </div>
+                      <div className=" ">
+                        <div className="text-left flex flex-col gap-2 w-full">
+                          <label className="font-semibold">Cantidad:</label>
+                          <div className="flex items-center">
+                            <input
+                              className="border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-red-500 text-center"
+                              type="number"
+                              value={quantity}
+                              onChange={(e) => {
+                                let value = parseInt(e.target.value);
+                                // Check if the entered value is greater than available quantity
+                                if (value > availableQuantity) {
+                                  value = availableQuantity;
+                                }
+                                // Check if the entered value is less than 1
+                                if (value < 1) {
+                                  value = 1;
+                                }
+                                // Update the quantity
+                                setQuantity(value);
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div className="w-full text-left my-4">
+                        {!localStorage.getItem('firebaseUid') && (
+                          <button
+                            className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
+                            title="Agregar al Carrito"
+                            onClick={handleOnRedireccion}
+                          >
+                            <span>¡Inicie sesión para comprar!</span>
+                            <FaArrowAltCircleRight />
+                          </button>
+                        )}
+                        {localStorage.getItem('firebaseUid') && (userData.role === "ADMIN" || "CUSTOMER") && (
+                          <button
+                            className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-pink-500 text-white text-md font-bold border rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-pink-500 lg:m-0 md:px-6"
+                            title="Agregar al Carrito"
+                            onClick={handleOnClick}
+                          >
+                            <span>Agregar al Carrito andando</span>
+                            <FaArrowAltCircleRight />
+                          </button>
+                        )}
+                          {/* <p onClick={() => console.log(productReview)}>getProductReview</p> */}
+                        </div>
+                      </div>
+                      <div>
+                      </div>
                     </div>
+                    <br />
+                        {filteredItems.length > 0 && (
+                            <div className="flex flex-col flex-wrap md:justify-between items-center space-y-3 mb-8">
+                              <div className="flex flex-col w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-pink-100 dark:border-pink-100">
+                                {paginatedItems.map((review, index) => (
+                                  <div key={index}>
+                                    <CardReview filteredItem={review} />
+                                  </div>
+                                ))}
+                              </div>
+                              <br /><br />
+                              <Pagination
+                              currentPage={currentPage}
+                              totalPages={totalPages}
+                              onPageChange={handlePageChange}
+                              />
+                            </div>
+                              )}
                   </div>
                 </div>
               </div>
             </div>
-            </div>
           </div>
         </div>
-  
-        {/* product details */}
-        <div className="mt-8">
-          <h2 className="text-sm font-medium text-gray-900">Detalles</h2>
-  
-          <div className="mt-4 space-y-6">
-            <p className="text-sm text-gray-600">
-              {demoText.details} {demoText.details}
-            </p>
-          </div>
-        </div>
-  
-        <div className="mt-4">
-          <h2 className="text-sm font-medium text-gray-900">Descripción</h2>
-  
-          <div className="mt-4 space-y-6">
-            <p className="text-sm text-gray-600">
-              {demoText.description} {demoText.description}
-            </p>
-          </div>
-        </div>
-  
-        <div className="mt-4">
-          <h2 className="text-sm font-medium text-gray-900">Características</h2>
-          <div className="mt-4 space-y-4">
-            <li className="text-sm text-gray-600">
-              {demoText.highlights[0]}
-            </li>
-            <li className="text-sm text-gray-600">
-              {demoText.highlights[1]}
-            </li>
-            <li className="text-sm text-gray-600">
-              {demoText.highlights[2]}
-            </li>
-            <li className="text-sm text-gray-600">
-              {demoText.highlights[3]}
-            </li>
-          </div>
-        </div>
-      </div>
-    );
-  };
-  
-  export default SingleProduct;
+      )}
+    </div>
+  );
+};
+export default SingleProduct;

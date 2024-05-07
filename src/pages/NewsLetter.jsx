@@ -5,10 +5,11 @@ const Newsletter = () => {
   return (
     <div className='bg-gray-100 bg-opacity-5 xl:px-28 px-4 py-16'>
         
-         <h2 className="text-3xl font-semibold text-center ">
-         Seguí nuestros productos y descuentos en Instagram 
-                          <h1 className='text-pink-500' >@PINKPANTHER</h1>
-        </h2>
+        <h2 className="text-3xl font-semibold text-center ">
+  Seguí nuestros productos y descuentos en
+  <span className='text-pink-500'> @PINKPANTHER</span>
+</h2>
+
 
         {/* insta grid */}
         <div className='flex flex-wrap gap-4 items-center justify-center mb-20 '>
