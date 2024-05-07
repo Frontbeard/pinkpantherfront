@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import Carousel from './Carousel';
 import Category from './Category';
 import Products from './Products';
-import Newsletter from '../NewsLetter';
 import Videobanner from './Videobanner';
 
 const Home = () => {
@@ -33,7 +32,6 @@ const Home = () => {
       ) : (
         <Category onBackToBannerClick={handleBackToBannerClick} />
       )}
-      <Newsletter />
     </div>
   );
 };

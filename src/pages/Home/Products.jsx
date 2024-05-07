@@ -125,10 +125,9 @@ const Products = () => {
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
       <h2 className="text-3xl font-semibold capitalize text-center my-8">
-        Nuestros productos
+        NUESTROS PRODUCTOS
       </h2>
       <div className="flex justify-between items-center mb-4">
-        {/* Aquí van los filtros de categoría, tamaño, precio */}
         <div>
   <label htmlFor="criterionFilter">Producto:</label>
   <input
@@ -153,7 +152,7 @@ const Products = () => {
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
-            <option value="unico">unico</option>
+            <option value="unico">Único</option>
             {/* Agrega más opciones según tus tamaños disponibles */}
           </select>
         </div>
