@@ -23,17 +23,17 @@ function Login() {
     password:'',
     confirmPassword:'',
     role:'CUSTOMER',
-    DNI:'232',
-    birthdate:'1998-03-23',
-    firstName:'HOLA',
-    lastName:'PRUEBA',
-    telephone:'2324',
-    country:'Argentina',
-    city:'Buenos Aires',
-    street:'calle',
-    streetNumber:'2344',
-    apartmentNumber:'43',
-    postalCode:'324'
+    DNI:'',
+    birthdate:'',
+    firstName:'',
+    lastName:'',
+    telephone:'',
+    country:'',
+    city:'',
+    street:'',
+    streetNumber:'',
+    apartmentNumber:'',
+    postalCode:''
   })
 
   const dispatch = useDispatch()
@@ -56,7 +56,6 @@ function Login() {
     }));
     // Update the error state for the current field only
     const fieldErrors = validation({ ...userData, [name]: value })
-    console.log(fieldErrors);
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: fieldErrors[name] || '', // Clear the error if validation passes

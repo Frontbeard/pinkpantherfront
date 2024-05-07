@@ -67,6 +67,7 @@ const Navbar = () => {
     const handleLogout = () => {
         localStorage.removeItem('firebaseUid');
         localStorage.removeItem('gmail');
+        navigate('/')
         dispatch(logout());
         console.log('Has cerrado sesión');
         alert('Has cerrado sesión');
@@ -131,7 +132,9 @@ const Navbar = () => {
                     {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
                         <span>
                             Logueado como: {customer.userName}
+                            <br />
                             <button onClick={handleLogout}>Logout</button>
+                            <br />
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
@@ -139,8 +142,11 @@ const Navbar = () => {
                     {localStorage.getItem('firebaseUid') && customer.role === "ADMIN" && (
                         <span>
                             Logueado como: {customer.userName}
+                            <br />
                             <button onClick={handleLogout}>Logout</button>
+                            <br />
                             <button onClick={handleDashboard}>Dashboard</button>
+                            <br />
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}

@@ -1,10 +1,8 @@
 export const getMonthSales = (sales, month) => {
     const monthSales = sales.filter(sale => {
-        const newFormat = sale.orderDate.split('/');
-        const saleMonth = `${newFormat[1]}/${newFormat[0]}/${newFormat[2]}`
-        
-        const saleDate = new Date(saleMonth);
+        // Supongamos que las fechas de las ventas están en formato YYYY-MM-DD
+        const saleDate = new Date(sale.orderDate);
         return saleDate.getMonth() === month;
     });
     return monthSales;
-    }
+}

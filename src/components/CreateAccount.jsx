@@ -24,17 +24,17 @@ function CreateAccount({ onDataChange }) {
     password:'',
     confirmPassword:'',
     role:'CUSTOMER',
-    DNI:'232',
-    birthdate:'1998-03-23',
-    firstName:'HOLA',
-    lastName:'PRUEBA',
-    telephone:'333',
-    country:'Argentina',
-    city:'Ciudad',
-    street:'calle',
-    streetNumber:'333',
-    apartmentNumber:'333',
-    postalCode:'333'
+    DNI:'',
+    birthdate:'',
+    firstName:'',
+    lastName:'',
+    telephone:'',
+    country:'',
+    city:'',
+    street:'',
+    streetNumber:'',
+    apartmentNumber:'',
+    postalCode:''
   })
   const[errors, setErrors] = useState({})
   const [isFormValid, setIsFormValid] = useState(false)
@@ -63,16 +63,16 @@ function CreateAccount({ onDataChange }) {
       [name]: fieldErrors[name] || '', // Clear the error if validation passes
     }))
   };
+    const {email, name, idfirebase, enable, userName, role} = userData
 
   const sendConfirmationEmail = async (userData) => {
-    const {email, name, idfirebase, enable, userName, role} = userData
     console.log(userData.userName, userDataRedux.userName)
     try {
       // Realiza una solicitud POST al endpoint de tu servidor backend
       const response = await axios.post(`${URL_LINK}/notification/register`, {
         email, name : userDataRedux.name, idfirebase : userData.idFirebase || "dasu12h312uh32ugdsah", enable, userName: email, role 
       });
-  
+ 
       // Verifica la respuesta del servidor
       if (response.status === 200) {
         // Mostrar un mensaje de éxito si el correo electrónico se envió correctamente
@@ -317,7 +317,7 @@ function CreateAccount({ onDataChange }) {
                 name="birthdate"
                 value={userData.birthdate}
                 onChange={handleChange}
-                placeholder="Ingresa tu fecha de nacimiento"
+                placeholder="YYYY-MM-DD"
               />
               <p className="text-red-500"> 
                 {errors.birthdate}

@@ -24,14 +24,11 @@ import NotFound from "./components/NotFound.jsx";
 import { Compras } from "./components/Compras.jsx";
 import { useSelector } from "react-redux";
 import { CreateReview } from "./components/CreateReview.jsx";
-
 import MiPerfil from "./components/MiPerfil.jsx";
 import MiPerfilEdit from "./components/MiPerfilEdit.jsx";
 import MisCompras from "./components/MisCompras.jsx";
-
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Resumen from "./components/Dashboard/Panel/Resumen.jsx";
-
 //import ProtectedRoute from "./components/ProtectedRoute.jsx"
 import ProductsTable from "./components/Dashboard/ProductsTable/ProductsTable.jsx";
 import OrdersTable from "./components/Dashboard/OrderTable/OrderTable.jsx";
@@ -42,7 +39,7 @@ import TermsAndConditions from "./components/TermsAndConditions.jsx";
 import Panel from "./components/Dashboard/Panel/Panel.jsx";
 import EditProduct from "./components/EditProduct/EditProduct.jsx";
 import Destacados from "./pages/Home/Destacados.jsx";
-
+import { ProtectedRoutes } from "./components/utils/ProtectedRoutes.jsx";
 
 
 
@@ -76,6 +73,19 @@ const router = createBrowserRouter([
         path: "/create-account", 
         element: <CreateAccount /> 
       },
+      {
+        element: <ProtectedRoutes />,
+        children: [
+          {
+            path: "/perfil",
+            element: <MiPerfil/>,
+          },
+          {
+            path: "/perfil-edit",
+            element: <MiPerfilEdit />,
+          },
+        ]
+      },
       { 
         path: "/create-account-google", 
         element: <CreateAccountGoogle /> 
@@ -92,14 +102,11 @@ const router = createBrowserRouter([
         path: "/miscompras",
         element: <MisCompras />,
       },
-      {
-        path: "/perfil",
-        element: <MiPerfil />,
-      },
-      {
-        path: "/perfil-edit",
-        element: <MiPerfilEdit />,
-      },
+      // {
+      //   path: "/perfil",
+      //   element: <MiPerfil />,
+      // },
+      
       {
         path: "/categories/:categoryId",
         element: <ProductFilter/>,

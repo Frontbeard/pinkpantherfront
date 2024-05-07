@@ -24,7 +24,7 @@ class ErrorBoundary extends React.Component {
 
 const ProductFilter = ({ products }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2;
+  const itemsPerPage = 4;
 
   useEffect(() => {
     setCurrentPage(1); // Reset currentPage when products change

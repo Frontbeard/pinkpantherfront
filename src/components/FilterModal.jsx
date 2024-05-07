@@ -108,6 +108,9 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
                     onChange={(e) => setMaxPriceInput(e.target.value.replace(/[^\d]/g, ''))}
                     className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                 />
+                {parseInt(maxPriceInput) < parseInt(minPriceInput) && maxPriceInput.trim() !== '' && (
+                    <p className="text-red-500 text-sm">El precio máximo ingresado debe ser superior al precio mínimo.</p>
+                )}
             </div>
 
             <div className="mb-4">

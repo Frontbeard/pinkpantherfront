@@ -41,6 +41,6 @@ const isAuthenticated = (dispatch) => {
       //localStorage.removeItem('firebaseUid'); // Remove the item from localStorage
     }
   });
-}
+ }
 
 export default isAuthenticated;
