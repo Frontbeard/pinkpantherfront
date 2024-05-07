@@ -8,14 +8,15 @@ import { clearCart } from '../redux/actions/Cart/clearCart'
 import { removeCart } from '../redux/actions/Cart/removeCart'
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { URL_LINK } from '../URL.js'
-import { v5 as uuidv5 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 const Cart = () => {
   // const [cart, setCart] = useState([]);
   //const firebaseUid = useSelector(state => state.auth.firebaseUid);
   // const userData = useSelector((state) => state.userData)
-  
+
   initMercadoPago('TEST-8652b262-1637-48f5-9a78-7d596a2f9aa9', {locale: "es-AR"} );
+ 
   //initMercadoPago('TESTUSER1808861430', {locale: "es-AR"} );
   const [cartProducts, setCartProducts] = useState([]);
   const [totalCarrito, setTotalCarrito] = useState([]);
@@ -71,26 +72,32 @@ const Cart = () => {
   
   const createPreference = async () => {
     try{
-      //const idempotencykey = uuidv5(`${URL_LINK}/createPreference`, uuidv5.URL)
-      const idempotencykey = '126'
+      const idempotencykey = uuidv4()
+      //const idempotencykey = '126'
       const response = await axios.post(`${URL_LINK}/payment/createPreference`, {
-        title: `Carrito: ${userData.id}`,
+        title: `Carrito PinkPanther: #${33} - ${userData.email}`,
         quantity: 1,
         price: totalCarrito,
+        orderId: '33',
+        customerId: userData.idfirebase,
+        customerEmail: userData.email
         //currency_id: "ARS"
         }, {
           headers: {
               // Specify your headers here
-              //'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
               //'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
               'X-Idempotency-key': idempotencykey,
               // Add more headers as needed
           }
       })
-      const { id } = response.data
-    
+      //const { id } = response.data
+      const { init_point } = response.data //este es el que funciona!!
+      //const { respuesta }  = response.data
+      //console.log("respuesta", respuesta)
+
       //console.log(idPref)
-      return id;
+      return init_point;
     } catch (error) {
       console.log(error)
       throw error
@@ -202,13 +209,13 @@ const Cart = () => {
                 onClick={handleCheckout}
                 className="w-full rounded-md border border-transparent bg-pink-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
-                Pagar
+                Generar link de MercadoPago
               </button>
 
-              {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}} />}
-{/*  */}     
-          
-  
+{/*  */}     {preferenceId && (<a className="w-full rounded-md border border-transparent bg-pink-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-gray-50" href = { preferenceId } >Link de pago</a>)}
+             {/*{preferenceId && (<Wallet initialization={{  preferenceId: preferenceId, redirectMode: "modal"  }} customization={{ texts:{ valueProp: 'smart_option'}}} />)} 
+             */}
+
              {/*
              {preferenceId && (
   <button onClick={() => window.location.href = preferenceId}>
