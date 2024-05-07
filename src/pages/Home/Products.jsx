@@ -153,7 +153,7 @@ const Products = () => {
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
-            <option value="unico">unico</option>
+            <option value="unico">Único</option>
             {/* Agrega más opciones según tus tamaños disponibles */}
           </select>
         </div>
