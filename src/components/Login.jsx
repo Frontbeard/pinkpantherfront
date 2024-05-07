@@ -56,7 +56,6 @@ function Login() {
     }));
     // Update the error state for the current field only
     const fieldErrors = validation({ ...userData, [name]: value })
-    console.log(fieldErrors);
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: fieldErrors[name] || '', // Clear the error if validation passes
