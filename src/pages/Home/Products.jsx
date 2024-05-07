@@ -130,15 +130,16 @@ const Products = () => {
       <div className="flex justify-between items-center mb-4">
         {/* Aquí van los filtros de categoría, tamaño, precio */}
         <div>
-          <label htmlFor="criterionFilter">Producto:</label>
-          <input
-            type="text"
-            id="criterionFilter"
-            placeholder="Ingrese el producto"
-            value={selectedCriterion}
-            onChange={(e) => setSelectedCriterion(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
-          />
-        </div>
+  <label htmlFor="criterionFilter">Producto:</label>
+  <input
+    type="text"
+    id="criterionFilter"
+    placeholder="Ingrese el producto"
+    value={selectedCriterion}
+    onChange={(e) => setSelectedCriterion(e.target.value.replace(/\s/g, '').replace(/[^a-zA-Z]/g, ''))}
+  />
+</div>
+
         <div>
           <label htmlFor="sizeFilter">Tamaño:</label>
           <select
