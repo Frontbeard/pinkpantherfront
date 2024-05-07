@@ -74,7 +74,7 @@ const router = createBrowserRouter([
         element: <CreateAccount /> 
       },
       {
-        element: <ProtectedRoutes user={localStorage.getItem('firebaseUid')} />,
+        element: <ProtectedRoutes />,
         children: [
           {
             path: "/perfil",
