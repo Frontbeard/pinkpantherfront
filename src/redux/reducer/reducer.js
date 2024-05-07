@@ -345,7 +345,7 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case LOGOUT_SUCCESS:
-      console.log("User data:", payload);
+     /*  console.log("User data:", payload); */
       localStorage.removeItem("cart");
       return {
         ...state,
