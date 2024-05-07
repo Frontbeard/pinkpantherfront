@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { formatCurrency } from "../../utils/formatCurrent";
+import { useDispatch } from "react-redux";
+import getAllOrders from "../../../redux/actions/Order/getOrders";
+import { useSelector } from "react-redux";
+import { getMonthSales } from "../../utils/getMonthSales";
 
 // se encarga de mostrar un resumen de datos relacionados con los pedidos
-const Resumen = ({ allOrders }) => {
-  const today = new Date();
+const Resumen = () => {
+   const today = new Date();
+  const dispatch=useDispatch()
+  const accessToken = useSelector((state) => state.accessToken);
+  const allOrders = useSelector((state) => state.allOrders);
 
   // Filtrar las órdenes de hoy
   const todayOrders = allOrders?.filter((order) => {
@@ -21,15 +28,19 @@ const Resumen = ({ allOrders }) => {
   // Sumar los precios de las órdenes válidas
   const [totalRecaudado, setTotalRecaudado] = useState(0);
 
+   useEffect(() => {
+     let total = 0;
+     allOrders?.forEach((order) => {
+       order.products?.forEach((product) => {
+         total += parseFloat(product.price);
+       });
+     });
+     setTotalRecaudado(total);
+   }, [allOrders]);
+
   useEffect(() => {
-    let total = 0;
-    allOrders?.forEach((order) => {
-      order.products?.forEach((product) => {
-        total += parseFloat(product.price);
-      });
-    });
-    setTotalRecaudado(total);
-  }, [allOrders]);
+    dispatch(getAllOrders(accessToken));
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 text-purple-600">
