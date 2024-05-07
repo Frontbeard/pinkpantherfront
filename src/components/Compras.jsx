@@ -52,7 +52,7 @@ export const Compras = ( {redirecTo="/login"}) => {
         Tus compras
       </h2>
         { /* <p onClick={() => console.log(ordersById)}>ordersById</p> */}
-      <p onClick={() => console.log(customer)}>customers</p>
+      {/* <p onClick={() => console.log(customer)}>customers</p> */}
       <br /><br />
       {filteredItems.length === 0 && (
         <div>
