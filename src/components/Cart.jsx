@@ -127,7 +127,6 @@ const Cart = () => {
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0">
         <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mi carrito de compras</h2>
-
         <form className="mt-12">
           <section aria-labelledby="cart-heading">
             <h3 id="cart-heading" className="sr-only">Items en tu carrito de compras</h3>
@@ -212,9 +211,11 @@ const Cart = () => {
               >
                 Generar link de MercadoPago
               </button>
+
 {/*  */}     {preferenceId && (<a className="w-full rounded-md border border-transparent bg-pink-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-gray-50" href = { preferenceId } >Link de pago</a>)}
              {/*{preferenceId && (<Wallet initialization={{  preferenceId: preferenceId, redirectMode: "modal"  }} customization={{ texts:{ valueProp: 'smart_option'}}} />)} 
              */}
+
              {/*
              {preferenceId && (
   <button onClick={() => window.location.href = preferenceId}>
@@ -222,8 +223,8 @@ const Cart = () => {
   </button>
 )}*/}
 
-            </div>
 
+            </div>
             <div className="mt-6 text-center text-sm">
               <p>
                 o{' '}
