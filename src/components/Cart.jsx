@@ -43,7 +43,7 @@ const Cart = () => {
       }
     }
     setCartProducts(newCartProducts);
-    const totalPrice = newCartProducts.reduce((total, product) => total + product.priceCuotas, 0);
+    const totalPrice = newCartProducts.reduce((total, product) => total + product.priceCuotas*product.quantity, 0);
     setTotalCarrito(totalPrice);
   };
   getCartProducts();
@@ -73,16 +73,23 @@ const Cart = () => {
   const createPreference = async () => {
     try{
       const idempotencykey = uuidv4()
-      //const idempotencykey = '126'
-      const response = await axios.post(`${URL_LINK}/payment/createPreference`, {
-        title: `Carrito PinkPanther: #${33} - ${userData.email}`,
-        quantity: 1,
+      const MPcart = {
+        title: `Carrito PinkPanther: ${userData.email}`,
+        quantity: cartArray.length,
         price: totalCarrito,
-        orderId: '33',
-        customerId: userData.idfirebase,
-        customerEmail: userData.email
-        //currency_id: "ARS"
-        }, {
+      };
+      const dataToSend = {
+        cart: MPcart,
+        //idOrder: idOrder,
+        idUser: userData.id,
+        MPproducts: cartArray,
+
+      };
+      console.log('data to send:', dataToSend)
+      //console.log('cart:', cart)
+      const response = await axios.post(`${URL_LINK}/payment/createPreference`, 
+        dataToSend, 
+        {
           headers: {
               // Specify your headers here
               'Content-Type': 'application/json',
