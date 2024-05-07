@@ -131,7 +131,9 @@ const Navbar = () => {
                     {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
                         <span>
                             Logueado como: {customer.userName}
+                            <br />
                             <button onClick={handleLogout}>Logout</button>
+                            <br />
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}
@@ -139,8 +141,11 @@ const Navbar = () => {
                     {localStorage.getItem('firebaseUid') && customer.role === "ADMIN" && (
                         <span>
                             Logueado como: {customer.userName}
+                            <br />
                             <button onClick={handleLogout}>Logout</button>
+                            <br />
                             <button onClick={handleDashboard}>Dashboard</button>
+                            <br />
                             <button onClick={handleMiPerfil}>Mi perfil</button>
                         </span>
                     )}

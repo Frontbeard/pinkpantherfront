@@ -1,9 +1,8 @@
-const regexName = /^[a-zA-Z]{1,35}$/;
+const regexName = /^[a-z A-Z]{1,35}$/;
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const regexPassword = /^.{6,}$/;
 const regexDate = /^\d{4}-\d{2}-\d{2}$/;
 const regexNumbers = /^\d{1,15}$/;
-const regexPhoneNumber = /^\+?\d{1,3}[- ]?\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/;
 
 
 //const regexCharacteristic = /^(?!0)\d{1,3}$/
@@ -37,13 +36,13 @@ function validation(data) {
   if (data.password !== data.confirmPassword)
     errors.confirmPassword = "Passwords do not match";
   if (!regexDate.test(data.birthdate))
-    errors.birthdate = "Date must be in YYY-MM-DD format";
+    errors.birthdate = "Date must be in YYYY-MM-DD format";
   if (!regexNumbers.test(data.DNI))
     errors.DNI = "Only numbers accepted (Maximum 35)";
   if (!regexNumbers.test(data.streetNumber))
     errors.streetNumber = "Only numbers accepted (Maximum 35)";
-  if (!regexPhoneNumber.test(data.telephone))
-    errors.telephone = "Only valid telephone numbers";
+  if (!regexNumbers.test(data.telephone))
+    errors.telephone = "Only numbers accepted (Maximum 35)";
 
 
   //if(!regexImage.test(data.image)) errors.image = 'Only valid http links accepted'

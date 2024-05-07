@@ -24,17 +24,17 @@ function CreateAccount({ onDataChange }) {
     password:'',
     confirmPassword:'',
     role:'CUSTOMER',
-    DNI:'232',
-    birthdate:'1998-03-23',
-    firstName:'HOLA',
-    lastName:'PRUEBA',
-    telephone:'333',
-    country:'Argentina',
-    city:'Ciudad',
-    street:'calle',
-    streetNumber:'333',
-    apartmentNumber:'333',
-    postalCode:'333'
+    DNI:'',
+    birthdate:'',
+    firstName:'',
+    lastName:'',
+    telephone:'',
+    country:'',
+    city:'',
+    street:'',
+    streetNumber:'',
+    apartmentNumber:'',
+    postalCode:''
   })
   const[errors, setErrors] = useState({})
   const [isFormValid, setIsFormValid] = useState(false)
@@ -317,7 +317,7 @@ function CreateAccount({ onDataChange }) {
                 name="birthdate"
                 value={userData.birthdate}
                 onChange={handleChange}
-                placeholder="Ingresa tu fecha de nacimiento"
+                placeholder="YYYY-MM-DD"
               />
               <p className="text-red-500"> 
                 {errors.birthdate}
