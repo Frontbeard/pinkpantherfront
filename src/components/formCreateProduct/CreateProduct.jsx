@@ -6,11 +6,11 @@ import validation from './validation';
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { Link } from 'react-router-dom'
+import { URL_LINK } from '../../URL';
 
-const URL_PRODUCT =  "https://pinkpanther-backend-ip0f.onrender.com/product";
-/*  const URL_PRODUCT = "http://localhost:3001/product"  */
-const URL_CATEGORIES = "https://pinkpanther-backend-ip0f.onrender.com/categories";
-/* const URL_CATEGORIES="http://localhost:3001/categories" */
+const URL_PRODUCT =  `${URL_LINK}/product`;
+const URL_CATEGORIES = `${URL_LINK}/categories`;
+
 
 const CreateProduct =({ initialValues })=>{
     const [productData, setProductData] = useState(() => {
