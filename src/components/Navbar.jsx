@@ -173,6 +173,9 @@ const Navbar = () => {
                             <button onClick={handleLogout}>Logout</button>
                             <br />
                             <button onClick={handleMiPerfil}>Mi perfil</button>
+                            <a href="/compras" className="flex items-center gap-2">
+                                Mis compras
+                            </a>
                         </span>
                     )}
 
@@ -188,13 +191,20 @@ const Navbar = () => {
                         </span>
                     )}
 
-                    <a href="/cart" className="flex items-center gap-2 container">
-                        <FaShoppingBag />
-                    </a>
+                    {(!localStorage.getItem('firebaseUid'))  && (
+                        <a href="/login" className="flex items-center gap-2 container">
+                            <FaShoppingBag />
+                        </a>
+                    )}
 
-                    <a href="/compras" className="flex items-center gap-2">
-                        Mis compras
-                    </a>
+                    {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
+                        <a href="/cart" className="flex items-center gap-2 container">
+                            <FaShoppingBag />
+                        </a>
+                    )}
+
+                    
+
                     {/* {localStorage.getItem('firebaseUid') && customer.role === "CUSTOMER" && (
                         <span>
                             Cantidad Carrito: {}
@@ -220,7 +230,7 @@ const Navbar = () => {
                                             className={selectedCategory === category.id ? "active" : ""}
                                             style={{ color: selectedCategory === category.id ? "blue" : "black" }}
                                         >
-                                            {category.name}
+                                            {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
                                         </NavLink>
                                     </div>
                                 </li>
