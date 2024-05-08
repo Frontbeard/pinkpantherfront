@@ -18,6 +18,8 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
   const [error, setError] = useState(""); // Error message
+  const [isFilterHovered, setIsFilterHovered] = useState(false); // Estado para el hover del botón Filtrar
+  const [isClearHovered, setIsClearHovered] = useState(false); // Estado para el hover del botón Limpiar
 
   const dispatch = useDispatch();
   const products = useSelector((state) => state.allproducts);
@@ -128,23 +130,24 @@ const Products = () => {
         NUESTROS PRODUCTOS
       </h2>
       <div className="flex justify-between items-center mb-4">
+        <div style={{ marginRight: '20px' }}>
+          <label htmlFor="criterionFilter">Producto:</label>
+          <input
+            type="text"
+            id="criterionFilter"
+            placeholder="Ingrese el producto"
+            value={selectedCriterion}
+            onChange={(e) => setSelectedCriterion(e.target.value.replace(/\s/g, '').replace(/[^a-zA-Z]/g, ''))}
+            style={{ margin: '5px', borderRadius: '5px', border: '1px solid #000', paddingLeft: '10px' }}
+          />
+        </div>
         <div>
-  <label htmlFor="criterionFilter">Producto:</label>
-  <input
-    type="text"
-    id="criterionFilter"
-    placeholder="Ingrese el producto"
-    value={selectedCriterion}
-    onChange={(e) => setSelectedCriterion(e.target.value.replace(/\s/g, '').replace(/[^a-zA-Z]/g, ''))}
-  />
-</div>
-
-        <div>
-          <label htmlFor="sizeFilter">Tamaño:</label>
+          <label htmlFor="sizeFilter" style={{ marginRight: '10px' }}>Talle:</label>
           <select
             id="sizeFilter"
             value={selectedSize}
             onChange={(e) => setSelectedSize(e.target.value)}
+            style={{ marginRight: '10px', borderRadius: '5px', border: '1px solid #000' }}
           >
             <option value="all">Todos</option>
             <option value="1">1</option>
@@ -165,6 +168,7 @@ const Products = () => {
             onChange={(e) =>
               setPriceRange({ ...priceRange, min: e.target.value.replace(/[^0-9]/g, '') })
             }
+            style={{ margin: '5px', borderRadius: '5px', border: '1px solid #000', paddingLeft: '10px' }}
           />
         </div>
         <div>
@@ -176,19 +180,35 @@ const Products = () => {
             onChange={(e) =>
               setPriceRange({ ...priceRange, max: e.target.value.replace(/[^0-9]/g, '') })
             }
+            style={{ margin: '5px', borderRadius: '5px', border: '1px solid #000', paddingLeft: '10px' }}
           />
         </div>
-        <button onClick={applyFilters}>Filtrar</button>
-        <button onClick={clearFilters}>Limpiar</button>
+        <button
+          className={`bg-pink-500 text-white px-6 py-2 rounded-md mr-4 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-white hover:text-pink-500 border border-pink-500 font-bold`}
+          onClick={applyFilters}
+          onMouseEnter={() => setIsFilterHovered(true)}
+          onMouseLeave={() => setIsFilterHovered(false)}
+        >
+          Filtrar
+        </button>
+        <button
+          className={`bg-gray-300 text-black px-6 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105 hover:bg-white hover:text-black border border-gray-300 font-bold`}
+          onClick={clearFilters}
+          onMouseEnter={() => setIsClearHovered(true)}
+          onMouseLeave={() => setIsClearHovered(false)}
+        >
+          Limpiar
+        </button>
       </div>
       {error && <div className="text-red-500 text-center">{error}</div>}
       <div className="flex justify-between items-center mb-4">
         <div>
-          <label htmlFor="sortOptions">Ordenar por:</label>
+          <label htmlFor="sortOptions" style={{ marginRight: '10px' }}>Ordenar por:</label>
           <select
             id="sortOptions"
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
+            style={{ marginRight: '10px', borderRadius: '5px', border: '1px solid #000' }}
           >
             <option value="default">Por defecto</option>
             <option value="A-Z">A-Z</option>
