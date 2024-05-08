@@ -1,5 +1,5 @@
+import { AiFillCloseCircle } from "react-icons/ai";
 import React, { useState, useEffect } from 'react';
-import { FaSearch, FaTimes } from 'react-icons/fa';
 
 const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
     const [minPriceInput, setMinPriceInput] = useState('');
@@ -12,6 +12,7 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [productsFound, setProductsFound] = useState(true);
     const [originalProducts, setOriginalProducts] = useState([]);
+    const [isClearHovered, setIsClearHovered] = useState(false);
 
     useEffect(() => {
         if (originalProducts.length === 0 && products && products.length > 0) {
@@ -84,43 +85,51 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
                     onClose();
                     resetProducts(); // Llama a la función de reseteo al cerrar el modal
                 }}>
-                    <FaTimes className="w-6 h-6 text-gray-500 cursor-pointer" />
+                    <AiFillCloseCircle className="text-gray-500 cursor-pointer" />
                 </button>
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4 border border-gray-300 rounded-md">
                 <label htmlFor="minPrice" className="block mb-1">Precio mínimo:</label>
                 <input
                     type="text"
                     id="minPrice"
                     value={minPriceInput}
                     onChange={(e) => setMinPriceInput(e.target.value.replace(/[^\d]/g, ''))}
-                    className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    onBlur={(e) => e.target.classList.remove('focus:border-blue-500')}
+                    onFocus={(e) => e.target.classList.add('focus:border-blue-500')}
+                    className="w-full border-none focus:outline-none p-2 focus:border-blue-500"
+                    placeholder="Ingrese el precio mínimo"
                 />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4 border border-gray-300 rounded-md">
                 <label htmlFor="maxPrice" className="block mb-1 mt-2">Precio máximo:</label>
                 <input
                     type="text"
                     id="maxPrice"
                     value={maxPriceInput}
                     onChange={(e) => setMaxPriceInput(e.target.value.replace(/[^\d]/g, ''))}
-                    className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    onBlur={(e) => e.target.classList.remove('focus:border-blue-500')}
+                    onFocus={(e) => e.target.classList.add('focus:border-blue-500')}
+                    className="w-full border-none focus:outline-none p-2 focus:border-blue-500"
+                    placeholder="Ingrese el precio máximo"
                 />
                 {parseInt(maxPriceInput) < parseInt(minPriceInput) && maxPriceInput.trim() !== '' && (
                     <p className="text-red-500 text-sm">El precio máximo ingresado debe ser superior al precio mínimo.</p>
                 )}
             </div>
 
-            <div className="mb-4">
-                <label className="block mb-1">Tamaño:</label>
+            <div className="mb-4 border border-gray-300 rounded-md">
+                <label className="block mb-1">Talle:</label>
                 <select
                     value={selectedSizeInput}
                     onChange={(e) => setSelectedSizeInput(e.target.value)}
-                    className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    onBlur={(e) => e.target.classList.remove('focus:border-blue-500')}
+                    onFocus={(e) => e.target.classList.add('focus:border-blue-500')}
+                    className="w-full border-none focus:outline-none p-2 focus:border-blue-500"
                 >
-                    <option value="">Todos los tamaños</option>
+                    <option value="">Todos los talles</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -130,23 +139,33 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
                 </select>
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4 border border-gray-300 rounded-md">
                 <label htmlFor="color" className="block mb-1">Color:</label>
                 <input
                     type="text"
                     id="color"
                     value={colorInput}
                     onChange={(e) => setColorInput(e.target.value)}
-                    className="w-full border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    onBlur={(e) => e.target.classList.remove('focus:border-blue-500')}
+                    onFocus={(e) => e.target.classList.add('focus:border-blue-500')}
+                    className="w-full border-none focus:outline-none p-2 focus:border-blue-500"
+                    placeholder="Ingrese el color"
                 />
             </div>
 
             <div className="flex justify-center mt-4">
-                <button onClick={updateFilters} className="bg-pink-500 text-white px-6 py-1 rounded-sm mr-4">
-                    <FaSearch className="mr-2" />
+                <button 
+                    onClick={updateFilters} 
+                    className={`bg-pink-500 text-white px-6 py-2 rounded-md mr-4 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-white hover:text-pink-500 border border-pink-500 font-bold`}
+                >
                     Buscar
                 </button>
-                <button onClick={clearFilters} className="bg-gray-300 text-black px-6 py-1 rounded-sm">
+                <button 
+                    onClick={clearFilters} 
+                    className={`bg-gray-300 text-black px-6 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105 hover:bg-white hover:text-black border border-gray-300 font-bold ${isClearHovered ? 'font-bold' : ''}`}
+                    onMouseEnter={() => setIsClearHovered(true)}
+                    onMouseLeave={() => setIsClearHovered(false)}
+                >
                     Limpiar
                 </button>
             </div>
@@ -159,3 +178,5 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
 };
 
 export default FilterModal;
+
+
