@@ -90,7 +90,7 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
             </div>
 
             <div className="mb-4 border border-gray-300 rounded-md">
-                <label htmlFor="minPrice" className="block mb-1">Precio mínimo:</label>
+                <label htmlFor="minPrice" className="block mb-1" style={{ paddingLeft: '0.5rem' }}>Precio mínimo:</label>
                 <input
                     type="text"
                     id="minPrice"
@@ -104,7 +104,7 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
             </div>
 
             <div className="mb-4 border border-gray-300 rounded-md">
-                <label htmlFor="maxPrice" className="block mb-1 mt-2">Precio máximo:</label>
+                <label htmlFor="maxPrice" className="block mb-1 mt-2" style={{ paddingLeft: '0.5rem' }}>Precio máximo:</label>
                 <input
                     type="text"
                     id="maxPrice"
@@ -121,7 +121,7 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
             </div>
 
             <div className="mb-4 border border-gray-300 rounded-md">
-                <label className="block mb-1">Talle:</label>
+                <label className="block mb-1" style={{ paddingLeft: '0.5rem' }}>Talle:</label>
                 <select
                     value={selectedSizeInput}
                     onChange={(e) => setSelectedSizeInput(e.target.value)}
@@ -140,7 +140,7 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
             </div>
 
             <div className="mb-4 border border-gray-300 rounded-md">
-                <label htmlFor="color" className="block mb-1">Color:</label>
+                <label htmlFor="color" className="block mb-1" style={{ paddingLeft: '0.5rem' }}>Color:</label>
                 <input
                     type="text"
                     id="color"
@@ -178,5 +178,4 @@ const FilterModal = ({ onClose, products, onUpdateFilteredProducts }) => {
 };
 
 export default FilterModal;
-
 
