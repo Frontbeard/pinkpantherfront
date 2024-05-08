@@ -6,43 +6,50 @@ import { useEffect } from "react";
 import isAuthenticated from "./Firebase/checkAuth";
 import { useDispatch } from "react-redux";
 import Dashboard from "./components/Dashboard/Dashboard";
-import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+} from "@material-tailwind/react";
 import logo2 from "/logo2.png";
 import SideBarDashboard from "./components/SideBarDashboard";
 import { Button } from "@material-tailwind/react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 function AdminApp() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     isAuthenticated(dispatch); // Check authentication on component mount
   }, []);
-  
+
   return (
-   
-    <div className="max-w-screen-2xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto">
-         <a href="/admin" >
-            <img src={logo2} alt="" width="300px"/>
-        </a>
-        <Typography variant="h2" color="black">
-            [Sección administrativa]
-        </Typography>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-        <Link to='/'>
-          <Button className="text-white bg-pink-500" variant="gradient">
-            Volver a la página principal
-          </Button>
-        </Link>
+    <div className="max-w-screen-3xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto flex flex-col items-center justify-center pt-8">
+      {" "}
+      {/* Aumenté la anchura máxima del contenedor */}
+      <a href="/admin" className="mb-8">
+        <div className="w-64 relative overflow-hidden">
+          <img
+            src={logo2}
+            alt=""
+            className="w-full h-auto transition duration-300 transform hover:brightness-75"
+          />
         </div>
-        <hr/>
-        <br />
-        <div className="flex h-screen">
-      <SideBarDashboard />
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-10">
-        <Outlet />
+      </a>
+      <Link to="/">
+        <button className="text-white bg-pink-300 hover:bg-pink-400 py-2 px-4 rounded-md">
+          Home
+        </button>
+      </Link>
+      <hr />
+      <div className="flex h-screen w-full">
+        <SideBarDashboard />
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-10">
+          <Outlet />
+        </div>
       </div>
-    </div>
     </div>
   );
 }
