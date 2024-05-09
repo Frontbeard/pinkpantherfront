@@ -23,8 +23,29 @@ const Navbar = () => {
     const [showFilterModal, setShowFilterModal] = useState(false);
 
     useEffect(() => {
+        const storedCategory = localStorage.getItem("selectedCategory");
+        const storedFilteredProducts = JSON.parse(localStorage.getItem("filteredProducts"));
+      
+        if (storedCategory && storedFilteredProducts) {
+          setSelectedCategory(storedCategory);
+          setFilteredProducts(storedFilteredProducts);
+        }
+      
         dispatch(getAllCategories());
-    }, [dispatch]);
+        isAuthenticated(dispatch);
+        console.log(selectedCategory);
+      
+        // Verificar la ruta actual y limpiar la categoría si no es la ruta de la categoría
+        const currentPath = window.location.pathname;
+        const categoryPath = selectedCategory ? `/categories/${selectedCategory}` : null;
+        if (categoryPath && currentPath !== categoryPath) {
+          localStorage.removeItem("selectedCategory");
+          localStorage.removeItem("filteredProducts");
+          setSelectedCategory(null);
+          setFilteredProducts([]);
+        }
+      }, [dispatch, selectedCategory]);
+    
 
     useEffect(() => {
         isAuthenticated(dispatch);
@@ -35,21 +56,37 @@ const Navbar = () => {
     };
 
     const handleCategoryClick = (categoryId, categoryName) => {
-        setSelectedCategory(categoryId);
-        if (categoryName !== "about us") {
-            setShowFilterModal(true);
-            dispatch(selectCategory(categoryId));
+        const currentPath = window.location.pathname;
+        const categoryPath = `/categories/${categoryId}`;
+    
+        // Verificar si la ruta actual es la de la categoría seleccionada
+        if (currentPath === categoryPath) {
+            setSelectedCategory(categoryId);
             const selectedCategoryObj = allCategories.find(category => category.id === categoryId);
             const filtered = selectedCategoryObj ? selectedCategoryObj.products : [];
-            const enabledProducts = filtered.filter(
-                (product) => product.enable === true
-            );
+            const enabledProducts = filtered.filter((product) => product.enable === true);
             setFilteredProducts(enabledProducts);
+    
+            // Guardar la categoría y productos filtrados en localStorage
+            localStorage.setItem('selectedCategory', categoryId);
+            localStorage.setItem('filteredProducts', JSON.stringify(enabledProducts));
+    
+            if (categoryName !== "about us") {
+                setShowFilterModal(true);
+                dispatch(selectCategory(categoryId));
+            } else {
+                setShowFilterModal(false);
+            }
         } else {
-            setShowFilterModal(false); // Agregamos esta línea para cerrar el modal al hacer clic en "about us"
-            setFilteredProducts([]); // Limpiamos los productos filtrados
+            // Limpiar la categoría y productos filtrados si la ruta no coincide
+            localStorage.removeItem('selectedCategory');
+            localStorage.removeItem('filteredProducts');
+            setSelectedCategory(null);
+            setFilteredProducts([]);
+            setShowFilterModal(false);
         }
     };
+    
 
     const handleCloseModal = () => {
         setShowFilterModal(false);

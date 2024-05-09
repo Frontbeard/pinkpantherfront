@@ -23,7 +23,7 @@ const SearchResult = () => {
   return (
     <div className="max-w-screen-2xl container mx-auto xl:px-28 px-4 mb-12">
       <div className="search-result-container">
-        <h2>Resultados de búsqueda para "{query}"</h2>
+        <h2 className="font-bold text-2xl mb-4">Resultados de búsqueda para "{query}"</h2>
         <div className="product-list grid grid-cols-4 gap-4">
           {currentProducts.length > 0 ? (
             currentProducts.map(product => (
@@ -37,13 +37,9 @@ const SearchResult = () => {
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         )}
       </div>
-      <Link to="/" className="btn btn-primary">Volver a la página de inicio</Link>
+      <Link to="/" className="block w-full max-w-xs mx-auto mt-8 py-2 px-4 bg-pink-500 hover:bg-pink-600 text-white rounded-md text-center font-bold transition duration-300 ease-in-out">Volver a la página de inicio</Link>
     </div>
   );
 };
 
 export default SearchResult;
-
-
-
-
