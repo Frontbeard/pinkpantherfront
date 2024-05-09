@@ -51,7 +51,6 @@ const ProductsTable = () => {
       <img src={product.photo} className="w-16 h-16 mr-4" alt="Product" />
       <div className="flex flex-col flex-grow">
         <p className="font-bold text-base mb-1">{product.name}</p>
-        <p className="text-sm">Unidades vendidas: {product.unitsSold}</p>
       </div>
       <div className="flex items-center">
         <div className="mr-4">

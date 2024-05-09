@@ -70,7 +70,7 @@ const OrdersTable = () => {
             <div className="p-4">
               <h3 className="text-lg font-medium text-gray-800">Pedido de {order.firstName} {order.lastName}</h3>
               <p>ID: {order.id}</p>
-              <p>Dirección: {order ? `${order?.street} ${order?.streetNumber} ${order?.apartmentNumber}  ${order?.country} ${order?.city} ${order?.postalCode}` : "No especificada"}</p>
+              {/* <p>Dirección: {order ? `${order?.street} ${order?.streetNumber} ${order?.apartmentNumber}  ${order?.country} ${order?.city} ${order?.postalCode}` : "No especificada"}</p> */}
               <p>Telefono: {order.telephone}</p>
               <p>Total: ${order.totalPrice}</p>
               <p>Fecha: {order.orderDate}</p>

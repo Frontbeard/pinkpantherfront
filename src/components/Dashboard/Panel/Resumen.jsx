@@ -51,10 +51,10 @@ const Resumen = () => {
       <h2 className="text-2xl font-semibold mb-4">Total de órdenes:</h2>
       <p className="text-4xl font-bold">{totalOrdenes}</p>
     </div>
-    <div className="bg-white rounded-lg shadow-md p-6 text-center">
+    {/* <div className="bg-white rounded-lg shadow-md p-6 text-center">
       <h2 className="text-2xl font-semibold mb-4">Total recaudado:</h2>
       <p className="text-4xl font-bold">{formatCurrency(totalRecaudado)}</p>
-    </div>
+    </div> */}
     <div className="bg-white rounded-lg shadow-md p-6 text-center">
       <h2 className="text-2xl font-semibold mb-4">Órdenes de hoy:</h2>
       <p className="text-4xl font-bold">{totalOrdenesHoy}</p>

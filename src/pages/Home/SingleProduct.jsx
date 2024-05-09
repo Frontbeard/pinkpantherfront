@@ -108,7 +108,7 @@ const SingleProduct = () => {
                         </span>
                    */}  <br />
                         <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
-                          Precio: $ {priceCuotas}
+                          Precio: $ {priceEfectivo}
                         </span>
                         <br />
                         <span>
