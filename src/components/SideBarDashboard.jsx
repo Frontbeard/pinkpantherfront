@@ -59,37 +59,38 @@ const SideBarDashboard = () => {
     };
   
     return (
-      <div className="flex flex-col items-center">
-        <Menu as="div" className="w-64">
-          <div className="px-2 py-3 space-y-1">
-            {items.map((item) => (
-              <Menu.Item key={item.key}>
-                {({ active }) => (
-                  <button
-                    className={`${
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-600'
-                    } flex justify-start items-center w-full px-2 py-2 text-sm font-medium rounded-md`}
-                    onClick={() => (item.onClick ? item.onClick() : handleMenu(item.path))}
-                  >
-                    {item.icon}
-                    <span className="ml-2">{item.label}</span>
-                  </button>
-                )}
-              </Menu.Item>
-            ))}
-          </div>
-        </Menu>
-        {!isMobile && (
-          <div className="fixed bottom-4 right-4">
+<div className="flex flex-col items-center">
+  <Menu as="div" className="w-64">
+    <div className="px-2 py-3 space-y-1">
+      {items.map((item) => (
+        <Menu.Item key={item.key}>
+          {({ active }) => (
             <button
-              className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 text-white hover:bg-blue-700"
-              onClick={() => handleMenu('/admin')}
+              className={`${
+                active ? 'bg-gray-100 text-black' : 'text-black'
+              } flex justify-start items-center w-full px-2 py-2 text-lg font-medium rounded-md`}
+              onClick={() => (item.onClick ? item.onClick() : handleMenu(item.path))}
             >
-              📊
+              {item.icon}
+              <span className="ml-2 text-lg">{item.label}</span>
             </button>
-          </div>
-        )}
-      </div>
+          )}
+        </Menu.Item>
+      ))}
+    </div>
+  </Menu>
+  {!isMobile && (
+    <div className="fixed bottom-4 right-4">
+      <button
+        className="flex items-center justify-center w-12 h-12 rounded-full bg-pink-200 text-white hover:bg-pink-300 text-lg"
+        onClick={() => handleMenu('/admin')}
+      >
+        📊
+      </button>
+    </div>
+  )}
+</div>
+
     );
   };
   

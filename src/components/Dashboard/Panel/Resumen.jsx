@@ -43,23 +43,25 @@ const Resumen = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 text-purple-600">
-      <h1 className="text-2xl font-semibold">Resumen</h1>
-      <div className="flex flex-wrap justify-center gap-4 w-full">
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="text-lg font-semibold mb-2">Total de órdenes:</h2>
-          <p className="text-2xl font-bold">{totalOrdenes}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="text-lg font-semibold mb-2">Total recaudado:</h2>
-          <p className="text-2xl font-bold">{formatCurrency(totalRecaudado)}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="text-lg font-semibold mb-2">Órdenes de hoy:</h2>
-          <p className="text-2xl font-bold">{totalOrdenesHoy}</p>
-        </div>
-      </div>
+
+<div className="flex flex-col items-center justify-center gap-6 text-pink-400">
+  <h1 className="text-5xl font-semibold text-center">Resumen</h1>
+  <div className="flex flex-wrap justify-center gap-6 w-full">
+    <div className="bg-white rounded-lg shadow-md p-6 text-center">
+      <h2 className="text-2xl font-semibold mb-4">Total de órdenes:</h2>
+      <p className="text-4xl font-bold">{totalOrdenes}</p>
     </div>
+    <div className="bg-white rounded-lg shadow-md p-6 text-center">
+      <h2 className="text-2xl font-semibold mb-4">Total recaudado:</h2>
+      <p className="text-4xl font-bold">{formatCurrency(totalRecaudado)}</p>
+    </div>
+    <div className="bg-white rounded-lg shadow-md p-6 text-center">
+      <h2 className="text-2xl font-semibold mb-4">Órdenes de hoy:</h2>
+      <p className="text-4xl font-bold">{totalOrdenesHoy}</p>
+    </div>
+  </div>
+</div>
+
   );
 };
 
