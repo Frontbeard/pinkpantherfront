@@ -100,19 +100,19 @@ const SingleProduct = () => {
                     <div className="flex flex-col justify-between">
                       <div>
                         <h1 className="text-3xl text-black-500 font-semibold sm:text-4xl">
-                          {name}
+                          {name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                         </h1>
                         <br />
-                        <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
+                  {/*   <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
                           Precio Efectivo: ${priceEfectivo}
                         </span>
-                        <br />
+                   */}  <br />
                         <span className="text-xl text-pink-500 font-semibold sm:text-2xl">
-                          Precio Cuotas: ${priceCuotas}
+                          Precio: {priceCuotas.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
                         </span>
                         <br />
                         <span>
-                          Color: {color}
+                          Color: {color.charAt(0).toUpperCase() + color.slice(1)}
                         </span>
                         <br />
                         <span>
@@ -161,7 +161,7 @@ const SingleProduct = () => {
                             title="Agregar al Carrito"
                             onClick={handleOnClick}
                           >
-                            <span>Agregar al Carrito andando</span>
+                            <span>Agregar al Carrito</span>
                             <FaArrowAltCircleRight />
                           </button>
                         )}
