@@ -10,16 +10,25 @@ const ProductsTable = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.allProductsAdmin);
   const accessToken = useSelector((state) => state.accessToken);
-  const [productUpdate, setProductUpdate] = useState({});
 
   useEffect(() => {
     dispatch(getAllProducts(accessToken));
   }, []);
 
-  const sortedProducts = products?.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedProducts = products?.sort((a, b) => {
+    // Primero ordena por nombre
+    const nameComparison = a.name.localeCompare(b.name);
+    
+    // Si los nombres son iguales, ordena por id
+    if (nameComparison === 0) {
+      return a.id.localeCompare(b.id);
+    }
+    
+    return nameComparison;
+  });
+  
 
   const handleActive = (value, product) => {
-    value = !product.enable;
     try {
       const response = dispatch(
         updateProduct(product.id, {
@@ -36,7 +45,7 @@ const ProductsTable = () => {
 <div>
   {sortedProducts.map((product, index) => (
     <div
-      key={index}
+      key={product.id}
       className="border-b-2 border-gray-200 py-4 flex items-center justify-between"
     >
       <img src={product.photo} className="w-16 h-16 mr-4" alt="Product" />

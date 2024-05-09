@@ -28,7 +28,6 @@ function AdminApp() {
   return (
     <div className="max-w-screen-3xl xl:px-28 px-4 w-full top-0 left-0 right-0 mx-auto flex flex-col items-center justify-center pt-8">
       {" "}
-      {/* Aumenté la anchura máxima del contenedor */}
       <a href="/admin" className="mb-8">
         <div className="w-64 relative overflow-hidden">
           <img
