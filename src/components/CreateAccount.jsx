@@ -29,7 +29,7 @@ function CreateAccount({ onDataChange }) {
     firstName:'',
     lastName:'',
     telephone:'',
-    country:'',
+    country:'Argentina',
     city:'',
     street:'',
     streetNumber:'',
