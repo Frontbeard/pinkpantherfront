@@ -218,8 +218,10 @@ const Cart = () => {
               >
                 Generar link de MercadoPago
               </button>
+            </div>
 
-{/*  */}     {preferenceId && (<a className="w-full rounded-md border border-transparent bg-pink-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-gray-50" href = { preferenceId } >Link de pago</a>)}
+            <div className="mt-10 justify-center">
+{/*  */}     {preferenceId && (<a className="rounded-md border border-transparent bg-blue-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-50" href = { preferenceId } >Link de pago</a>)}
              {/*{preferenceId && (<Wallet initialization={{  preferenceId: preferenceId, redirectMode: "modal"  }} customization={{ texts:{ valueProp: 'smart_option'}}} />)} 
              */}
 
@@ -229,9 +231,8 @@ const Cart = () => {
     Pagar con MercadoPago
   </button>
 )}*/}
+            </div> 
 
-
-            </div>
             <div className="mt-6 text-center text-sm">
               <p>
                 o{' '}
