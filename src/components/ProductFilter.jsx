@@ -52,9 +52,9 @@ const ProductFilter = ({ products }) => {
           <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4 flex-wrap card-container">
             {paginatedProducts.map((product) => (
               <div key={product.id} onClick={() => handleProductClick(product.id)}>
-                
+                 
                   <Card filteredItems={product} />
-               
+                  
               </div>
             ))}
           </div>

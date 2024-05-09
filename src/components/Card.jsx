@@ -54,7 +54,7 @@ const Card = ({ filteredItems }) => {
         </Link>
         <div className="flex items-center mt-2 mb-1"></div>
         <span className="text-lg font-bold text-black dark:text-black">
-          {filteredItems.priceCuotas.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
+          ${filteredItems.priceEfectivo}
         </span>
         
         {!localStorage.getItem('firebaseUid') && (
