@@ -15,6 +15,7 @@ const SideBarDashboard = () => {
     const isLatop = useMediaQuery({ minWidth: 769 });
   
     const items = [
+  {/*    
       {
         key: '1',
         icon: '👤',
@@ -22,6 +23,7 @@ const SideBarDashboard = () => {
         path: '/admin/user',
         element: <UsersTable/>,
       },
+*/} ,
       {
         key: '2',
         icon: '🛒',

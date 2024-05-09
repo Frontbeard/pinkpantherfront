@@ -330,11 +330,13 @@ const handleBaja = async () => {
             </Button>
           </CardFooter>
           <hr />
+{/*   
           <CardFooter  className="pt-0 mt-5 flex flex-col gap-2">
             <Button onClick={handleBaja} className="text-black bg-white border flex items-center justify-center" variant="gradient" fullWidth>
                Dar de baja el perfil
             </Button>
           </CardFooter>
+*/}  
         </Card>
       </div>
   );
