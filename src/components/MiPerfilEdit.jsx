@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import { URL_LINK } from '../URL.js'
+import logout from '../redux/actions/Customer/logout.js'
 
 const MiPerfilEdit = () => {
   const userDataOld = useSelector((state) => state.userData)
@@ -57,7 +58,7 @@ const MiPerfilEdit = () => {
   };
 
   const handleSubmit = async () => {
-    console.log('Has hecho click');
+    console.log('Editando perfil...');
     
     const response = await axios.put(`${URL_LINK}/customer/${userData.idfirebase}`, {
       //idfirebase: firebaseUid,
@@ -79,11 +80,11 @@ const MiPerfilEdit = () => {
     });
     console.log(response)
     
-    navigate("/")
+    navigate("/perfil")
 };
 
 const handleBaja = async () => {
-  console.log('Has hecho click');
+  console.log('Usuario dado de baja');
 
   const response = await axios.put(`${URL_LINK}/customer/${userData.idfirebase}`, {
     //idfirebase: firebaseUid,
@@ -103,8 +104,9 @@ const handleBaja = async () => {
     apartmentNumber: userData.apartmentNumber, 
     postalCode: userData.postalCode
   });
-
+  console.log(response)
   alert('Perfil dado de baja');
+  dispatch(logout());
   navigate("/")
 };
 

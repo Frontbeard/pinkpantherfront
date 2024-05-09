@@ -42,7 +42,7 @@ const ProductFilter = ({ products }) => {
 
   const handleProductClick = (productId) => {
     // Redirigir al usuario a la página de detalle del producto
-    window.location.href = `/shop/${productId}`;
+    //window.location.href = `/shop/${productId}`;
   };
 
   return (
@@ -52,9 +52,9 @@ const ProductFilter = ({ products }) => {
           <div className="flex flex-row justify-start md:items-center md:gap-8 gap-4 flex-wrap card-container">
             {paginatedProducts.map((product) => (
               <div key={product.id} onClick={() => handleProductClick(product.id)}>
-                <Link to={`/shop/${product.id}`}>
+                
                   <Card filteredItems={product} />
-                </Link>
+               
               </div>
             ))}
           </div>
