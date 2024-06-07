@@ -125,7 +125,7 @@ const router = createBrowserRouter([
 
     ],
   },
-  {
+ /*  {
     path: "/admin",
     element: <AdminApp />,
     children: [
@@ -160,7 +160,7 @@ const router = createBrowserRouter([
         element: <Resumen/>
       },
     ]
-  },
+  }, */
   {
     path: "*",
     element: <NotFound/>,
